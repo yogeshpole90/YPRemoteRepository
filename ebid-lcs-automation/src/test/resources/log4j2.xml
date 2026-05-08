@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%X{tcId}] %-5level %c{1}.%M - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+        <File name="File" fileName="logs/EBID_LCS_Automation.log" append="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </File>
+        <Routing name="ThreadRouting">
+            <Routes pattern="$${ctx:tcId}">
+                <Route>
+                    <File name="TC-${ctx:tcId}" fileName="logs/${ctx:tcId:-unknown}.log">
+                        <PatternLayout pattern="${LOG_PATTERN}"/>
+                    </File>
+                </Route>
+            </Routes>
+        </Routing>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.ebid.lcs" level="DEBUG" additivity="false">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+            <AppenderRef ref="ThreadRouting"/>
+        </Logger>
+        <Root level="INFO">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

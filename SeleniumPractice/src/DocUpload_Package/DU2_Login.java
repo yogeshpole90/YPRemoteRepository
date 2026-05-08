@@ -1,0 +1,137 @@
+package DocUpload_Package;
+
+import Utility_Package.ServerConfig;
+import Utility_Package.ReportManager;
+import com.aventstack.extentreports.ExtentTest;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.asserts.SoftAssert;
+
+public class DU2_Login {
+
+	public WebDriver driver;
+	public JavascriptExecutor jse;
+	public Actions act;
+	public SoftAssert sa = new SoftAssert();
+	public int tcCounter = 1;
+	public String browserName = "";
+
+	public void log(String field, String testDesc, String expected, String actual, boolean pass) {
+		System.out.println("----------------------------------------------");
+		System.out.println("[" + browserName + "] TC_DU_" + (tcCounter++) + " | Field: " + field);
+		System.out.println("  Test     : " + testDesc);
+		System.out.println("  Expected : " + expected);
+		System.out.println("  Actual   : " + actual);
+		System.out.println("  Status   : " + (pass ? "\u2705 PASS" : "\u274c FAIL"));
+		ExtentTest test = ReportManager.getTest();
+		if (test != null) {
+			if (pass) {
+				test.pass("\u2705 " + field + " | " + testDesc + " | Expected: " + expected + " | Actual: " + actual);
+			} else {
+				test.fail("\u274c " + field + " | " + testDesc + " | Expected: " + expected + " | Actual: " + actual);
+				if (driver != null) ReportManager.attachScreenshot(driver, "FAIL_" + field.replace(" ", "_"));
+			}
+		}
+	}
+
+	public void logInfo(String field, String testDesc, String value) {
+		System.out.println("----------------------------------------------");
+		System.out.println("[" + browserName + "] TC_DU_" + (tcCounter++) + " | Field: " + field);
+		System.out.println("  Test     : " + testDesc);
+		System.out.println("  Value    : " + value);
+		System.out.println("  Status   : \u2139\ufe0f INFO");
+		ExtentTest test = ReportManager.getTest();
+		if (test != null) test.info("\u2139\ufe0f " + field + " | " + testDesc + " | Value: " + value);
+	}
+
+	public String getToastMsg() {
+		try {
+			jse.executeScript("window.scrollTo({top:0,behavior:'smooth'})");
+			Thread.sleep(1000);
+			WebElement toast = driver.findElement(By.cssSelector("div.msg-toast.msg-error.msg-showing em"));
+			String msg = toast.getText();
+			System.out.println(">> ERROR TOAST: " + msg);
+			return msg;
+		} catch (Exception e) { return ""; }
+	}
+
+	public String getSuccessToastMsg() {
+		try {
+			jse.executeScript("window.scrollTo({top:0,behavior:'smooth'})");
+			Thread.sleep(1000);
+			WebElement toast = driver.findElement(By.cssSelector("div.msg-toast.msg-success.msg-showing em"));
+			String msg = toast.getText();
+			System.out.println(">> SUCCESS TOAST: " + msg);
+			return msg;
+		} catch (Exception e) { return ""; }
+	}
+
+	public void duLogin(String os,String br) throws Exception
+	{
+		browserName = br.toUpperCase();
+
+		switch (br.toLowerCase())
+		{
+
+		case "chrome":
+			System.setProperty("webdriver.chrome.driver","D:\\chromedriver-146\\chromedriver-win64\\chromedriver.exe");
+			driver = new ChromeDriver();
+			break;
+
+		case "edge":
+			System.setProperty("webdriver.edge.driver","D:\\edgedriver_win64\\msedgedriver.exe");
+			driver = new EdgeDriver();
+			break;
+
+		default:
+			System.out.println("Invalid Browser name > "+ br);
+			return;
+		}
+
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+
+
+		driver.get(Utility_Package.ServerConfig.getActiveServer());
+		driver.findElement(By.id("loginId")).sendKeys("Shelly", Keys.TAB);
+		driver.findElement(By.id("uiPwd")).sendKeys("abcd1234", Keys.TAB);
+		Thread.sleep(2000);
+		driver.findElement(By.id("userLogin")).click();
+
+		jse = (JavascriptExecutor) driver;
+		act = new Actions(driver);
+
+		// Hamburger menu click
+		driver.findElement(By.xpath("//*[@class='item-nav']/div")).click();
+		Thread.sleep(1000);
+
+		// All Case List click
+		driver.findElement(By.xpath("//*[contains(@href,'menuCode=COMMONCOLLECTORLIST')]")).click();
+		Thread.sleep(2000);
+
+		// Search case ID 15
+		driver.findElement(By.xpath("//*[@type='search']")).sendKeys("15");
+		Thread.sleep(2000);
+
+		// Double click on case 15
+		WebElement case15 = driver.findElement(By.xpath("//*[text()='15']"));
+		act.doubleClick(case15).build().perform();
+		Thread.sleep(2000);
+
+		// Navigate to Document tab
+		WebElement docTab = driver.findElement(By.xpath("//*[contains(@href,'activeTab=Document')]"));
+		jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", docTab);
+		Thread.sleep(1000);
+		docTab.click();
+		Thread.sleep(2000);
+
+		System.out.println("=================================================");
+		System.out.println("DU2_Login - Logged in & Navigated to Document Tab (Case ID: 15)");
+	}
+}
+

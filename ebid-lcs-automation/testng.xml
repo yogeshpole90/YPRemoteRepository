@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="EBID LCS Automation Suite" parallel="none">
+
+  <test name="FullPTP">
+    <classes>
+      <class name="com.ebid.lcs.tests.FullPTPTest"/>
+    </classes>
+  </test>
+
+  <test name="DocUpload">
+    <classes>
+      <class name="com.ebid.lcs.tests.DocUploadTest"/>
+    </classes>
+  </test>
+
+  <test name="CaseStatus">
+    <classes>
+      <class name="com.ebid.lcs.tests.CaseStatusTest"/>
+    </classes>
+  </test>
+
+  <test name="FollowUp">
+    <classes>
+      <class name="com.ebid.lcs.tests.FollowUpTest"/>
+    </classes>
+  </test>
+
+  <test name="DemandLetter">
+    <classes>
+      <class name="com.ebid.lcs.tests.DemandLetterTest"/>
+    </classes>
+  </test>
+
+  <test name="Reminder">
+    <classes>
+      <class name="com.ebid.lcs.tests.ReminderTest"/>
+    </classes>
+  </test>
+
+  <test name="SiteVisit">
+    <classes>
+      <class name="com.ebid.lcs.tests.SiteVisitTest"/>
+    </classes>
+  </test>
+
+  <test name="RemedialAction">
+    <classes>
+      <class name="com.ebid.lcs.tests.RemedialActionTest"/>
+    </classes>
+  </test>
+
+  <test name="LegalOrder">
+    <classes>
+      <class name="com.ebid.lcs.tests.LegalOrderTest"/>
+    </classes>
+  </test>
+
+</suite>

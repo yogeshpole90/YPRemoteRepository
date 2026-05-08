@@ -1,0 +1,7 @@
+user=loginId
+pass=uiPwd
+login=userLogin
+burger=//a[@class='item-nav']/div
+cl=//li[@id='COLLECTORHISTORYLIST']/a
+21207=//td[text() ='21207']
+follow=//ul[contains(@class , 'border-0')]/li[5]/a

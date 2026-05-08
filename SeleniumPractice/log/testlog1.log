@@ -1,0 +1,461 @@
+2026-01-30 14:58:39,671 [main] INFO Log4J_1 - Path Configured
+2026-01-30 14:58:41,330 [main] INFO Log4J_1 - properties Defined
+2026-01-30 14:58:41,351 [main] INFO Log4J_1 - Implicit Wait of 12 Sec Configured
+2026-01-30 14:58:41,396 [main] INFO Log4J_1 - WebPage is Maximized
+2026-01-30 14:58:42,405 [main] INFO Log4J_1 - Navigated to WebPage
+2026-04-23 18:00:19,741 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-23 18:00:19,745 [main] INFO Listener_Practise.ListernerDummy - Suite Started: Test
+2026-04-23 18:00:19,745 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-23 18:00:19,774 [main] INFO Listener_Practise.ListernerDummy - Starting: mathodstart
+2026-04-23 18:00:27,048 [main] INFO Listener_Practise.ListernerDummy - PASSED: mathodstart
+2026-04-23 18:00:27,057 [main] INFO Listener_Practise.ListernerDummy - Starting: methodfail
+2026-04-23 18:00:27,597 [main] INFO Listener_Practise.ListernerDummy - PASSED: methodfail
+2026-04-23 18:00:27,601 [main] INFO Listener_Practise.ListernerDummy - Starting: methodpass
+2026-04-23 18:00:38,325 [main] INFO Listener_Practise.ListernerDummy - PASSED: methodpass
+2026-04-23 18:00:38,334 [main] INFO Listener_Practise.ListernerDummy - Starting: methodskip
+2026-04-23 18:00:38,337 [main] INFO Listener_Practise.ListernerDummy - PASSED: methodskip
+2026-04-23 18:00:38,343 [main] INFO Listener_Practise.ListernerDummy - Starting: mathodfinish
+2026-04-23 18:00:38,345 [main] INFO Listener_Practise.ListernerDummy - PASSED: mathodfinish
+2026-04-23 18:00:38,349 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-23 18:00:38,349 [main] INFO Listener_Practise.ListernerDummy - Suite Finished: Test
+2026-04-23 18:00:38,349 [main] INFO Listener_Practise.ListernerDummy - Passed : 5
+2026-04-23 18:00:38,351 [main] ERROR Listener_Practise.ListernerDummy - Failed : 0
+2026-04-23 18:00:38,351 [main] WARN Listener_Practise.ListernerDummy - Skipped: 0
+2026-04-23 18:00:38,351 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-23 18:02:28,670 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-23 18:02:28,674 [main] INFO Listener_Practise.ListernerDummy - Suite Started: Test
+2026-04-23 18:02:28,675 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-23 18:02:28,707 [main] INFO Listener_Practise.ListernerDummy - Starting: mathodstart
+2026-04-23 18:02:34,562 [main] INFO Listener_Practise.ListernerDummy - PASSED: mathodstart
+2026-04-23 18:02:34,572 [main] INFO Listener_Practise.ListernerDummy - Starting: methodfail
+2026-04-23 18:02:35,058 [main] INFO Listener_Practise.ListernerDummy - PASSED: methodfail
+2026-04-23 18:02:35,065 [main] INFO Listener_Practise.ListernerDummy - Starting: methodpass
+2026-04-23 18:02:43,367 [main] INFO Listener_Practise.ListernerDummy - PASSED: methodpass
+2026-04-23 18:02:43,373 [main] INFO Listener_Practise.ListernerDummy - Starting: methodskip
+2026-04-23 18:02:43,374 [main] INFO Listener_Practise.ListernerDummy - PASSED: methodskip
+2026-04-23 18:02:43,378 [main] INFO Listener_Practise.ListernerDummy - Starting: mathodfinish
+2026-04-23 18:02:43,380 [main] INFO Listener_Practise.ListernerDummy - PASSED: mathodfinish
+2026-04-23 18:02:43,383 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-23 18:02:43,383 [main] INFO Listener_Practise.ListernerDummy - Suite Finished: Test
+2026-04-23 18:02:43,384 [main] INFO Listener_Practise.ListernerDummy - Passed : 5
+2026-04-23 18:02:43,384 [main] ERROR Listener_Practise.ListernerDummy - Failed : 0
+2026-04-23 18:02:43,384 [main] WARN Listener_Practise.ListernerDummy - Skipped: 0
+2026-04-23 18:02:43,384 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-24 10:51:15,160 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-24 10:51:15,166 [main] INFO Listener_Practise.ListernerDummy - Suite Started: Test
+2026-04-24 10:51:15,166 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-24 10:51:15,202 [main] INFO Listener_Practise.ListernerDummy - Starting: mathodstart
+2026-04-24 10:51:19,280 [main] ERROR Listener_Practise.ListernerDummy - FAILED: mathodstart - invalid session id: session deleted as the browser has closed the connection
+from disconnected: not connected to DevTools
+  (Session info: chrome=147.0.7727.102)
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.102, chrome: {chromedriverVersion: 146.0.7680.72 (cb10bb07c0a5..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:52254}, goog:processID: 15156, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 2d0ba6814d276e83cbbac13548af9880
+2026-04-24 10:51:19,290 [main] INFO Listener_Practise.ListernerDummy - Starting: methodfail
+2026-04-24 10:51:19,330 [main] ERROR Listener_Practise.ListernerDummy - FAILED: methodfail - invalid session id
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.102, chrome: {chromedriverVersion: 146.0.7680.72 (cb10bb07c0a5..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:52254}, goog:processID: 15156, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 2d0ba6814d276e83cbbac13548af9880
+*** Element info: {Using=id, value=userLogin}
+2026-04-24 10:51:19,337 [main] INFO Listener_Practise.ListernerDummy - Starting: methodpass
+2026-04-24 10:51:19,347 [main] ERROR Listener_Practise.ListernerDummy - FAILED: methodpass - invalid session id
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.102, chrome: {chromedriverVersion: 146.0.7680.72 (cb10bb07c0a5..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:52254}, goog:processID: 15156, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 2d0ba6814d276e83cbbac13548af9880
+*** Element info: {Using=id, value=loginId}
+2026-04-24 10:51:19,355 [main] INFO Listener_Practise.ListernerDummy - Starting: methodskip
+2026-04-24 10:51:19,356 [main] WARN Listener_Practise.ListernerDummy - SKIPPED: methodskip
+2026-04-24 10:51:19,360 [main] INFO Listener_Practise.ListernerDummy - Starting: mathodfinish
+2026-04-24 10:51:19,362 [main] INFO Listener_Practise.ListernerDummy - PASSED: mathodfinish
+2026-04-24 10:51:19,364 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-24 10:51:19,365 [main] INFO Listener_Practise.ListernerDummy - Suite Finished: Test
+2026-04-24 10:51:19,366 [main] INFO Listener_Practise.ListernerDummy - Passed : 1
+2026-04-24 10:51:19,366 [main] ERROR Listener_Practise.ListernerDummy - Failed : 3
+2026-04-24 10:51:19,366 [main] WARN Listener_Practise.ListernerDummy - Skipped: 1
+2026-04-24 10:51:19,367 [main] INFO Listener_Practise.ListernerDummy - =================================================
+2026-04-27 14:40:16,695 [main] INFO CaseStatus_Package.Listener - Report configured.
+2026-04-27 14:40:16,700 [main] INFO CaseStatus_Package.Listener - Report configured.
+2026-04-27 14:40:16,817 [main] INFO CaseStatus_Package.Listener - Suite Name: Default test
+2026-04-27 14:40:16,818 [main] INFO CaseStatus_Package.Listener - Total: 010
+2026-04-27 14:40:16,818 [main] INFO CaseStatus_Package.Listener - Passed: 0
+Failed: 1
+Skipped: 0
+2026-04-27 14:40:16,827 [main] INFO CaseStatus_Package.Listener - Suite Name: Default test
+2026-04-27 14:40:16,828 [main] INFO CaseStatus_Package.Listener - Total: 010
+2026-04-27 14:40:16,828 [main] INFO CaseStatus_Package.Listener - Passed: 0
+Failed: 1
+Skipped: 0
+2026-04-27 14:40:30,608 [main] INFO CaseStatus_Package.Listener - Report configured.
+2026-04-27 14:40:30,678 [main] INFO CaseStatus_Package.Listener - Suite Name: Default test
+2026-04-27 14:40:30,679 [main] INFO CaseStatus_Package.Listener - Total: 010
+2026-04-27 14:40:30,679 [main] INFO CaseStatus_Package.Listener - Passed: 0
+Failed: 1
+Skipped: 0
+2026-04-27 14:40:46,556 [main] INFO CaseStatus_Package.Listener - Report configured.
+2026-04-27 14:40:46,654 [main] INFO CaseStatus_Package.Listener - Suite Name: Default test
+2026-04-27 14:40:46,654 [main] INFO CaseStatus_Package.Listener - Total: 010
+2026-04-27 14:40:46,655 [main] INFO CaseStatus_Package.Listener - Passed: 0
+Failed: 1
+Skipped: 0
+2026-04-27 14:41:19,068 [main] INFO CaseStatus_Package.Listener - Report configured.
+2026-04-27 14:42:15,568 [main] INFO CaseStatus_Package.Listener - Suite Name: Default test
+2026-04-27 14:42:15,568 [main] INFO CaseStatus_Package.Listener - Total: 010
+2026-04-27 14:42:15,569 [main] INFO CaseStatus_Package.Listener - Passed: 0
+Failed: 1
+Skipped: 0
+2026-04-27 14:47:49,460 [main] INFO CaseStatus_Package.Listener - Report configured.
+2026-04-27 14:48:21,383 [main] INFO CaseStatus_Package.Listener - Suite Name: Default test
+2026-04-27 14:48:21,384 [main] INFO CaseStatus_Package.Listener - Total: 010
+2026-04-27 14:48:21,384 [main] INFO CaseStatus_Package.Listener - Passed: 0
+Failed: 1
+Skipped: 0
+2026-04-27 14:50:32,083 [main] INFO CaseStatus_Package.Listener - Report configured.
+2026-04-27 14:50:54,662 [main] INFO CaseStatus_Package.Listener - Suite Name: Default test
+2026-04-27 14:50:54,663 [main] INFO CaseStatus_Package.Listener - Total: 010
+2026-04-27 14:50:54,664 [main] INFO CaseStatus_Package.Listener - Passed: 0
+Failed: 1
+Skipped: 0
+2026-04-27 15:29:41,380 [main] INFO CaseStatus_Package.Listener - Report configured.
+2026-04-27 15:29:53,557 [main] INFO CaseStatus_Package.Listener - Suite Name: Default test
+2026-04-27 15:29:53,557 [main] INFO CaseStatus_Package.Listener - Total: 010
+2026-04-27 15:29:53,557 [main] INFO CaseStatus_Package.Listener - Passed: 0
+Failed: 1
+Skipped: 0
+2026-04-29 18:07:34,597 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:07:34,604 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-04-29 18:07:34,605 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:07:34,634 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-04-29 18:08:42,808 [main] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-04-29 18:08:42,809 [main] ERROR Utility_Package.TestListener - ERROR: Cannot invoke "java.lang.Boolean.booleanValue()" because "value" is null
+2026-04-29 18:08:43,832 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:08:43,832 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-04-29 18:08:43,832 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-04-29 18:08:43,832 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-04-29 18:08:43,833 [main] INFO Utility_Package.TestListener - Failed : 1
+2026-04-29 18:08:43,833 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-04-29 18:08:43,833 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:10:52,022 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:10:52,026 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-04-29 18:10:52,026 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:10:52,051 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-04-29 18:12:09,040 [main] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-04-29 18:12:09,041 [main] ERROR Utility_Package.TestListener - ERROR: element not interactable
+  (Session info: chrome=147.0.7727.102)
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.102, chrome: {chromedriverVersion: 146.0.7680.72 (cb10bb07c0a5..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:65515}, goog:processID: 16440, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: c52b1179dab63909068a5cd2149a52ec
+2026-04-29 18:12:10,049 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:12:10,050 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-04-29 18:12:10,050 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-04-29 18:12:10,051 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-04-29 18:12:10,051 [main] INFO Utility_Package.TestListener - Failed : 1
+2026-04-29 18:12:10,051 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-04-29 18:12:10,051 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:15:47,134 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:15:47,138 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-04-29 18:15:47,139 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:15:47,166 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-04-29 18:17:54,421 [main] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-04-29 18:17:54,422 [main] ERROR Utility_Package.TestListener - ERROR: stale element reference: stale element not found
+  (Session info: chrome=147.0.7727.102)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/stale_element_reference.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.102, chrome: {chromedriverVersion: 146.0.7680.72 (cb10bb07c0a5..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:52824}, goog:processID: 5752, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: e3f57994f5e0edce8283c0437beb8f36
+2026-04-29 18:17:55,177 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:17:55,177 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-04-29 18:17:55,177 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-04-29 18:17:55,177 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-04-29 18:17:55,177 [main] INFO Utility_Package.TestListener - Failed : 1
+2026-04-29 18:17:55,177 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-04-29 18:17:55,177 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:18:29,824 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:18:29,828 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-04-29 18:18:29,829 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:18:29,853 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-04-29 18:22:01,203 [main] INFO Utility_Package.TestListener - TEST PASSED: init
+2026-04-29 18:22:01,794 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:22:01,795 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-04-29 18:22:01,795 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-04-29 18:22:01,796 [main] INFO Utility_Package.TestListener - Passed : 1
+2026-04-29 18:22:01,796 [main] INFO Utility_Package.TestListener - Failed : 0
+2026-04-29 18:22:01,796 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-04-29 18:22:01,796 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:34:28,786 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:34:28,790 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-04-29 18:34:28,791 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:34:28,818 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-04-29 18:38:02,191 [main] INFO Utility_Package.TestListener - TEST PASSED: init
+2026-04-29 18:38:02,756 [main] INFO Utility_Package.TestListener - =================================================
+2026-04-29 18:38:02,756 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-04-29 18:38:02,757 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-04-29 18:38:02,757 [main] INFO Utility_Package.TestListener - Passed : 1
+2026-04-29 18:38:02,758 [main] INFO Utility_Package.TestListener - Failed : 0
+2026-04-29 18:38:02,759 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-04-29 18:38:02,759 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-06 12:39:05,385 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-06 12:39:05,390 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-06 12:39:05,391 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-06 12:39:05,422 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-06 12:41:22,637 [main] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-05-06 12:41:22,638 [main] ERROR Utility_Package.TestListener - ERROR: stale element reference: stale element not found
+  (Session info: chrome=147.0.7727.138)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/stale_element_reference.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.138, chrome: {chromedriverVersion: 146.0.7680.72 (cb10bb07c0a5..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59500}, goog:processID: 1564, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 9c6d5818dd92ab24a43f30f6e17a998d
+*** Element info: {Using=xpath, value=.//option[normalize-space(.) = "Asset Repossession"]}
+2026-05-06 12:41:23,625 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-06 12:41:23,628 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-06 12:41:23,628 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-06 12:41:23,628 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-05-06 12:41:23,630 [main] INFO Utility_Package.TestListener - Failed : 1
+2026-05-06 12:41:23,630 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-06 12:41:23,630 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:02:38,361 [TestNG-tests-2] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:02:38,361 [TestNG-tests-1] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:02:38,365 [TestNG-tests-1] INFO Utility_Package.TestListener - TEST SUITE STARTED: EdgeTest
+2026-05-06 13:02:38,365 [TestNG-tests-1] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:02:38,365 [TestNG-tests-2] INFO Utility_Package.TestListener - TEST SUITE STARTED: ChromeTest
+2026-05-06 13:02:38,366 [TestNG-tests-2] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:02:38,393 [TestNG-tests-1] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-06 13:02:38,393 [TestNG-tests-2] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-06 13:03:06,268 [TestNG-tests-2] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-05-06 13:03:06,268 [TestNG-tests-2] ERROR Utility_Package.TestListener - ERROR: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@class='item-nav']/div"}
+  (Session info: MicrosoftEdge=147.0.3912.98)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 147.0.3912.98, fedcm:accounts: true, goog:processID: 26440, javascriptEnabled: true, ms:edgeOptions: {debuggerAddress: localhost:51020}, msedge: {msedgedriverVersion: 147.0.3912.98 (6cae4df1a4ff..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: ddcb43f9ec6a53798119d1bbcf945470
+*** Element info: {Using=xpath, value=//*[@class='item-nav']/div}
+2026-05-06 13:03:21,982 [TestNG-tests-1] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-05-06 13:03:21,983 [TestNG-tests-1] ERROR Utility_Package.TestListener - ERROR: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@class='item-nav']/div"}
+  (Session info: MicrosoftEdge=147.0.3912.98)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 147.0.3912.98, fedcm:accounts: true, goog:processID: 26440, javascriptEnabled: true, ms:edgeOptions: {debuggerAddress: localhost:51020}, msedge: {msedgedriverVersion: 147.0.3912.98 (6cae4df1a4ff..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: ddcb43f9ec6a53798119d1bbcf945470
+*** Element info: {Using=xpath, value=//*[@class='item-nav']/div}
+2026-05-06 13:03:22,169 [TestNG-tests-2] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:03:22,169 [TestNG-tests-2] INFO Utility_Package.TestListener - TEST SUITE FINISHED: ChromeTest
+2026-05-06 13:03:22,169 [TestNG-tests-2] INFO Utility_Package.TestListener - Total  : 1
+2026-05-06 13:03:22,170 [TestNG-tests-2] INFO Utility_Package.TestListener - Passed : 0
+2026-05-06 13:03:22,171 [TestNG-tests-2] INFO Utility_Package.TestListener - Failed : 1
+2026-05-06 13:03:22,171 [TestNG-tests-2] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-06 13:03:22,171 [TestNG-tests-2] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:03:22,174 [TestNG-tests-1] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:03:22,174 [TestNG-tests-1] INFO Utility_Package.TestListener - TEST SUITE FINISHED: EdgeTest
+2026-05-06 13:03:22,175 [TestNG-tests-1] INFO Utility_Package.TestListener - Total  : 1
+2026-05-06 13:03:22,176 [TestNG-tests-1] INFO Utility_Package.TestListener - Passed : 0
+2026-05-06 13:03:22,177 [TestNG-tests-1] INFO Utility_Package.TestListener - Failed : 1
+2026-05-06 13:03:22,178 [TestNG-tests-1] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-06 13:03:22,178 [TestNG-tests-1] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:08:50,242 [TestNG-tests-2] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:08:50,242 [TestNG-tests-1] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:08:50,246 [TestNG-tests-1] INFO Utility_Package.TestListener - TEST SUITE STARTED: EdgeTest
+2026-05-06 13:08:50,247 [TestNG-tests-1] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:08:50,246 [TestNG-tests-2] INFO Utility_Package.TestListener - TEST SUITE STARTED: ChromeTest
+2026-05-06 13:08:50,247 [TestNG-tests-2] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:08:50,274 [TestNG-tests-1] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-06 13:08:50,274 [TestNG-tests-2] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-06 13:09:17,650 [TestNG-tests-2] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-05-06 13:09:17,652 [TestNG-tests-2] ERROR Utility_Package.TestListener - ERROR: no such element: Unable to locate element: {"method":"xpath","selector":"//*[@class='item-nav']/div"}
+  (Session info: chrome=147.0.7727.138)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 147.0.7727.138, chrome: {chromedriverVersion: 146.0.7680.72 (cb10bb07c0a5..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:58909}, goog:processID: 15276, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: f2149c287e3d2ab0acd7b6ee2b861bd6
+*** Element info: {Using=xpath, value=//*[@class='item-nav']/div}
+2026-05-06 13:09:18,661 [TestNG-tests-2] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:09:18,661 [TestNG-tests-2] INFO Utility_Package.TestListener - TEST SUITE FINISHED: ChromeTest
+2026-05-06 13:09:18,662 [TestNG-tests-2] INFO Utility_Package.TestListener - Total  : 1
+2026-05-06 13:09:18,662 [TestNG-tests-2] INFO Utility_Package.TestListener - Passed : 0
+2026-05-06 13:09:18,663 [TestNG-tests-2] INFO Utility_Package.TestListener - Failed : 1
+2026-05-06 13:09:18,663 [TestNG-tests-2] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-06 13:09:18,663 [TestNG-tests-2] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:10:16,816 [TestNG-tests-1] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-05-06 13:10:16,816 [TestNG-tests-1] ERROR Utility_Package.TestListener - ERROR: stale element reference: stale element not found
+  (Session info: MicrosoftEdge=147.0.3912.98)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/stale_element_reference.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.edge.EdgeDriver
+Capabilities {acceptInsecureCerts: false, browserName: MicrosoftEdge, browserVersion: 147.0.3912.98, fedcm:accounts: true, goog:processID: 19436, javascriptEnabled: true, ms:edgeOptions: {debuggerAddress: localhost:57856}, msedge: {msedgedriverVersion: 147.0.3912.98 (6cae4df1a4ff..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 0f8c6c8e203da9281c930d77752acdcc
+*** Element info: {Using=xpath, value=.//option[normalize-space(.) = "Asset Repossession"]}
+2026-05-06 13:10:17,196 [TestNG-tests-1] INFO Utility_Package.TestListener - =================================================
+2026-05-06 13:10:17,196 [TestNG-tests-1] INFO Utility_Package.TestListener - TEST SUITE FINISHED: EdgeTest
+2026-05-06 13:10:17,197 [TestNG-tests-1] INFO Utility_Package.TestListener - Total  : 1
+2026-05-06 13:10:17,197 [TestNG-tests-1] INFO Utility_Package.TestListener - Passed : 0
+2026-05-06 13:10:17,197 [TestNG-tests-1] INFO Utility_Package.TestListener - Failed : 1
+2026-05-06 13:10:17,197 [TestNG-tests-1] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-06 13:10:17,198 [TestNG-tests-1] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:10:59,352 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:10:59,358 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-07 15:10:59,360 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:11:02,658 [main] INFO Utility_Package.TestListener - TEST STARTED: Call
+2026-05-07 15:11:02,666 [main] WARN Utility_Package.TestListener - TEST SKIPPED: Call
+2026-05-07 15:11:02,715 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:11:02,716 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-07 15:11:02,717 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-07 15:11:02,717 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-05-07 15:11:02,718 [main] INFO Utility_Package.TestListener - Failed : 0
+2026-05-07 15:11:02,719 [main] INFO Utility_Package.TestListener - Skipped: 1
+2026-05-07 15:11:02,719 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:16:30,485 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:16:30,489 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-07 15:16:30,489 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:16:30,537 [main] INFO Utility_Package.TestListener - TEST STARTED: Call
+2026-05-07 15:16:30,543 [main] WARN Utility_Package.TestListener - TEST SKIPPED: Call
+2026-05-07 15:16:30,594 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:16:30,595 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-07 15:16:30,595 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-07 15:16:30,595 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-05-07 15:16:30,596 [main] INFO Utility_Package.TestListener - Failed : 0
+2026-05-07 15:16:30,596 [main] INFO Utility_Package.TestListener - Skipped: 1
+2026-05-07 15:16:30,597 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:18:57,384 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:18:57,388 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-07 15:18:57,389 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:18:57,452 [main] INFO Utility_Package.TestListener - TEST STARTED: Call
+2026-05-07 15:18:57,455 [main] WARN Utility_Package.TestListener - TEST SKIPPED: Call
+2026-05-07 15:18:57,492 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:18:57,493 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-07 15:18:57,493 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-07 15:18:57,494 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-05-07 15:18:57,494 [main] INFO Utility_Package.TestListener - Failed : 0
+2026-05-07 15:18:57,494 [main] INFO Utility_Package.TestListener - Skipped: 1
+2026-05-07 15:18:57,496 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:21:58,119 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:21:58,124 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-07 15:21:58,124 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:22:00,584 [main] INFO Utility_Package.TestListener - TEST STARTED: Call
+2026-05-07 15:22:53,815 [main] INFO Utility_Package.TestListener - TEST PASSED: Call
+2026-05-07 15:22:54,473 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:22:54,473 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-07 15:22:54,474 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-07 15:22:54,474 [main] INFO Utility_Package.TestListener - Passed : 1
+2026-05-07 15:22:54,476 [main] INFO Utility_Package.TestListener - Failed : 0
+2026-05-07 15:22:54,476 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-07 15:22:54,476 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:25:09,887 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:25:09,892 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-07 15:25:09,892 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:25:09,919 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-07 15:27:26,618 [main] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-05-07 15:27:26,619 [main] ERROR Utility_Package.TestListener - ERROR: no such element: Unable to locate element: {"method":"css selector","selector":"#reminderDate"}
+  (Session info: chrome=148.0.7778.96)
+For documentation on this error, please visit: https://www.seleniumhq.org/exceptions/no_such_element.html
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 148.0.7778.96, chrome: {chromedriverVersion: 148.0.7778.97 (6b3fa66a923a..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53389}, goog:processID: 25700, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 790674cc5bd172e289be002f31042493
+*** Element info: {Using=id, value=reminderDate}
+2026-05-07 15:27:27,349 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:27:27,349 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-07 15:27:27,349 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-07 15:27:27,350 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-05-07 15:27:27,350 [main] INFO Utility_Package.TestListener - Failed : 1
+2026-05-07 15:27:27,350 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-07 15:27:27,351 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:28:53,634 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:28:53,640 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-07 15:28:53,640 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:28:53,667 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-07 15:32:20,894 [main] INFO Utility_Package.TestListener - TEST PASSED: init
+2026-05-07 15:32:21,498 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:32:21,499 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-07 15:32:21,499 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-07 15:32:21,499 [main] INFO Utility_Package.TestListener - Passed : 1
+2026-05-07 15:32:21,499 [main] INFO Utility_Package.TestListener - Failed : 0
+2026-05-07 15:32:21,500 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-07 15:32:21,500 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:38:55,431 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:38:55,435 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-07 15:38:55,435 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:38:55,472 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-07 15:41:52,675 [main] INFO Utility_Package.TestListener - TEST PASSED: init
+2026-05-07 15:41:53,376 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 15:41:53,376 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-07 15:41:53,377 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-07 15:41:53,377 [main] INFO Utility_Package.TestListener - Passed : 1
+2026-05-07 15:41:53,377 [main] INFO Utility_Package.TestListener - Failed : 0
+2026-05-07 15:41:53,377 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-07 15:41:53,377 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 16:36:21,131 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 16:36:21,135 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-07 16:36:21,135 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 16:36:21,163 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-07 16:37:19,508 [main] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-05-07 16:37:19,508 [main] ERROR Utility_Package.TestListener - ERROR: element click intercepted: Element <input id="issueDate" name="issueDate" placeholder="Enter Issued Date" type="text" value="" maxlength="10" class="hasDatepicker"> is not clickable at point (504, 540). Other element would receive the click: <div class="lf-footer">...</div>
+  (Session info: chrome=148.0.7778.96)
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 148.0.7778.96, chrome: {chromedriverVersion: 148.0.7778.97 (6b3fa66a923a..., userDataDir: C:\Users\YOGESH~1.POL\AppDa...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:55316}, goog:processID: 29108, javascriptEnabled: true, networkConnectionEnabled: false, pageLoadStrategy: normal, platform: WINDOWS, platformName: WINDOWS, proxy: Proxy(), setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 5e4c8e2a4eba8358a7bea18af3716bd2
+2026-05-07 16:37:21,496 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-07 16:37:21,497 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-07 16:37:21,498 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-07 16:37:21,499 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-05-07 16:37:21,499 [main] INFO Utility_Package.TestListener - Failed : 1
+2026-05-07 16:37:21,499 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-07 16:37:21,500 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-08 11:36:49,835 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-08 11:36:49,846 [main] INFO Utility_Package.TestListener - TEST SUITE STARTED: Default test
+2026-05-08 11:36:49,846 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-08 11:36:49,882 [main] INFO Utility_Package.TestListener - TEST STARTED: init
+2026-05-08 11:36:53,513 [main] ERROR Utility_Package.TestListener - TEST FAILED: init
+2026-05-08 11:36:53,514 [main] ERROR Utility_Package.TestListener - ERROR: session not created: This version of ChromeDriver only supports Chrome version 146
+Current browser version is 148.0.7778.96 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: driver.version: ChromeDriver
+remote stacktrace: 	chromedriver!GetHandleVerifier [0x7ff7ab7b10b5+14cc5]
+	chromedriver!GetHandleVerifier [0x7ff7ab7b1120+14d30]
+	chromedriver!(No symbol) [0x7ff7ab51db6d]
+	chromedriver!(No symbol) [0x7ff7ab56608d]
+	chromedriver!(No symbol) [0x7ff7ab564de5]
+	chromedriver!(No symbol) [0x7ff7ab55f321]
+	chromedriver!(No symbol) [0x7ff7ab559c29]
+	chromedriver!(No symbol) [0x7ff7ab5ae021]
+	chromedriver!(No symbol) [0x7ff7ab5ad886]
+	chromedriver!(No symbol) [0x7ff7ab5696e8]
+	chromedriver!(No symbol) [0x7ff7ab56a5d3]
+	chromedriver!GetHandleVerifier [0x7ff7abab5ded+3199fd]
+	chromedriver!GetHandleVerifier [0x7ff7abab04cd+3140dd]
+	chromedriver!GetHandleVerifier [0x7ff7abad29ca+3365da]
+	chromedriver!GetHandleVerifier [0x7ff7ab7cca55+30665]
+	chromedriver!GetHandleVerifier [0x7ff7ab7d5bac+397bc]
+	chromedriver!GetHandleVerifier [0x7ff7ab7ba4d4+1e0e4]
+	chromedriver!GetHandleVerifier [0x7ff7ab7ba686+1e296]
+	chromedriver!GetHandleVerifier [0x7ff7ab79ef97+2ba7]
+	KERNEL32!BaseThreadInitThunk [0x7fff042f257d+1d]
+	ntdll!RtlUserThreadStart [0x7fff056aaf08+28]
+
+2026-05-08 11:36:54,135 [main] INFO Utility_Package.TestListener - =================================================
+2026-05-08 11:36:54,136 [main] INFO Utility_Package.TestListener - TEST SUITE FINISHED: Default test
+2026-05-08 11:36:54,137 [main] INFO Utility_Package.TestListener - Total  : 1
+2026-05-08 11:36:54,138 [main] INFO Utility_Package.TestListener - Passed : 0
+2026-05-08 11:36:54,138 [main] INFO Utility_Package.TestListener - Failed : 1
+2026-05-08 11:36:54,139 [main] INFO Utility_Package.TestListener - Skipped: 0
+2026-05-08 11:36:54,139 [main] INFO Utility_Package.TestListener - =================================================

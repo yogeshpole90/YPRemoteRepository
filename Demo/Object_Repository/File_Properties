@@ -1,0 +1,8 @@
+loginId=  loginId
+pass=uiPwd
+login=userLogin
+burger=//a[@class='item-nav']/div
+cl=//*[@id='COMMONCOLLECTORLIST']/a  
+case1= //td[text() = '395']
+doc=//ul[contains(@class,'border-0')]/li[7]/a
+childdoc=documentUploadPageFrame

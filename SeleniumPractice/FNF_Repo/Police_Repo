@@ -1,0 +1,9 @@
+burger=//a[@class='item-nav']/div
+inbox=//*[@id='COMMONCOLLECTORLIST']/a
+cas19791 = //td[text() = '366']
+police=//ul[contains(@class,'border-0')]/li[11]/a
+casetype2=//select[@id='caseType']
+actionTaken=//select[@id='actionTaken']
+contactResult  = //select[@id='contactResult']
+prosecutionStatus = //select[@id='prosecutionStatus']
+
