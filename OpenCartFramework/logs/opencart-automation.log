@@ -1,0 +1,3 @@
+04-05-2026 11:50:00.121 [main] INFO  pageObjects.Login - Login test started
+04-05-2026 11:50:02.889 [main] INFO  pageObjects.Login - Login test passed
+04-05-2026 11:50:03.227 [main] INFO  pageObjects.Login - Browser closed
