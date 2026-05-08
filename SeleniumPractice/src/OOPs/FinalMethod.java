@@ -1,7 +1,7 @@
 package OOPs;
 
  class Test1{
-	final void m()// cannot override if final specified
+	void m()// cannot override if final specified
 	{
 
 
