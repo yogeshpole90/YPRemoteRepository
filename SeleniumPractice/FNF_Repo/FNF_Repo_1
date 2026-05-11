@@ -1,6 +1,0 @@
-burger=//a[@class='item-nav']/div
-cl=//li[@id='COLLECTORHISTORYLIST']/a
-10314=//td[text() = '10314']
-comhis=//ul[contains(@class , 'border-0')]/li[6]/a
-chchild = fetchReminderDtlsPageFrame
-remindertype=//select[@id='reminderType']

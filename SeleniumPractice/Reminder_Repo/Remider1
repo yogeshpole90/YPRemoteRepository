@@ -1,8 +1,0 @@
-user=loginId
-pass=uiPwd
-login=userLogin
-burger=//a[@class='item-nav']/div
-cl=//li[@id='COLLECTORHISTORYLIST']/a
-21207=//td[text() ='21207']
-commuhis= //ul[contains(@class,'border-0')]/li/a
-reminder=//ul[@id='myTab']/li/a

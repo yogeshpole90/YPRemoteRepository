@@ -1,9 +1,0 @@
-2026-05-06 10:31:03.737 [main] DEBUG testCase.TC001_LoginTest.verifyLogin(27) - debug
-2026-05-06 10:31:03.742 [main] INFO  testCase.TC001_LoginTest.verifyLogin(28) - ==========Starting TC001===========
-2026-05-06 10:31:13.246 [main] INFO  testCase.TC001_LoginTest.verifyLogin(34) - Clicked on Login Button
-2026-05-06 10:33:20.351 [main] DEBUG testCase.TC001_LoginTest.verifyLogin(27) - debug
-2026-05-06 10:33:20.356 [main] INFO  testCase.TC001_LoginTest.verifyLogin(28) - ==========Starting TC001===========
-2026-05-06 10:33:29.205 [main] INFO  testCase.TC001_LoginTest.verifyLogin(34) - Clicked on Login Button
-2026-05-06 10:36:28.861 [main] DEBUG testCase.TC001_LoginTest.verifyLogin(27) - debug
-2026-05-06 10:36:28.865 [main] INFO  testCase.TC001_LoginTest.verifyLogin(28) - ==========Starting TC001===========
-2026-05-06 10:36:38.224 [main] INFO  testCase.TC001_LoginTest.verifyLogin(34) - Clicked on Login Button
