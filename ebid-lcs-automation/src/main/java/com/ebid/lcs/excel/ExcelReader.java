@@ -19,6 +19,20 @@ public class ExcelReader {
         Workbook wb = new XSSFWorkbook(fis);
         Sheet sheet = wb.getSheet(sheetName);
 
+        if (sheet == null) {
+            wb.close();
+            fis.close();
+            System.out.println(">> AVAILABLE SHEETS:");
+            FileInputStream fis2 = new FileInputStream(ConfigManager.get("test.data.path"));
+            Workbook wb2 = new XSSFWorkbook(fis2);
+            for (int i = 0; i < wb2.getNumberOfSheets(); i++) {
+                System.out.println("   [" + i + "] " + wb2.getSheetName(i));
+            }
+            wb2.close();
+            fis2.close();
+            throw new RuntimeException("Sheet '" + sheetName + "' not found in Excel file!");
+        }
+
         int rowCount = sheet.getLastRowNum();
         int colCount = sheet.getRow(0).getLastCellNum();
         Object[][] data = new Object[rowCount][colCount];

@@ -22,7 +22,9 @@ public class LawFirmTest extends BaseTest {
         ExtentManager.initReport("LawFirm");
         ExtentManager.startTest("Law Firm Master - Full Validation");
 
-        driver.findElement(By.xpath("//*[@class='item-nav']/div")).click();
+        driver.findElement(By.xpath("//*[@class='item-nav']/div/div")).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath("(//li[@id = 'COMMONCOLLECTORLIST'])/a")).click();
         Thread.sleep(500);
         driver.findElement(By.xpath("//*[contains(@href,'menuCode=LAWFIRM')]")).click();
         Thread.sleep(2000);

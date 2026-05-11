@@ -3,12 +3,12 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="FullPTP_Package.F1_PTP_CallingClass">
+      <class name="CaseStatus_Package.CST1_Calling">
         <methods>
-          <include name="tearDown"/>
           <include name="init"/>
+          <include name="tearDown"/>
         </methods>
-      </class> <!-- FullPTP_Package.F1_PTP_CallingClass -->
+      </class> <!-- CaseStatus_Package.CST1_Calling -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

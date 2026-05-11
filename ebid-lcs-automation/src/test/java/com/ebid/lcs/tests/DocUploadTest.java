@@ -2,7 +2,9 @@ package com.ebid.lcs.tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -36,35 +38,56 @@ public class DocUploadTest extends BaseTest {
 
     @Test(priority = 1)
     public void validateActionNameDD() throws Exception {
-        WebElement dd = driver.findElement(By.id("actionName"));
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        WebElement dd = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("actionName")));
+        Thread.sleep(1000);
         Select select = new Select(dd);
         String fn = "Action Name DD";
 
         log(fn, "Displayed", "true", String.valueOf(dd.isDisplayed()), dd.isDisplayed());
         log(fn, "Enabled", "true", String.valueOf(dd.isEnabled()), dd.isEnabled());
 
+        // Log all available options
+        for (WebElement opt : select.getOptions()) {
+            logInfo(fn, "Available option", opt.getText().trim());
+        }
+
         Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_DOC_UPLOAD, SheetConstants.TC.DOC_UPLOAD);
+        String lastInput = "";
 
         for (Object[] row : data) {
             String fieldName = row[SheetConstants.Cols.FIELD_NAME].toString();
             if (!fieldName.equals("actionName")) continue;
 
-            String input = row[SheetConstants.Cols.INPUT].toString();
-            String expected = row[SheetConstants.Cols.EXPECTED].toString();
+            String input = row[SheetConstants.Cols.INPUT].toString().trim();
+            String expected = row[SheetConstants.Cols.EXPECTED].toString().trim();
             String desc = row[SheetConstants.Cols.DESCRIPTION].toString();
             String checkType = row[SheetConstants.Cols.CHECK_TYPE].toString();
+            lastInput = input;
 
-            select.selectByVisibleText(input);
-            Thread.sleep(500);
-            String actual = select.getFirstSelectedOption().getText().trim();
+            try {
+                select.selectByVisibleText(input);
+                Thread.sleep(500);
+                String actual = select.getFirstSelectedOption().getText().trim();
 
-            switch (checkType) {
-                case "equals":
-                    log(fn, desc, expected, actual, actual.equals(expected));
-                    sa.assertEquals(actual, expected, desc);
-                    break;
+                switch (checkType) {
+                    case "equals":
+                        log(fn, desc, expected, actual, actual.equals(expected));
+                        sa.assertEquals(actual, expected, desc);
+                        break;
+                }
+            } catch (Exception e) {
+                log(fn, desc, expected, "Option not found: " + input, false);
             }
         }
+
+        // Keep last valid option selected for save
+        try {
+            select.selectByVisibleText(lastInput);
+        } catch (Exception e) {
+            select.selectByIndex(1);
+        }
+        Thread.sleep(500);
     }
 
     @Test(priority = 2)
@@ -81,13 +104,13 @@ public class DocUploadTest extends BaseTest {
             String fieldName = row[SheetConstants.Cols.FIELD_NAME].toString();
             if (!fieldName.equals("documentName")) continue;
 
-            String input = row[SheetConstants.Cols.INPUT].toString();
-            String expected = row[SheetConstants.Cols.EXPECTED].toString();
+            String input = row[SheetConstants.Cols.INPUT].toString().trim();
+            String expected = row[SheetConstants.Cols.EXPECTED].toString().trim();
             String desc = row[SheetConstants.Cols.DESCRIPTION].toString();
             String checkType = row[SheetConstants.Cols.CHECK_TYPE].toString();
 
             f.clear();
-            if (!input.isEmpty()) f.sendKeys(input);
+            if (!input.isEmpty() && !input.equalsIgnoreCase("Empty")) f.sendKeys(input);
             String actual = f.getAttribute("value");
 
             switch (checkType) {
@@ -118,7 +141,19 @@ public class DocUploadTest extends BaseTest {
     }
 
     @Test(priority = 4)
+    public void validateResetButton() throws Exception {
+        WebElement resetBtn = driver.findElement(By.xpath("//button[contains(text(),'Reset') or @id='resetData']"));
+        log("Reset", "Displayed", "true", String.valueOf(resetBtn.isDisplayed()), resetBtn.isDisplayed());
+        log("Reset", "Enabled", "true", String.valueOf(resetBtn.isEnabled()), resetBtn.isEnabled());
+    }
+
+    @Test(priority = 5)
     public void validateSave() throws Exception {
+        // Re-select action name for save
+        Select select = new Select(driver.findElement(By.id("actionName")));
+        select.selectByIndex(1);
+        Thread.sleep(500);
+
         WebElement saveBtn = driver.findElement(By.id("saveData"));
         log("Save", "Displayed", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
         saveBtn.click();

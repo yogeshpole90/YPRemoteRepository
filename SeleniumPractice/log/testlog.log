@@ -459,3 +459,54 @@ remote stacktrace: 	chromedriver!GetHandleVerifier [0x7ff7ab7b10b5+14cc5]
 2026-05-08 11:36:54,138 - Utility_Package.TestListener - INFO - Failed : 1
 2026-05-08 11:36:54,139 - Utility_Package.TestListener - INFO - Skipped: 0
 2026-05-08 11:36:54,139 - Utility_Package.TestListener - INFO - =================================================
+2026-05-11 12:14:35,904 - Utility_Package.TestListener - INFO - =================================================
+2026-05-11 12:14:35,912 - Utility_Package.TestListener - INFO - TEST SUITE STARTED: Default test
+2026-05-11 12:14:35,913 - Utility_Package.TestListener - INFO - =================================================
+2026-05-11 12:14:39,602 - Utility_Package.TestListener - INFO - TEST STARTED: Call
+2026-05-11 12:14:39,612 - Utility_Package.TestListener - WARN - TEST SKIPPED: Call
+2026-05-11 12:14:39,678 - Utility_Package.TestListener - INFO - =================================================
+2026-05-11 12:14:39,679 - Utility_Package.TestListener - INFO - TEST SUITE FINISHED: Default test
+2026-05-11 12:14:39,680 - Utility_Package.TestListener - INFO - Total  : 1
+2026-05-11 12:14:39,681 - Utility_Package.TestListener - INFO - Passed : 0
+2026-05-11 12:14:39,683 - Utility_Package.TestListener - INFO - Failed : 0
+2026-05-11 12:14:39,685 - Utility_Package.TestListener - INFO - Skipped: 1
+2026-05-11 12:14:39,687 - Utility_Package.TestListener - INFO - =================================================
+2026-05-11 12:14:52,114 - Utility_Package.TestListener - INFO - =================================================
+2026-05-11 12:14:52,119 - Utility_Package.TestListener - INFO - TEST SUITE STARTED: Default test
+2026-05-11 12:14:52,121 - Utility_Package.TestListener - INFO - =================================================
+2026-05-11 12:14:52,155 - Utility_Package.TestListener - INFO - TEST STARTED: init
+2026-05-11 12:14:54,388 - Utility_Package.TestListener - ERROR - TEST FAILED: init
+2026-05-11 12:14:54,390 - Utility_Package.TestListener - ERROR - ERROR: session not created: This version of ChromeDriver only supports Chrome version 146
+Current browser version is 148.0.7778.96 with binary path C:\Program Files\Google\Chrome\Application\chrome.exe
+Build info: version: '3.141.59', revision: 'e82be7d358', time: '2018-11-14T08:25:48'
+System info: host: 'ITLNB690', ip: '172.20.2.85', os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '21.0.9'
+Driver info: driver.version: ChromeDriver
+remote stacktrace: 	chromedriver!GetHandleVerifier [0x7ff7d25610b5+14cc5]
+	chromedriver!GetHandleVerifier [0x7ff7d2561120+14d30]
+	chromedriver!(No symbol) [0x7ff7d22cdb6d]
+	chromedriver!(No symbol) [0x7ff7d231608d]
+	chromedriver!(No symbol) [0x7ff7d2314de5]
+	chromedriver!(No symbol) [0x7ff7d230f321]
+	chromedriver!(No symbol) [0x7ff7d2309c29]
+	chromedriver!(No symbol) [0x7ff7d235e021]
+	chromedriver!(No symbol) [0x7ff7d235d886]
+	chromedriver!(No symbol) [0x7ff7d23196e8]
+	chromedriver!(No symbol) [0x7ff7d231a5d3]
+	chromedriver!GetHandleVerifier [0x7ff7d2865ded+3199fd]
+	chromedriver!GetHandleVerifier [0x7ff7d28604cd+3140dd]
+	chromedriver!GetHandleVerifier [0x7ff7d28829ca+3365da]
+	chromedriver!GetHandleVerifier [0x7ff7d257ca55+30665]
+	chromedriver!GetHandleVerifier [0x7ff7d2585bac+397bc]
+	chromedriver!GetHandleVerifier [0x7ff7d256a4d4+1e0e4]
+	chromedriver!GetHandleVerifier [0x7ff7d256a686+1e296]
+	chromedriver!GetHandleVerifier [0x7ff7d254ef97+2ba7]
+	KERNEL32!BaseThreadInitThunk [0x7fff042f257d+1d]
+	ntdll!RtlUserThreadStart [0x7fff056aaf08+28]
+
+2026-05-11 12:14:55,134 - Utility_Package.TestListener - INFO - =================================================
+2026-05-11 12:14:55,136 - Utility_Package.TestListener - INFO - TEST SUITE FINISHED: Default test
+2026-05-11 12:14:55,137 - Utility_Package.TestListener - INFO - Total  : 1
+2026-05-11 12:14:55,142 - Utility_Package.TestListener - INFO - Passed : 0
+2026-05-11 12:14:55,144 - Utility_Package.TestListener - INFO - Failed : 1
+2026-05-11 12:14:55,144 - Utility_Package.TestListener - INFO - Skipped: 0
+2026-05-11 12:14:55,146 - Utility_Package.TestListener - INFO - =================================================

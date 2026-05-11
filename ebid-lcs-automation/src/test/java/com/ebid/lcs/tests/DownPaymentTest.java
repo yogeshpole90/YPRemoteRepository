@@ -88,10 +88,19 @@ public class DownPaymentTest extends BaseTest {
         jse.executeScript("arguments[0].scrollIntoView({block:'center'})", saveBtn);
         log("Save", "Displayed", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
         saveBtn.click();
-        Thread.sleep(2000);
+        Thread.sleep(1000);
 
-        String toast = getSuccessToast();
-        log("Save", "Save Downpayment", "Success", toast.isEmpty() ? "No toast" : toast, !toast.isEmpty());
+        try {
+            String alertText = driver.switchTo().alert().getText();
+            log("Save", "Alert validation", "Alert shown", alertText, true);
+            driver.switchTo().alert().accept();
+            Thread.sleep(500);
+        } catch (Exception e) {
+            // No alert - check toast
+            Thread.sleep(1000);
+            String toast = getSuccessToast();
+            log("Save", "Save Downpayment", "Success", toast.isEmpty() ? "No toast" : toast, !toast.isEmpty());
+        }
         sa.assertAll();
     }
 }

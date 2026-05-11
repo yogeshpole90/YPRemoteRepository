@@ -22,7 +22,9 @@ public class ActionDocMapTest extends BaseTest {
         ExtentManager.initReport("ActionDocMap");
         ExtentManager.startTest("Action Doc Map - Full Validation");
 
-        driver.findElement(By.xpath("//*[@class='item-nav']/div")).click();
+        driver.findElement(By.xpath("//*[@class='item-nav']/div/div")).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath("(//li[@id = 'COMMONCOLLECTORLIST'])/a")).click();
         Thread.sleep(500);
         driver.findElement(By.xpath("//*[contains(@href,'menuCode=ACTIONDOCMAP')]")).click();
         Thread.sleep(2000);

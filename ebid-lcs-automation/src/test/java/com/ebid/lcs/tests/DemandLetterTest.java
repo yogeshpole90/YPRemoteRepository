@@ -3,7 +3,9 @@ package com.ebid.lcs.tests;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
@@ -25,20 +27,22 @@ public class DemandLetterTest extends BaseTest {
 
         navigateToCase(ConfigManager.get("casenumber"));
 
-        WebElement tab = driver.findElement(By.xpath("//*[contains(@href,'activeTab=Account Information')]"));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", tab);
+        WebElement docTab = driver.findElement(By.xpath("//*[contains(@href,'activeTab=Document')]"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", docTab);
         Thread.sleep(1000);
-        tab.click();
+        docTab.click();
         Thread.sleep(2000);
 
-        WebElement dlTab = driver.findElement(By.xpath("//a[contains(text(),'Demand Letter')]"));
+        WebDriverWait wait = new WebDriverWait(driver, 15);
+        WebElement dlTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Demand Letter')]")));
         jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", dlTab);
         Thread.sleep(1000);
         act.doubleClick(dlTab).build().perform();
         Thread.sleep(2000);
 
-        driver.switchTo().frame("demandLetterFrame");
-        logInfo("Frame", "Switched to", "demandLetterFrame");
+        WebElement frame = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("addNewDemandLetterFrame")));
+        driver.switchTo().frame(frame);
+        logInfo("Frame", "Switched to", "addNewDemandLetterFrame");
     }
 
     @Test(priority = 1)

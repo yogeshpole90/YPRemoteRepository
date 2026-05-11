@@ -51,9 +51,9 @@ public class BaseTest {
 
     // Navigate to case
     protected void navigateToCase(String caseNumber) throws Exception {
-        driver.findElement(By.xpath("//*[@class='item-nav']/div")).click();
-        Thread.sleep(1000);
-        driver.findElement(By.xpath("//*[contains(@href,'menuCode=COMMONCOLLECTORLIST')]")).click();
+        driver.findElement(By.xpath("//*[@class='item-nav']/div/div")).click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath("(//li[@id = 'COMMONCOLLECTORLIST'])/a")).click();
         Thread.sleep(2000);
         driver.findElement(By.xpath("//*[@type='search']")).sendKeys(caseNumber);
         Thread.sleep(2000);
