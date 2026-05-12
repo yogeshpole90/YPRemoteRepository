@@ -6,12 +6,15 @@ import org.testng.ITestResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.ebid.lcs.reporting.ExtentManager;
+
 public class TestListener implements ITestListener {
 
     private static final Logger logger = LogManager.getLogger(TestListener.class);
 
     public void onTestStart(ITestResult result) {
         logger.info("TEST STARTED: " + result.getMethod().getMethodName());
+        ExtentManager.createNode(result.getMethod().getMethodName());
     }
 
     public void onTestSuccess(ITestResult result) {
@@ -21,10 +24,16 @@ public class TestListener implements ITestListener {
     public void onTestFailure(ITestResult result) {
         logger.error("TEST FAILED: " + result.getMethod().getMethodName());
         logger.error("ERROR: " + result.getThrowable().getMessage());
+        if (ExtentManager.getTest() != null) {
+            ExtentManager.getTest().fail("Exception: " + result.getThrowable().getMessage());
+        }
     }
 
     public void onTestSkipped(ITestResult result) {
         logger.warn("TEST SKIPPED: " + result.getMethod().getMethodName());
+        if (ExtentManager.getTest() != null) {
+            ExtentManager.getTest().skip("Skipped: " + result.getMethod().getMethodName());
+        }
     }
 
     public void onStart(ITestContext context) {

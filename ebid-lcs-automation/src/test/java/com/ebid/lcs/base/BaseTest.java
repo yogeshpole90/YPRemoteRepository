@@ -33,14 +33,30 @@ public class BaseTest {
         jse = (JavascriptExecutor) driver;
         act = new Actions(driver);
 
-        // Login
+        // Check if this is an admin test - skip Shelly login
+        String className = this.getClass().getSimpleName();
+        boolean isAdminTest = className.equals("ActionDocMapTest") 
+                           || className.equals("LawFirmTest") 
+                           || className.equals("LawyerDetailsTest");
+
         driver.get(ServerConfig.getActiveServer());
-        driver.findElement(By.id("loginId")).sendKeys(ConfigManager.get("username"), Keys.TAB);
-        driver.findElement(By.id("uiPwd")).sendKeys(ConfigManager.get("password"), Keys.TAB);
-        Thread.sleep(2000);
-        driver.findElement(By.id("userLogin")).click();
-        Thread.sleep(2000);
-        logger.info("Login successful");
+        Thread.sleep(1000);
+
+        if (isAdminTest) {
+            driver.findElement(By.id("loginId")).sendKeys(ConfigManager.get("admin.username"), Keys.TAB);
+            driver.findElement(By.id("uiPwd")).sendKeys(ConfigManager.get("admin.password"), Keys.TAB);
+            Thread.sleep(1000);
+            driver.findElement(By.id("userLogin")).click();
+            Thread.sleep(2000);
+            logger.info("Login as infraadmin successful");
+        } else {
+            driver.findElement(By.id("loginId")).sendKeys(ConfigManager.get("username"), Keys.TAB);
+            driver.findElement(By.id("uiPwd")).sendKeys(ConfigManager.get("password"), Keys.TAB);
+            Thread.sleep(2000);
+            driver.findElement(By.id("userLogin")).click();
+            Thread.sleep(2000);
+            logger.info("Login as Shelly successful");
+        }
     }
 
     @AfterSuite
@@ -71,13 +87,10 @@ public class BaseTest {
         System.out.println("  Expected : " + expected);
         System.out.println("  Actual   : " + actual);
         System.out.println("  Status   : " + (pass ? "\u2705 PASS" : "\u274c FAIL"));
-        if (ExtentManager.getTest() != null) {
-            if (pass) {
-                ExtentManager.getTest().pass(field + " | " + desc + " | Expected: " + expected + " | Actual: " + actual);
-            } else {
-                ExtentManager.getTest().fail(field + " | " + desc + " | Expected: " + expected + " | Actual: " + actual);
-                ExtentManager.attachScreenshot(driver, "FAIL_" + field.replace(" ", "_"));
-            }
+        if (pass) {
+            ExtentManager.pass(field, desc, expected, actual);
+        } else {
+            ExtentManager.fail(field, desc, expected, actual, driver);
         }
     }
 
@@ -87,11 +100,30 @@ public class BaseTest {
         System.out.println("  Test     : " + desc);
         System.out.println("  Value    : " + value);
         System.out.println("  Status   : \u2139\ufe0f INFO");
-        if (ExtentManager.getTest() != null) {
-            ExtentManager.getTest().info(field + " | " + desc + " | Value: " + value);
-        }
+        ExtentManager.info(field, desc, value);
     }
 
     protected String getErrorToast() { return ToastUtil.getErrorToast(driver); }
     protected String getSuccessToast() { return ToastUtil.getSuccessToast(driver); }
+
+    protected void loginAsAdmin() throws Exception {
+        // Logout current user first
+        try {
+            driver.findElement(By.xpath("//*[@id='logoutForm']/a")).click();
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            // No logout button, go to login page directly
+        }
+
+        driver.get(ServerConfig.getActiveServer());
+        Thread.sleep(1000);
+        driver.findElement(By.id("loginId")).clear();
+        driver.findElement(By.id("loginId")).sendKeys(ConfigManager.get("admin.username"), Keys.TAB);
+        driver.findElement(By.id("uiPwd")).clear();
+        driver.findElement(By.id("uiPwd")).sendKeys(ConfigManager.get("admin.password"), Keys.TAB);
+        Thread.sleep(1000);
+        driver.findElement(By.id("userLogin")).click();
+        Thread.sleep(2000);
+        logger.info("Login as infraadmin successful");
+    }
 }

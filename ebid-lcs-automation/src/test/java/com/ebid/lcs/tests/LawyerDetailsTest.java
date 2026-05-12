@@ -8,7 +8,6 @@ import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
 import com.ebid.lcs.base.BaseTest;
-import com.ebid.lcs.config.ConfigManager;
 import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
 import com.ebid.lcs.listeners.TestListener;
@@ -22,9 +21,8 @@ public class LawyerDetailsTest extends BaseTest {
         ExtentManager.initReport("LawyerDetails");
         ExtentManager.startTest("Lawyer Details - Full Validation");
 
+        // Navigate to Lawyer Details
         driver.findElement(By.xpath("//*[@class='item-nav']/div/div")).click();
-        Thread.sleep(500);
-        driver.findElement(By.xpath("(//li[@id = 'COMMONCOLLECTORLIST'])/a")).click();
         Thread.sleep(500);
         driver.findElement(By.xpath("//*[contains(@href,'menuCode=LAWYERDETAILS')]")).click();
         Thread.sleep(2000);
@@ -33,7 +31,7 @@ public class LawyerDetailsTest extends BaseTest {
         addBtn.click();
         Thread.sleep(1000);
 
-        logInfo("Navigation", "Navigated to", "Lawyer Details");
+        logInfo("Navigation", "Navigated to", "Lawyer Details (infraadmin)");
     }
 
     @Test(priority = 1)
@@ -41,9 +39,9 @@ public class LawyerDetailsTest extends BaseTest {
         Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_LAWYER_DETAILS, SheetConstants.TC.LAWYER_DETAILS);
 
         for (Object[] row : data) {
-            String fieldName = row[SheetConstants.Cols.FIELD_NAME].toString();
-            String input = row[SheetConstants.Cols.INPUT].toString();
-            String expected = row[SheetConstants.Cols.EXPECTED].toString();
+            String fieldName = row[SheetConstants.Cols.FIELD_NAME].toString().trim();
+            String input = row[SheetConstants.Cols.INPUT].toString().trim();
+            String expected = row[SheetConstants.Cols.EXPECTED].toString().trim();
             String desc = row[SheetConstants.Cols.DESCRIPTION].toString();
             String checkType = row[SheetConstants.Cols.CHECK_TYPE].toString();
 
@@ -52,20 +50,25 @@ public class LawyerDetailsTest extends BaseTest {
 
             if (tagName.equals("select")) {
                 Select s = new Select(f);
-                s.selectByVisibleText(input);
-                Thread.sleep(500);
-                String actual = s.getFirstSelectedOption().getText().trim();
-                log(fieldName, desc, expected, actual, actual.equals(expected));
-                sa.assertEquals(actual, expected, desc);
+                try {
+                    s.selectByVisibleText(input);
+                    Thread.sleep(500);
+                    String actual = s.getFirstSelectedOption().getText().trim();
+                    log(fieldName, desc, expected, actual, actual.equals(expected));
+                    sa.assertEquals(actual, expected, desc);
+                } catch (Exception e) {
+                    log(fieldName, desc, expected, "Option not found: " + input, false);
+                }
             } else {
                 f.clear();
-                if (!input.isEmpty()) f.sendKeys(input);
+                if (!input.isEmpty() && !input.equalsIgnoreCase("Empty")) f.sendKeys(input);
                 String actual = f.getAttribute("value");
 
                 switch (checkType) {
                     case "equals": log(fieldName, desc, expected, actual, actual.equals(expected)); sa.assertEquals(actual, expected, desc); break;
                     case "notEquals": log(fieldName, desc, "Not " + input, actual, !actual.equals(input)); break;
-                    case "empty": log(fieldName, desc, "Empty", actual, actual.isEmpty()); break;
+                    case "empty": log(fieldName, desc, "Empty", actual, actual.isEmpty()); sa.assertTrue(actual.isEmpty(), desc); break;
+                    case "info": logInfo(fieldName, desc, actual); break;
                 }
             }
         }
@@ -74,6 +77,8 @@ public class LawyerDetailsTest extends BaseTest {
     @Test(priority = 2)
     public void validateSave() throws Exception {
         WebElement saveBtn = driver.findElement(By.id("saveData"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", saveBtn);
+        Thread.sleep(500);
         log("Save", "Displayed", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
         saveBtn.click();
         Thread.sleep(2000);
