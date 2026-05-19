@@ -1,22 +1,23 @@
 package com.ebid.lcs.utils;
 
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
 
 import com.ebid.lcs.config.ConfigManager;
 
 public class ServerConfig {
 
     private static final String[] SERVERS = {
-        "http://10.10.230.16:8181/lcs-finairoLending-1.0.1",
-        "http://10.10.230.14:8181/lcs-finairoLending-1.0.1"
+            "http://10.10.230.16:8181/lcs-finairoLending-1.0.1",
+            "http://10.10.230.14:8181/lcs-finairoLending-1.0.1"
     };
 
     private static final int TIMEOUT = 5000;
     private static String activeServer = null;
 
     public static String getActiveServer() {
-        if (activeServer != null) return activeServer;
+        if (activeServer != null)
+            return activeServer;
 
         System.out.println("=================================================");
         System.out.println("SERVER HEALTH CHECK - Finding Active Server...");
@@ -24,7 +25,7 @@ public class ServerConfig {
 
         for (String server : SERVERS) {
             try {
-                HttpURLConnection conn = (HttpURLConnection) new URL(server).openConnection();
+                HttpURLConnection conn = (HttpURLConnection) URI.create(server).toURL().openConnection();
                 conn.setConnectTimeout(TIMEOUT);
                 conn.setReadTimeout(TIMEOUT);
                 conn.setRequestMethod("GET");

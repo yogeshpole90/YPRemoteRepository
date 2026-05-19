@@ -41,11 +41,13 @@ public class ExtentManager {
 
             extent = new ExtentReports();
             extent.attachReporter(spark);
-            extent.setSystemInfo("Application", "EBID LCS");
+            extent.setSystemInfo("Application", ConfigManager.get("app"));
             extent.setSystemInfo("Module", suiteName);
             extent.setSystemInfo("Environment", ConfigManager.get("base.url"));
             extent.setSystemInfo("Browser", ConfigManager.get("browser"));
             extent.setSystemInfo("OS", System.getProperty("os.name"));
+            extent.setSystemInfo("User", System.getProperty("user.name"));//system UN
+            extent.setSystemInfo("Java", System.getProperty("java.version"));
 
             passCount = 0;
             failCount = 0;
@@ -134,3 +136,10 @@ public class ExtentManager {
         return reportPath;
     }
 }
+/*
+
+from xml key value fetched
+String browser = context.getCurrentXmlTest().getParameter("browser");
+String os = context.getCurrentXmlTest().getParameter("os");
+
+*/

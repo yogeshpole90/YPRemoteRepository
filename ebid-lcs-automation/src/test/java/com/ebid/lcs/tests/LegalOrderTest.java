@@ -1,19 +1,18 @@
 package com.ebid.lcs.tests;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 import com.ebid.lcs.base.BaseTest;
 import com.ebid.lcs.config.ConfigManager;
+import com.ebid.lcs.driver.DriverManager;
 import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
 import com.ebid.lcs.listeners.TestListener;
@@ -22,183 +21,154 @@ import com.ebid.lcs.reporting.ExtentManager;
 @Listeners(TestListener.class)
 public class LegalOrderTest extends BaseTest {
 
-    @BeforeClass
+    private void hideDatepicker() {
+        try {
+            jse.executeScript(
+                    "var dp = document.querySelectorAll('.datepicker, .ui-datepicker, .daterangepicker, .bootstrap-datetimepicker-widget');"
+                            +
+                            "dp.forEach(function(el){ el.style.display='none'; });");
+        } catch (Exception e) {
+        }
+        try {
+            driver.findElement(By.tagName("body")).sendKeys(Keys.ESCAPE);
+        } catch (Exception e) {
+        }
+    }
+
+    private void scrollToSearch() {
+        try {
+            WebElement search = driver.findElement(By.xpath("//input[@placeholder='Search keyword here']"));
+            jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", search);
+            Thread.sleep(1000);
+        } catch (Exception e) {
+        }
+    }
+
+    private void switchBackToFrame() {
+        try {
+            driver.switchTo().frame("getLegalDetailDataFrame");
+            Thread.sleep(500);
+        } catch (Exception e) {
+        }
+    }
+
+    @BeforeClass(alwaysRun = true)
     public void setup() throws Exception {
+        driver = DriverManager.getDriver();
+        jse = (JavascriptExecutor) driver;
+        act = new Actions(driver);
+
         ExtentManager.initReport("LegalOrder");
         ExtentManager.startTest("Legal Order - Full Validation");
 
         navigateToCase(ConfigManager.get("casenumber"));
 
-        WebElement tab = driver.findElement(By.xpath("//*[contains(@href,'activeTab=Account Information')]"));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", tab);
+        // Navigate to Legal Process tab
+        WebElement legal = driver.findElement(By.xpath("//*[contains(@href,'=Legal Process')]"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", legal);
         Thread.sleep(1000);
-        tab.click();
+        legal.click();
         Thread.sleep(2000);
 
-        WebDriverWait wait = new WebDriverWait(driver, 15);
-        WebElement loTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Legal Order')]")));
+        // Legal Order tab
+        WebElement loTab = driver.findElement(By.xpath("//a[contains(text(),'Legal Order')]"));
         jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", loTab);
         Thread.sleep(1000);
         act.doubleClick(loTab).build().perform();
         Thread.sleep(2000);
 
-        driver.switchTo().frame("legalOrderFrame");
-        logInfo("Frame", "Switched to", "legalOrderFrame");
+        // Switch to frame
+        driver.switchTo().frame("getLegalDetailDataFrame");
+        logInfo("Frame", "Switched to", "getLegalDetailDataFrame");
     }
 
-    @Test(priority = 1)
-    public void validateLoanAcNoDD() throws Exception {
-        WebElement dd = driver.findElement(By.id("loanAcNo"));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dd);
-        Thread.sleep(500);
-        Select sel = new Select(dd);
-        String fn = "Loan Ac No";
-
-        log(fn, "Displayed", "true", String.valueOf(dd.isDisplayed()), dd.isDisplayed());
-        sa.assertTrue(dd.isDisplayed());
-        log(fn, "Enabled", "true", String.valueOf(dd.isEnabled()), dd.isEnabled());
-        sa.assertTrue(dd.isEnabled());
-
-        List<WebElement> opts = sel.getOptions();
-        log(fn, "Options count", ">0", String.valueOf(opts.size()), opts.size() > 0);
-
-        String defaultVal = sel.getFirstSelectedOption().getText().trim();
-        logInfo(fn, "Default value", defaultVal);
-
-        sel.selectByIndex(1);
-        Thread.sleep(500);
-        String selected = sel.getFirstSelectedOption().getText().trim();
-        log(fn, "Select index 1", "Non-empty", selected, !selected.isEmpty());
-        sa.assertFalse(selected.isEmpty());
-    }
-
-    @Test(priority = 2)
-    public void validateOrderTypeDD() throws Exception {
-        WebElement dd = driver.findElement(By.id("orderType"));
-        Select sel = new Select(dd);
-        String fn = "Order Type";
-
-        log(fn, "Displayed", "true", String.valueOf(dd.isDisplayed()), dd.isDisplayed());
-        sa.assertTrue(dd.isDisplayed());
-        log(fn, "Enabled", "true", String.valueOf(dd.isEnabled()), dd.isEnabled());
-        sa.assertTrue(dd.isEnabled());
-
-        List<WebElement> opts = sel.getOptions();
-        log(fn, "Options count", ">0", String.valueOf(opts.size()), opts.size() > 0);
-
-        for (int i = 0; i < opts.size(); i++) {
-            logInfo(fn, "Option [" + i + "]", opts.get(i).getText().trim());
-        }
-
-        String defaultVal = sel.getFirstSelectedOption().getText().trim();
-        logInfo(fn, "Default value", defaultVal);
-
-        // Select from Excel
+    @Test(priority = 1, groups = { "regression" })
+    public void validateAllFields() throws Exception {
         Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_LEGAL_ORDER, SheetConstants.TC.LEGAL_ORDER);
+
         for (Object[] row : data) {
             String fieldName = row[SheetConstants.Cols.FIELD_NAME].toString().trim();
-            if (!fieldName.equals("orderType")) continue;
-
             String input = row[SheetConstants.Cols.INPUT].toString().trim();
             String expected = row[SheetConstants.Cols.EXPECTED].toString().trim();
-            String desc = row[SheetConstants.Cols.DESCRIPTION].toString();
+            String desc = row[SheetConstants.Cols.DESCRIPTION].toString().trim();
+            String checkType = row[SheetConstants.Cols.CHECK_TYPE].toString().trim();
 
             try {
-                sel.selectByVisibleText(input);
-                Thread.sleep(500);
-                String actual = sel.getFirstSelectedOption().getText().trim();
-                log(fn, desc, expected, actual, actual.equals(expected));
-                sa.assertEquals(actual, expected, desc);
+                WebElement f = driver.findElement(By.id(fieldName));
+                jse.executeScript("arguments[0].scrollIntoView({block:'center'})", f);
+                Thread.sleep(300);
+                String tagName = f.getTagName();
+
+                if (tagName.equals("select")) {
+                    Select s = new Select(f);
+                    if (checkType.equals("info")) {
+                        String actual = s.getFirstSelectedOption().getText().trim();
+                        logInfo(fieldName, desc, actual);
+                    } else {
+                        try {
+                            s.selectByVisibleText(input);
+                            Thread.sleep(500);
+                            String actual = s.getFirstSelectedOption().getText().trim();
+                            log(fieldName, desc, expected, actual, actual.equals(expected));
+                            sa.assertEquals(actual, expected, desc);
+                        } catch (Exception e) {
+                            log(fieldName, desc, expected, "Option not found: " + input, false);
+                        }
+                    }
+                } else {
+                    // Date or text field
+                    f.clear();
+                    Thread.sleep(200);
+                    if (!input.isEmpty() && !input.equalsIgnoreCase("Empty")) {
+                        f.sendKeys(input);
+                        f.sendKeys(Keys.TAB);
+                        hideDatepicker();
+                    }
+                    Thread.sleep(500);
+                    String actual = f.getAttribute("value");
+
+                    switch (checkType) {
+                        case "equals":
+                            log(fieldName, desc, expected, actual, actual.equals(expected));
+                            sa.assertEquals(actual, expected, desc);
+                            break;
+                        case "notEquals":
+                            log(fieldName, desc, "Not " + input, actual, !actual.equals(input));
+                            break;
+                        case "empty":
+                            log(fieldName, desc, "Empty", actual, actual.isEmpty());
+                            sa.assertTrue(actual.isEmpty(), desc);
+                            break;
+                        case "info":
+                            logInfo(fieldName, desc, actual);
+                            break;
+                    }
+                }
             } catch (Exception e) {
-                log(fn, desc, expected, "Option not found: " + input, false);
+                log(fieldName, desc, expected, "Element not found: " + fieldName, false);
+                sa.fail("Element not found: " + fieldName);
             }
         }
     }
 
-    @Test(priority = 3)
-    public void validateDates() throws Exception {
-        Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_LEGAL_ORDER, SheetConstants.TC.LEGAL_ORDER);
-        for (Object[] row : data) {
-            String fieldName = row[SheetConstants.Cols.FIELD_NAME].toString().trim();
-            if (!fieldName.contains("Date") && !fieldName.contains("date")) continue;
+    @Test(priority = 2, groups = { "regression" })
+    public void validateSave() throws Exception {
+        String fn = "Save";
 
-            String input = row[SheetConstants.Cols.INPUT].toString().trim();
-            String expected = row[SheetConstants.Cols.EXPECTED].toString().trim();
-            String desc = row[SheetConstants.Cols.DESCRIPTION].toString();
-            String checkType = row[SheetConstants.Cols.CHECK_TYPE].toString();
-
-            WebElement f = driver.findElement(By.id(fieldName));
-            log(fieldName, "Displayed", "true", String.valueOf(f.isDisplayed()), f.isDisplayed());
-            log(fieldName, "Enabled", "true", String.valueOf(f.isEnabled()), f.isEnabled());
-
-            f.clear();
-            if (!input.isEmpty() && !input.equalsIgnoreCase("Empty")) f.sendKeys(input);
-            f.sendKeys(Keys.TAB);
-            Thread.sleep(500);
-            String actual = f.getAttribute("value");
-
-            switch (checkType) {
-                case "equals": log(fieldName, desc, expected, actual, actual.equals(expected)); sa.assertEquals(actual, expected, desc); break;
-                case "notEquals": log(fieldName, desc, "Not " + input, actual, !actual.equals(input)); break;
-                case "empty": log(fieldName, desc, "Empty", actual, actual.isEmpty()); break;
-                case "info": logInfo(fieldName, desc, actual); break;
-            }
-        }
-    }
-
-    @Test(priority = 4)
-    public void validateRemarks() throws Exception {
-        WebElement f = driver.findElement(By.id("remark"));
-        String fn = "Remarks";
-
-        log(fn, "Displayed", "true", String.valueOf(f.isDisplayed()), f.isDisplayed());
-        sa.assertTrue(f.isDisplayed());
-        log(fn, "Enabled", "true", String.valueOf(f.isEnabled()), f.isEnabled());
-        sa.assertTrue(f.isEnabled());
-
-        Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_LEGAL_ORDER, SheetConstants.TC.LEGAL_ORDER);
-        for (Object[] row : data) {
-            String fieldName = row[SheetConstants.Cols.FIELD_NAME].toString().trim();
-            if (!fieldName.equals("remark")) continue;
-
-            String input = row[SheetConstants.Cols.INPUT].toString().trim();
-            String expected = row[SheetConstants.Cols.EXPECTED].toString().trim();
-            String desc = row[SheetConstants.Cols.DESCRIPTION].toString();
-            String checkType = row[SheetConstants.Cols.CHECK_TYPE].toString();
-
-            f.clear();
-            if (!input.isEmpty() && !input.equalsIgnoreCase("Empty")) f.sendKeys(input);
-            String actual = f.getAttribute("value");
-
-            switch (checkType) {
-                case "equals": log(fn, desc, expected, actual, actual.equals(expected)); sa.assertEquals(actual, expected, desc); break;
-                case "empty": log(fn, desc, "Empty", actual, actual.isEmpty()); sa.assertTrue(actual.isEmpty(), desc); break;
-                case "info": logInfo(fn, desc, actual); break;
-            }
-        }
-    }
-
-    @Test(priority = 5)
-    public void validateSaveViewEditDelete() throws Exception {
-        // Save
         WebElement saveBtn = driver.findElement(By.id("saveBtn"));
         jse.executeScript("arguments[0].scrollIntoView({block:'center'})", saveBtn);
         Thread.sleep(500);
-        log("Save", "Displayed", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
-        log("Save", "Enabled", "true", String.valueOf(saveBtn.isEnabled()), saveBtn.isEnabled());
+        log(fn, "Save button visible", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
+        log(fn, "Save button enabled", "true", String.valueOf(saveBtn.isEnabled()), saveBtn.isEnabled());
 
         saveBtn.click();
-        Thread.sleep(3000);
-
-        driver.switchTo().defaultContent();
-        jse.executeScript("window.scrollTo(0,0)");
-        Thread.sleep(1000);
+        Thread.sleep(500);
+        scrollToSearch();
         String saveToast = getSuccessToast();
-        log("Save", "Save Legal Order", "Success", saveToast.isEmpty() ? "No toast" : saveToast, !saveToast.isEmpty());
+        log(fn, "Save Legal Order", "Success", saveToast.isEmpty() ? "No toast" : saveToast, !saveToast.isEmpty());
 
-        // Switch to data frame for View/Edit/Delete
-        driver.switchTo().frame("getLegalDetailDataFrame");
-        Thread.sleep(1000);
+        // Switch back to frame for View/Edit/Delete
+        switchBackToFrame();
 
         // View
         try {
@@ -222,15 +192,12 @@ public class LegalOrderTest extends BaseTest {
             log("Edit", "Click Edit button", "Fields editable", "Edit clicked", true);
 
             driver.findElement(By.id("saveBtn")).click();
-            Thread.sleep(3000);
-            driver.switchTo().defaultContent();
-            jse.executeScript("window.scrollTo(0,0)");
-            Thread.sleep(1000);
+            Thread.sleep(500);
+            scrollToSearch();
             String updateToast = getSuccessToast();
-            log("Edit", "Save after Edit", "Updated", updateToast.isEmpty() ? "No toast" : updateToast, !updateToast.isEmpty());
-
-            driver.switchTo().frame("getLegalDetailDataFrame");
-            Thread.sleep(1000);
+            log("Edit", "Save after Edit", "Updated", updateToast.isEmpty() ? "No toast" : updateToast,
+                    !updateToast.isEmpty());
+            switchBackToFrame();
         } catch (Exception e) {
             log("Edit", "Edit button", "Found", "Not found", false);
         }
@@ -241,12 +208,11 @@ public class LegalOrderTest extends BaseTest {
             jse.executeScript("arguments[0].scrollIntoView({block:'center'})", deleteBtn);
             Thread.sleep(500);
             deleteBtn.click();
-            Thread.sleep(3000);
-            driver.switchTo().defaultContent();
-            jse.executeScript("window.scrollTo(0,0)");
-            Thread.sleep(1000);
+            Thread.sleep(500);
+            scrollToSearch();
             String deleteToast = getSuccessToast();
-            log("Delete", "Click Delete button", "Deleted", deleteToast.isEmpty() ? "No toast" : deleteToast, !deleteToast.isEmpty());
+            log("Delete", "Click Delete button", "Deleted", deleteToast.isEmpty() ? "No toast" : deleteToast,
+                    !deleteToast.isEmpty());
         } catch (Exception e) {
             log("Delete", "Delete button", "Found", "Not found", false);
         }

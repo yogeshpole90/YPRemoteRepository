@@ -14,14 +14,23 @@ public class DriverManager {
     public static WebDriver getDriver() {
         if (driver == null) {
             String browser = ConfigManager.get("browser");
-            switch (browser.toLowerCase()) {
-                case "chrome":
-                    System.setProperty("webdriver.chrome.driver", ConfigManager.get("chrdriverpath"));
-                    driver = new ChromeDriver();
-                    break;
+            if (browser == null || browser.trim().isEmpty()) {
+                browser = "chrome";
+            }
+            switch (browser.trim().toLowerCase()) {
                 case "edge":
-                    System.setProperty("webdriver.edge.driver", ConfigManager.get("edgdriverpath"));
+                    String edgePath = ConfigManager.get("edgdriverpath");
+                    if (edgePath != null && !edgePath.trim().isEmpty()) {
+                        System.setProperty("webdriver.edge.driver", edgePath);
+                    }
                     driver = new EdgeDriver();
+                    break;
+                default:
+                    String chromePath = ConfigManager.get("chrdriverpath");
+                    if (chromePath != null && !chromePath.trim().isEmpty()) {
+                        System.setProperty("webdriver.chrome.driver", chromePath);
+                    }
+                    driver = new ChromeDriver();
                     break;
             }
             driver.manage().window().maximize();

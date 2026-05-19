@@ -9,8 +9,6 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
-import java.util.List;
-
 import com.ebid.lcs.base.BaseTest;
 import com.ebid.lcs.config.ConfigManager;
 import com.ebid.lcs.excel.ExcelReader;
@@ -35,7 +33,8 @@ public class CaseStatusTest extends BaseTest {
         Thread.sleep(2000);
 
         WebDriverWait wait = new WebDriverWait(driver, 15);
-        WebElement cstTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Case Status')]")));
+        WebElement cstTab = wait
+                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Case Status')]")));
         jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", cstTab);
         Thread.sleep(1000);
         act.doubleClick(cstTab).build().perform();
@@ -76,14 +75,23 @@ public class CaseStatusTest extends BaseTest {
                 } else {
                     f.clear();
                     Thread.sleep(200);
-                    if (!input.isEmpty() && !input.equalsIgnoreCase("Empty")) f.sendKeys(input);
+                    if (!input.isEmpty() && !input.equalsIgnoreCase("Empty"))
+                        f.sendKeys(input);
                     Thread.sleep(300);
                     String actual = f.getAttribute("value");
 
                     switch (checkType) {
-                        case "equals": log(fieldName, desc, expected, actual, actual.equals(expected)); sa.assertEquals(actual, expected, desc); break;
-                        case "empty": log(fieldName, desc, "Empty", actual, actual.isEmpty()); sa.assertTrue(actual.isEmpty(), desc); break;
-                        case "info": logInfo(fieldName, desc, actual); break;
+                        case "equals":
+                            log(fieldName, desc, expected, actual, actual.equals(expected));
+                            sa.assertEquals(actual, expected, desc);
+                            break;
+                        case "empty":
+                            log(fieldName, desc, "Empty", actual, actual.isEmpty());
+                            sa.assertTrue(actual.isEmpty(), desc);
+                            break;
+                        case "info":
+                            logInfo(fieldName, desc, actual);
+                            break;
                     }
                 }
             } catch (Exception e) {
@@ -111,7 +119,8 @@ public class CaseStatusTest extends BaseTest {
         driver.findElement(By.id("saveData")).click();
         Thread.sleep(1000);
         String errorToast = getErrorToast();
-        log(fn, "Save without data - mandatory check", "Error toast", errorToast.isEmpty() ? "No toast" : errorToast, !errorToast.isEmpty());
+        log(fn, "Save without data - mandatory check", "Error toast", errorToast.isEmpty() ? "No toast" : errorToast,
+                !errorToast.isEmpty());
 
         // Save with valid data - select first valid option from DD
         Thread.sleep(1000);
@@ -132,7 +141,8 @@ public class CaseStatusTest extends BaseTest {
         Thread.sleep(500);
 
         String successToast = getSuccessToast();
-        log(fn, "Save with valid data", "Success toast", successToast.isEmpty() ? "No toast" : successToast, !successToast.isEmpty());
+        log(fn, "Save with valid data", "Success toast", successToast.isEmpty() ? "No toast" : successToast,
+                !successToast.isEmpty());
 
         sa.assertAll();
     }

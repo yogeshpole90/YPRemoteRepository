@@ -15,48 +15,101 @@ public class ToastUtil {
 
     private static final By TOAST_CONTAINER = By.cssSelector(".toast-messages .msg-toast.msg-showing");
     private static final By TOAST_MESSAGE = By.tagName("em");
-    private static final By TOAST_SUCCESS = By.cssSelector(".toast-messages .msg-toast.msg-success.msg-showing");
-    private static final By TOAST_ERROR = By.cssSelector(".toast-messages .msg-toast.msg-error.msg-showing");
+
+    public enum ToastType {
+        SUCCESS, ERROR, WARNING, INFO, UNKNOWN
+    }
+
+    public static class ToastMessage {
+        private final ToastType type;
+        private final String message;
+
+        public ToastMessage(ToastType type, String message) {
+            this.type = type;
+            this.message = message;
+        }
+
+        public ToastType getType() {
+            return type;
+        }
+
+        public String getMessage() {
+            return message;
+        }
+
+        @Override
+        public String toString() {
+            return "[" + type + "] " + message;
+        }
+    }
+
+    /**
+     * Generic toast capture - switches to defaultContent, captures toast, returns
+     * message
+     */
+    public static ToastMessage getToastIfPresent(WebDriver driver) {
+        try {
+            // Toast is always on parent page
+            driver.switchTo().defaultContent();
+
+            WebDriverWait wait = new WebDriverWait(driver, TOAST_WAIT_SECONDS);
+            WebElement toast = wait.until(ExpectedConditions.presenceOfElementLocated(TOAST_CONTAINER));
+
+            String classAttr = toast.getAttribute("class");
+            String message = "";
+
+            try {
+                message = toast.findElement(TOAST_MESSAGE).getText().trim();
+            } catch (Exception e) {
+                // getText from element directly using JS if normal getText fails
+                try {
+                    message = (String) ((org.openqa.selenium.JavascriptExecutor) driver)
+                            .executeScript("return arguments[0].querySelector('em').textContent.trim();", toast);
+                } catch (Exception e2) {
+                    message = toast.getText().trim();
+                }
+            }
+
+            ToastType type = ToastType.INFO;
+            if (classAttr.contains("msg-error")) {
+                type = ToastType.ERROR;
+            } else if (classAttr.contains("msg-success")) {
+                type = ToastType.SUCCESS;
+            } else if (classAttr.contains("msg-warning")) {
+                type = ToastType.WARNING;
+            }
+
+            logger.info("Toast captured: {} - {}", type, message);
+            return new ToastMessage(type, message);
+
+        } catch (Exception e) {
+            logger.debug("No toast found within {} seconds", TOAST_WAIT_SECONDS);
+            return null;
+        }
+    }
 
     public static String getSuccessToast(WebDriver driver) {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, TOAST_WAIT_SECONDS);
-            WebElement toast = wait.until(ExpectedConditions.visibilityOfElementLocated(TOAST_SUCCESS));
-            String msg = toast.findElement(TOAST_MESSAGE).getText().trim();
-            logger.info("SUCCESS TOAST: " + msg);
-            return msg;
-        } catch (Exception e) {
-            logger.debug("No success toast found within " + TOAST_WAIT_SECONDS + " seconds");
-            return "";
+        ToastMessage toast = getToastIfPresent(driver);
+        if (toast != null && toast.getType() == ToastType.SUCCESS) {
+            return toast.getMessage();
         }
+        return "";
     }
 
     public static String getErrorToast(WebDriver driver) {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, TOAST_WAIT_SECONDS);
-            WebElement toast = wait.until(ExpectedConditions.visibilityOfElementLocated(TOAST_ERROR));
-            String msg = toast.findElement(TOAST_MESSAGE).getText().trim();
-            logger.info("ERROR TOAST: " + msg);
-            return msg;
-        } catch (Exception e) {
-            logger.debug("No error toast found within " + TOAST_WAIT_SECONDS + " seconds");
-            return "";
+        ToastMessage toast = getToastIfPresent(driver);
+        if (toast != null && toast.getType() == ToastType.ERROR) {
+            return toast.getMessage();
         }
+        return "";
     }
 
     public static String getAnyToast(WebDriver driver) {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, TOAST_WAIT_SECONDS);
-            WebElement toast = wait.until(ExpectedConditions.visibilityOfElementLocated(TOAST_CONTAINER));
-            String msg = toast.findElement(TOAST_MESSAGE).getText().trim();
-            String classAttr = toast.getAttribute("class");
-            String type = classAttr.contains("success") ? "SUCCESS" : classAttr.contains("error") ? "ERROR" : "INFO";
-            logger.info(type + " TOAST: " + msg);
-            return msg;
-        } catch (Exception e) {
-            logger.debug("No toast found within " + TOAST_WAIT_SECONDS + " seconds");
-            return "";
+        ToastMessage toast = getToastIfPresent(driver);
+        if (toast != null) {
+            return toast.getMessage();
         }
+        return "";
     }
 
     public static boolean isSuccessToast(WebDriver driver) {

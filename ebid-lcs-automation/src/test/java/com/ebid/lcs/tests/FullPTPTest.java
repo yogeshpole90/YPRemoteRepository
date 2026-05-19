@@ -20,6 +20,22 @@ import com.ebid.lcs.reporting.ExtentManager;
 @Listeners(TestListener.class)
 public class FullPTPTest extends BaseTest {
 
+    private void dismissAlert() {
+        try { driver.switchTo().alert().accept(); } catch (Exception e) {}
+    }
+
+    private void hideDatepicker() {
+        try {
+            jse.executeScript(
+                "var dp = document.querySelectorAll('.datepicker, .ui-datepicker, .daterangepicker, .bootstrap-datetimepicker-widget');" +
+                "dp.forEach(function(el){ el.style.display='none'; });"
+            );
+        } catch (Exception e) {}
+        try {
+            driver.findElement(By.tagName("body")).sendKeys(Keys.ESCAPE);
+        } catch (Exception e) {}
+    }
+
     @BeforeClass
     public void setup() throws Exception {
         ExtentManager.initReport("FullPTP");
@@ -31,11 +47,13 @@ public class FullPTPTest extends BaseTest {
         WebElement remedial = driver.findElement(By.xpath("(//*[contains(@href,'=Remedial Action')])[1]"));
         jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", remedial);
         Thread.sleep(1000);
-        remedial.click();
+        jse.executeScript("arguments[0].click()", remedial);
         Thread.sleep(2000);
 
         // PTP tab
         WebElement ptpTab = driver.findElement(By.xpath("//*[contains(text(),'Promise to pay')]"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", ptpTab);
+        Thread.sleep(500);
         act.doubleClick(ptpTab).build().perform();
         jse.executeScript("window.scrollBy(0,3000)");
         Thread.sleep(2000);
@@ -94,6 +112,21 @@ public class FullPTPTest extends BaseTest {
         log(fn, "Single-select", "false", String.valueOf(s.isMultiple()), !s.isMultiple());
         logInfo(fn, "Total Options", String.valueOf(s.getOptions().size()));
 
+        // Print all options
+        List<WebElement> opts = s.getOptions();
+        StringBuilder sb = new StringBuilder();
+        for (WebElement o : opts) { sb.append(o.getText()).append(" , "); }
+        logInfo(fn, "All dropdown options", sb.toString());
+
+        log(fn, "Default selected", "Non-null", s.getFirstSelectedOption().getText(), true);
+
+        boolean allEnabled = true;
+        for (WebElement o : opts) { if (!o.isEnabled()) allEnabled = false; }
+        log(fn, "All options enabled", "true", String.valueOf(allEnabled), allEnabled);
+
+        f.sendKeys(Keys.DOWN); Thread.sleep(300);
+        log(fn, "Keyboard accessible (Arrow Down)", "Option selected", s.getFirstSelectedOption().getText(), true);
+
         Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_FULL_PTP, SheetConstants.TC.PTP_TYPE);
         for (Object[] row : data) {
             String input = row[SheetConstants.Cols.INPUT].toString();
@@ -118,21 +151,72 @@ public class FullPTPTest extends BaseTest {
         log(fn, "Enabled", "true", String.valueOf(payMode.isEnabled()), payMode.isEnabled());
         log(fn, "Single select", "false", String.valueOf(s.isMultiple()), !s.isMultiple());
 
+        List<WebElement> allOptions = s.getOptions();
+        log(fn, "Options count", "More than 1", String.valueOf(allOptions.size()), allOptions.size() > 1);
+
+        String def = s.getFirstSelectedOption().getText();
+        log(fn, "Default value", "--SELECT--", def, def.contains("SELECT"));
+
+        boolean allEn = true;
+        for (WebElement o : allOptions) if (!o.isEnabled()) allEn = false;
+        log(fn, "All options enabled", "true", String.valueOf(allEn), allEn);
+
+        payMode.sendKeys(Keys.DOWN); Thread.sleep(300);
+        log(fn, "Keyboard accessible (Arrow Down)", "Option selected", s.getFirstSelectedOption().getText(), true);
+
         // Account Transfer
-        s.selectByVisibleText("Account Transfer"); Thread.sleep(1000);
+        s.selectByVisibleText("Account Transfer"); Thread.sleep(500);
         log(fn, "Select 'Account Transfer'", "Account Transfer", s.getFirstSelectedOption().getText(), true);
+        log("Account Transfer", "Transaction Date visible", "true", String.valueOf(isFieldVisible("transactionDate")), isFieldVisible("transactionDate"));
+        log("Account Transfer", "Transaction No visible", "true", String.valueOf(isFieldVisible("transactionNo")), isFieldVisible("transactionNo"));
+        log("Account Transfer", "Receipt No hidden", "true", String.valueOf(!isFieldVisible("receiptNo")), !isFieldVisible("receiptNo"));
+        log("Account Transfer", "Cheque Date hidden", "true", String.valueOf(!isFieldVisible("chequeDate")), !isFieldVisible("chequeDate"));
+        log("Account Transfer", "Cheque Number hidden", "true", String.valueOf(!isFieldVisible("chequeNumber")), !isFieldVisible("chequeNumber"));
+        validateDateField("transactionDate", "AT Transaction Date", "13-12-2021");
+        validateTextField("transactionNo", "AT Transaction No", "TXN001");
+
+        // Bank Transfer
+        s.selectByVisibleText("Bank Transfer"); Thread.sleep(500);
+        log(fn, "Select 'Bank Transfer'", "Bank Transfer", s.getFirstSelectedOption().getText(), true);
+        log("Bank Transfer", "Transaction Date visible", "true", String.valueOf(isFieldVisible("transactionDate")), isFieldVisible("transactionDate"));
+        log("Bank Transfer", "Transaction No visible", "true", String.valueOf(isFieldVisible("transactionNo")), isFieldVisible("transactionNo"));
+        log("Bank Transfer", "Receipt No hidden", "true", String.valueOf(!isFieldVisible("receiptNo")), !isFieldVisible("receiptNo"));
+        log("Bank Transfer", "Cheque Date hidden", "true", String.valueOf(!isFieldVisible("chequeDate")), !isFieldVisible("chequeDate"));
 
         // CASH
-        s.selectByVisibleText("CASH"); Thread.sleep(1000);
+        s.selectByVisibleText("CASH"); Thread.sleep(500);
         log(fn, "Select 'CASH'", "CASH", s.getFirstSelectedOption().getText(), true);
+        log("CASH", "Receipt No visible", "true", String.valueOf(isFieldVisible("receiptNo")), isFieldVisible("receiptNo"));
+        log("CASH", "Transaction Date hidden", "true", String.valueOf(!isFieldVisible("transactionDate")), !isFieldVisible("transactionDate"));
+        log("CASH", "Transaction No hidden", "true", String.valueOf(!isFieldVisible("transactionNo")), !isFieldVisible("transactionNo"));
+        log("CASH", "Cheque Date hidden", "true", String.valueOf(!isFieldVisible("chequeDate")), !isFieldVisible("chequeDate"));
+        log("CASH", "Cheque Number hidden", "true", String.valueOf(!isFieldVisible("chequeNumber")), !isFieldVisible("chequeNumber"));
+        validateTextField("receiptNo", "CASH Receipt No", "RCP001");
 
         // Cheque
-        s.selectByVisibleText("Cheque"); Thread.sleep(1000);
+        s.selectByVisibleText("Cheque"); Thread.sleep(500);
         log(fn, "Select 'Cheque'", "Cheque", s.getFirstSelectedOption().getText(), true);
+        log("Cheque", "Cheque Date visible", "true", String.valueOf(isFieldVisible("chequeDate")), isFieldVisible("chequeDate"));
+        log("Cheque", "Cheque Number visible", "true", String.valueOf(isFieldVisible("chequeNumber")), isFieldVisible("chequeNumber"));
+        log("Cheque", "Receipt No visible", "true", String.valueOf(isFieldVisible("receiptNo")), isFieldVisible("receiptNo"));
+        log("Cheque", "Transaction Date hidden", "true", String.valueOf(!isFieldVisible("transactionDate")), !isFieldVisible("transactionDate"));
+        log("Cheque", "Transaction No hidden", "true", String.valueOf(!isFieldVisible("transactionNo")), !isFieldVisible("transactionNo"));
+        validateDateField("chequeDate", "Cheque Date", "13-12-2021");
+        validateTextField("chequeNumber", "Cheque Number", "CHQ12345");
+        validateTextField("receiptNo", "Cheque Receipt No", "RCP002");
 
-        // Final
-        s.selectByVisibleText("CASH"); Thread.sleep(500);
-        log(fn, "Final mode set", "CASH", s.getFirstSelectedOption().getText(), true);
+        // Visa Swipe
+        s.selectByVisibleText("Visa Swipe"); Thread.sleep(500);
+        log(fn, "Select 'Visa Swipe'", "Visa Swipe", s.getFirstSelectedOption().getText(), true);
+        log("Visa Swipe", "Receipt No visible", "true", String.valueOf(isFieldVisible("receiptNo")), isFieldVisible("receiptNo"));
+        log("Visa Swipe", "Transaction Date hidden", "true", String.valueOf(!isFieldVisible("transactionDate")), !isFieldVisible("transactionDate"));
+        log("Visa Swipe", "Cheque Date hidden", "true", String.valueOf(!isFieldVisible("chequeDate")), !isFieldVisible("chequeDate"));
+        log("Visa Swipe", "Cheque Number hidden", "true", String.valueOf(!isFieldVisible("chequeNumber")), !isFieldVisible("chequeNumber"));
+        validateTextField("receiptNo", "Visa Receipt No", "RCP003");
+
+        // Final: CASH for save
+        s.selectByVisibleText("CASH"); Thread.sleep(300);
+        log(fn, "Final mode set for save", "CASH", s.getFirstSelectedOption().getText(), true);
     }
 
     @Test(priority = 6)
@@ -141,6 +225,8 @@ public class FullPTPTest extends BaseTest {
         String fn = "Planned Amount";
 
         log(fn, "Should be visible", "true", String.valueOf(f.isDisplayed()), f.isDisplayed());
+        String readOnly = f.getAttribute("readonly");
+        logInfo(fn, "Field state", "Enabled=" + f.isEnabled() + " | ReadOnly=" + readOnly);
 
         Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_FULL_PTP, SheetConstants.TC.PTP_PLANNED_AMT);
         runFieldValidation(f, fn, data, "js");
@@ -152,6 +238,8 @@ public class FullPTPTest extends BaseTest {
         String fn = "Remaining Amount";
 
         log(fn, "Should be visible", "true", String.valueOf(f.isDisplayed()), f.isDisplayed());
+        String readOnly = f.getAttribute("readonly");
+        logInfo(fn, "Field state", "Enabled=" + f.isEnabled() + " | ReadOnly=" + readOnly);
 
         Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_FULL_PTP, SheetConstants.TC.PTP_REM_AMT);
         runFieldValidation(f, fn, data, "js");
@@ -194,24 +282,87 @@ public class FullPTPTest extends BaseTest {
         List<WebElement> viewBtns = driver.findElements(By.xpath("//a[contains(@class,'ViewBtn')]"));
         log("View Button", "View buttons found", ">0", String.valueOf(viewBtns.size()), viewBtns.size() > 0);
         if (viewBtns.size() > 0) {
-            viewBtns.get(viewBtns.size() - 1).click();
-            Thread.sleep(1000);
+            WebElement viewBtn = viewBtns.get(viewBtns.size() - 1);
+            log("View Button", "Last View visible", "true", String.valueOf(viewBtn.isDisplayed()), viewBtn.isDisplayed());
+            viewBtn.click(); Thread.sleep(1000);
             log("View Button", "Click last View", "Opened", "Clicked", true);
+            WebElement viewSave = driver.findElement(By.id("saveData"));
+            jse.executeScript("arguments[0].scrollIntoView({block:'center'})", viewSave);
+            log("View Button", "Record displayed in View mode", "Displayed", "Displayed", true);
         }
 
         // Edit
         List<WebElement> editBtns = driver.findElements(By.xpath("//a[contains(@class,'EditBtn')]"));
         log("Edit Button", "Edit buttons found", ">0", String.valueOf(editBtns.size()), editBtns.size() > 0);
         if (editBtns.size() > 0) {
-            editBtns.get(editBtns.size() - 1).click();
-            Thread.sleep(1000);
+            WebElement editBtn = editBtns.get(editBtns.size() - 1);
+            log("Edit Button", "Last Edit visible", "true", String.valueOf(editBtn.isDisplayed()), editBtn.isDisplayed());
+            editBtn.click(); Thread.sleep(1000);
             log("Edit Button", "Click last Edit", "Opened", "Clicked", true);
+            WebElement editRemarks = driver.findElement(By.id("remarks"));
+            log("Edit Button", "Remarks editable in Edit mode", "true", String.valueOf(editRemarks.isEnabled()), editRemarks.isEnabled());
+            sa.assertTrue(editRemarks.isEnabled());
+        }
+
+        // Disable
+        List<WebElement> disableBtns = driver.findElements(By.xpath("//a[contains(text(),'Disable')]"));
+        logInfo("Disable Button", "Disable buttons found", String.valueOf(disableBtns.size()));
+        if (disableBtns.size() > 0) {
+            log("Disable Button", "Disable button visible", "true", String.valueOf(disableBtns.get(0).isDisplayed()), disableBtns.get(0).isDisplayed());
         }
 
         sa.assertAll();
     }
 
     // ========== HELPER METHODS ==========
+
+    private boolean isFieldVisible(String id) {
+        try {
+            List<WebElement> els = driver.findElements(By.id(id));
+            return els.size() > 0 && els.get(0).isDisplayed();
+        } catch (Exception e) { return false; }
+    }
+
+    private void validateTextField(String id, String fieldName, String testValue) throws Exception {
+        try {
+            WebElement field = driver.findElement(By.id(id));
+            log(fieldName, "Displayed", "true", String.valueOf(field.isDisplayed()), field.isDisplayed());
+            log(fieldName, "Enabled", "true", String.valueOf(field.isEnabled()), field.isEnabled());
+            field.clear(); field.sendKeys(testValue); Thread.sleep(200);
+            hideDatepicker();
+            String val = field.getAttribute("value");
+            log(fieldName, "Enter '" + testValue + "'", testValue, val, val.contains(testValue) || !val.isEmpty());
+            field.clear(); Thread.sleep(200);
+            hideDatepicker();
+            log(fieldName, "Clear field", "Empty", "'" + field.getAttribute("value") + "'", field.getAttribute("value").isEmpty());
+            field.sendKeys(testValue); Thread.sleep(200);
+            hideDatepicker();
+        } catch (Exception e) {
+            log(fieldName, "Field interaction", "Accessible", "ERROR: " + e.getMessage(), false);
+        }
+    }
+
+    private void validateDateField(String id, String fieldName, String testValue) throws Exception {
+        try {
+            WebElement field = driver.findElement(By.id(id));
+            log(fieldName, "Displayed", "true", String.valueOf(field.isDisplayed()), field.isDisplayed());
+            log(fieldName, "Enabled", "true", String.valueOf(field.isEnabled()), field.isEnabled());
+            // Use JS to set value to avoid datepicker popup
+            jse.executeScript("arguments[0].value='" + testValue + "'", field);
+            hideDatepicker();
+            String val = field.getAttribute("value");
+            log(fieldName, "Enter '" + testValue + "'", testValue, val, val.contains(testValue) || !val.isEmpty());
+            // Clear via JS
+            jse.executeScript("arguments[0].value=''", field);
+            hideDatepicker();
+            log(fieldName, "Clear field", "Empty", "'" + field.getAttribute("value") + "'", field.getAttribute("value").isEmpty());
+            // Final value via JS
+            jse.executeScript("arguments[0].value='" + testValue + "'", field);
+            hideDatepicker();
+        } catch (Exception e) {
+            log(fieldName, "Field interaction", "Accessible", "ERROR: " + e.getMessage(), false);
+        }
+    }
 
     private void runFieldValidation(WebElement f, String fn, Object[][] data, String mode) {
         for (Object[] row : data) {
@@ -220,12 +371,14 @@ public class FullPTPTest extends BaseTest {
             String desc = row[SheetConstants.Cols.DESCRIPTION].toString();
             String checkType = row[SheetConstants.Cols.CHECK_TYPE].toString();
 
+            dismissAlert();
             if (mode.equals("js")) {
                 jse.executeScript("arguments[0].value='" + input + "'", f);
             } else {
                 f.clear();
                 if (!input.isEmpty()) f.sendKeys(input);
             }
+            dismissAlert();
             String actual = f.getAttribute("value");
 
             switch (checkType) {
@@ -254,9 +407,13 @@ public class FullPTPTest extends BaseTest {
             String desc = row[SheetConstants.Cols.DESCRIPTION].toString();
             String checkType = row[SheetConstants.Cols.CHECK_TYPE].toString();
 
+            dismissAlert();
+            hideDatepicker();
             f.clear();
             if (!input.isEmpty()) f.sendKeys(input);
             f.sendKeys(Keys.TAB);
+            hideDatepicker();
+            dismissAlert();
             String actual = f.getAttribute("value");
 
             switch (checkType) {

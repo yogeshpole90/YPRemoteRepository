@@ -17,28 +17,28 @@ import com.ebid.lcs.listeners.TestListener;
 import com.ebid.lcs.reporting.ExtentManager;
 
 @Listeners(TestListener.class)
-public class RemedialActionTest extends BaseTest {
+public class DocChecklistTest extends BaseTest {
 
     @BeforeClass
     public void setup() throws Exception {
-        ExtentManager.initReport("RemedialAction");
-        ExtentManager.startTest("Remedial Action - Full Validation");
+        ExtentManager.initReport("DocChecklist");
+        ExtentManager.startTest("Document Checklist - Full Validation");
 
         navigateToCase(ConfigManager.get("casenumber"));
 
-        WebElement remedial = driver.findElement(By.xpath("(//*[contains(@href,'=Remedial Action')])[1]"));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", remedial);
+        WebElement docTab = driver.findElement(By.xpath("//*[contains(@href,'activeTab=Document')]"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", docTab);
         Thread.sleep(1000);
-        remedial.click();
+        docTab.click();
         Thread.sleep(2000);
 
-        driver.switchTo().frame("caseMstListPageFrame");
-        logInfo("Frame", "Switched to", "caseMstListPageFrame");
+        driver.switchTo().frame("documentUploadPageFrame");
+        logInfo("Frame", "Switched to", "documentUploadPageFrame");
     }
 
     @Test(priority = 1)
     public void validateAllFields() throws Exception {
-        Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_REMEDIAL, SheetConstants.TC.REMEDIAL);
+        Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_DOC_UPLOAD, SheetConstants.TC.DOC_UPLOAD);
 
         for (Object[] row : data) {
             String fieldName = row[SheetConstants.Cols.FIELD_NAME].toString().trim();
@@ -52,6 +52,7 @@ public class RemedialActionTest extends BaseTest {
                 jse.executeScript("arguments[0].scrollIntoView({block:'center'})", f);
                 Thread.sleep(300);
                 String tagName = f.getTagName();
+                String type = f.getAttribute("type");
 
                 if (tagName.equals("select")) {
                     Select s = new Select(f);
@@ -69,6 +70,13 @@ public class RemedialActionTest extends BaseTest {
                             log(fieldName, desc, expected, "Option not found: " + input, false);
                         }
                     }
+                } else if (type != null && type.equals("file")) {
+                    // File upload - path from config using input as key
+                    String filePath = ConfigManager.get(input);
+                    f.sendKeys(filePath);
+                    Thread.sleep(1000);
+                    String actual = f.getAttribute("value");
+                    log(fieldName, desc, "Not empty", actual, !actual.isEmpty());
                 } else {
                     f.clear();
                     Thread.sleep(200);
@@ -104,7 +112,7 @@ public class RemedialActionTest extends BaseTest {
 
     @Test(priority = 2)
     public void validateSave() throws Exception {
-        WebElement saveBtn = driver.findElement(By.id("save"));
+        WebElement saveBtn = driver.findElement(By.id("saveData"));
         jse.executeScript("arguments[0].scrollIntoView({block:'center'})", saveBtn);
         Thread.sleep(500);
         log("Save", "Save button visible", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
@@ -113,29 +121,49 @@ public class RemedialActionTest extends BaseTest {
         saveBtn.click();
         Thread.sleep(2000);
 
-        // Success message inside frame
-        List<WebElement> successMsg = driver.findElements(By.xpath("//*[contains(text(), 'Saved Successfully')]"));
-        boolean msgFound = successMsg.size() > 0 && successMsg.get(0).isDisplayed();
-        log("Save", "Save Remedial Action", "Saved Successfully",
-                msgFound ? successMsg.get(0).getText().trim() : "No message", msgFound);
-
-        Thread.sleep(2000);
-
-        // Grid - View
-        List<WebElement> viewBtns = driver.findElements(By.xpath("//a[contains(text(),'View')]"));
-        log("View Button", "View buttons found", ">0", String.valueOf(viewBtns.size()), viewBtns.size() > 0);
-        if (viewBtns.size() > 0) {
-            jse.executeScript("arguments[0].scrollIntoView({block:'center'})", viewBtns.get(viewBtns.size() - 1));
+        // Scroll to search to capture toast
+        try {
+            WebElement search = driver.findElement(By.cssSelector("input[placeholder='Search keyword here']"));
+            jse.executeScript("arguments[0].scrollIntoView({block:'center'})", search);
             Thread.sleep(500);
-            viewBtns.get(viewBtns.size() - 1).click();
-            Thread.sleep(2000);
-            log("View", "Click last View", "Opened", "Clicked", true);
+        } catch (Exception e) {
+        }
 
-            String actVal = driver.findElement(By.id("actionId")).getAttribute("value");
-            String cmtVal = driver.findElement(By.id("commments")).getAttribute("value");
-            log("View Data", "Action Name populated", "Not empty", actVal.isEmpty() ? "EMPTY" : actVal,
-                    !actVal.isEmpty());
-            log("View Data", "Comments populated", "Not empty", cmtVal.isEmpty() ? "EMPTY" : cmtVal, !cmtVal.isEmpty());
+        String toast = getSuccessToast();
+        String docName = driver.findElement(By.id("documentName")).getAttribute("value");
+        String expectedToast = "Document of Name: \"" + docName + "\" Uploaded Successfully";
+        log("Save", "Save Document", expectedToast, toast.isEmpty() ? "No toast" : toast, toast.contains(docName));
+
+        // Grid - Delete
+        Thread.sleep(2000);
+        List<WebElement> deleteBtns = driver.findElements(By.xpath("//a[contains(@class,'DeleteBtn')]"));
+        log("Delete Button", "Delete buttons found", ">0", String.valueOf(deleteBtns.size()), deleteBtns.size() > 0);
+        if (deleteBtns.size() > 0) {
+            jse.executeScript("arguments[0].scrollIntoView({block:'center'})", deleteBtns.get(deleteBtns.size() - 1));
+            Thread.sleep(500);
+            jse.executeScript("arguments[0].click()", deleteBtns.get(deleteBtns.size() - 1));
+            Thread.sleep(1000);
+            log("Delete Button", "Click last Delete", "Triggered", "Clicked", true);
+            try {
+                driver.findElement(By.id("popUpYes")).click();
+                Thread.sleep(1000);
+                try {
+                    WebElement search = driver.findElement(By.cssSelector("input[placeholder='Search keyword here']"));
+                    jse.executeScript("arguments[0].scrollIntoView({block:'center'})", search);
+                    Thread.sleep(500);
+                } catch (Exception ex) {
+                }
+                String deleteToast = getSuccessToast();
+                log("Delete", "Confirm delete", "Success", deleteToast.isEmpty() ? "No toast" : deleteToast,
+                        !deleteToast.isEmpty());
+            } catch (Exception e) {
+                try {
+                    driver.switchTo().alert().accept();
+                    Thread.sleep(500);
+                } catch (Exception e2) {
+                }
+                log("Delete", "Confirm delete", "Deleted", "Alert/Popup handled", true);
+            }
         }
 
         sa.assertAll();

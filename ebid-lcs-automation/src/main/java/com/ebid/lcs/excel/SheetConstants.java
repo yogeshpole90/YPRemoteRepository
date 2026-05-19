@@ -23,6 +23,8 @@ public final class SheetConstants {
     public static final String SHEET_ACTION_DOC_MAP = "ActionDocMap";
     public static final String SHEET_LAW_FIRM = "LawFirm";
     public static final String SHEET_LAWYER_DETAILS = "LawyerDetails";
+    public static final String SHEET_EMPLOYEE_MASTER = "EmployeeMaster";
+    public static final String SHEET_USER_CREATION = "UserCreation";
 
     // ========== COMMON COLUMN INDICES ==========
     public static final class Cols {
@@ -65,6 +67,8 @@ public final class SheetConstants {
         public static final String COURT_CASE = "CC_";
         // Downpayment
         public static final String DOWNPAYMENT = "DP_";
+        public static final String DP_SCH_DATE = "SD_";
+        public static final String DP_SCH_AMT = "SA_";
         // FeesLegalCharges
         public static final String FEES_LEGAL = "FLC_";
         // PhoneBook
@@ -79,5 +83,9 @@ public final class SheetConstants {
         public static final String LAW_FIRM = "LF_";
         // LawyerDetails
         public static final String LAWYER_DETAILS = "LWD_";
+        // EmployeeMaster
+        public static final String EMPLOYEE_MASTER = "EM_";
+        // UserCreation
+        public static final String USER_CREATION = "UC_";
     }
 }
