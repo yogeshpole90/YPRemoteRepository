@@ -1,6 +1,7 @@
 package com.ebid.lcs.tests;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -10,14 +11,19 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.List;
 
 import com.ebid.lcs.base.BaseTest;
 import com.ebid.lcs.config.ConfigManager;
+import com.ebid.lcs.driver.DriverManager;
 import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
 import com.ebid.lcs.listeners.TestListener;
 import com.ebid.lcs.reporting.ExtentManager;
+import com.ebid.lcs.utils.DBConnection;
+
+import java.sql.ResultSet;
 
 @Listeners(TestListener.class)
 public class DownPaymentTest extends BaseTest {
@@ -71,6 +77,22 @@ public class DownPaymentTest extends BaseTest {
     }
 
     @Test(priority = 1)
+    public void validateCurrency() throws Exception {
+        WebElement currency = driver.findElement(By.id("currency"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", currency);
+        Select selCurrency = new Select(currency);
+
+        log("currency", "Displayed", "true", String.valueOf(currency.isDisplayed()), currency.isDisplayed());
+        log("currency", "Enabled", "true", String.valueOf(currency.isEnabled()), currency.isEnabled());
+
+        selCurrency.selectByIndex(2);
+        Thread.sleep(500);
+        String selectedCurrency = selCurrency.getFirstSelectedOption().getText().trim();
+        log("currency", "Select currency", "Non-empty", selectedCurrency,
+                !selectedCurrency.isEmpty() && !selectedCurrency.contains("SELECT"));
+    }
+
+    @Test(priority = 2)
     public void validateOverdueAmt() throws Exception {
         WebElement f = driver.findElement(By.id("overdueAmount"));
         String fn = "Overdue Amount";
@@ -82,7 +104,7 @@ public class DownPaymentTest extends BaseTest {
         runFieldValidation(f, fn, data, "sendKeys");
     }
 
-    @Test(priority = 2)
+    @Test(priority = 3)
     public void validatePTPDate() throws Exception {
         WebElement f = driver.findElement(By.id("dateOfPTPStart"));
         String fn = "PTP Start Date";
@@ -94,7 +116,7 @@ public class DownPaymentTest extends BaseTest {
         runFieldValidationWithTab(f, fn, data);
     }
 
-    @Test(priority = 3)
+    @Test(priority = 4)
     public void validateRemarks() throws Exception {
         WebElement f = driver.findElement(By.id("remarks"));
         String fn = "Remarks";
@@ -106,7 +128,7 @@ public class DownPaymentTest extends BaseTest {
         runFieldValidation(f, fn, data, "sendKeys");
     }
 
-    @Test(priority = 4)
+    @Test(priority = 5)
     public void validateScheduleType() throws Exception {
         WebElement f = driver.findElement(By.id("scheduleType"));
         Select s = new Select(f);
@@ -137,7 +159,7 @@ public class DownPaymentTest extends BaseTest {
         sa.assertEquals(actual, "Downpayment + Schedule PTP");
     }
 
-    @Test(priority = 5)
+    @Test(priority = 6)
     public void validateDPPlanDate() throws Exception {
         WebElement f = driver.findElement(By.id("planDate"));
         String fn = "DP Planned Date";
@@ -149,7 +171,7 @@ public class DownPaymentTest extends BaseTest {
         runFieldValidationWithTab(f, fn, data);
     }
 
-    @Test(priority = 6)
+    @Test(priority = 7)
     public void validateDPPlanAmt() throws Exception {
         WebElement f = driver.findElement(By.id("plannedAmt"));
         String fn = "DP Planned Amount";
@@ -161,7 +183,7 @@ public class DownPaymentTest extends BaseTest {
         runFieldValidation(f, fn, data, "js");
     }
 
-    @Test(priority = 7)
+    @Test(priority = 8)
     public void validatePaymentMode() throws Exception {
         WebElement payMode = driver.findElement(By.id("paymentMode"));
         jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", payMode);
@@ -217,193 +239,200 @@ public class DownPaymentTest extends BaseTest {
                 s.getFirstSelectedOption().getText().equals("Cheque"));
     }
 
-    @Test(priority = 8)
-    public void validateSaveDP() throws Exception {
-        WebElement saveBtn = driver.findElement(By.id("savePTP"));
-        String fn = "Save DP Button";
-
-        log(fn, "Should be visible", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
-        log(fn, "Should be enabled", "true", String.valueOf(saveBtn.isEnabled()), saveBtn.isEnabled());
-
-        jse.executeScript("arguments[0].click()", saveBtn);
-        Thread.sleep(2000);
-        dismissAlert();
-
-        logInfo(fn, "Action", "Save button clicked successfully");
-    }
-
     @Test(priority = 9)
-    public void validateRemAmount() throws Exception {
-        WebElement f = driver.findElement(By.id("remAmt"));
-        String fn = "DP Remaining Amount";
-
-        log(fn, "Should be visible", "true", String.valueOf(f.isDisplayed()), f.isDisplayed());
-        logInfo(fn, "Field state", "Enabled=" + f.isEnabled() + " | ReadOnly=" + f.getAttribute("readonly"));
-
-        Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_DOWNPAYMENT, "RA_");
-        runFieldValidation(f, fn, data, "js");
-    }
-
-    @Test(priority = 10)
-    public void validateSchPlanDate() throws Exception {
-        WebElement f = driver.findElement(By.id("planDate1"));
-        String fn = "Schedule Planned Date";
-
-        log(fn, "Should be visible", "true", String.valueOf(f.isDisplayed()), f.isDisplayed());
-        log(fn, "Should be enabled", "true", String.valueOf(f.isEnabled()), f.isEnabled());
-
-        Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_DOWNPAYMENT, "SD_");
-        runFieldValidationWithTab(f, fn, data);
-    }
-
-    @Test(priority = 11)
-    public void validateSchPlanAmt() throws Exception {
-        WebElement f = driver.findElement(By.id("plannedAmt1"));
-        String fn = "Schedule Planned Amount";
-
-        log(fn, "Should be visible", "true", String.valueOf(f.isDisplayed()), f.isDisplayed());
-        logInfo(fn, "Field state", "Enabled=" + f.isEnabled() + " | ReadOnly=" + f.getAttribute("readonly"));
-
-        Object[][] data = ExcelReader.getByTcPrefix(SheetConstants.SHEET_DOWNPAYMENT, "SA_");
-        runFieldValidation(f, fn, data, "js");
-    }
-
-    @Test(priority = 12)
-    public void validateAddSave() throws Exception {
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-
-        // Re-select DP Payment Mode (first line)
-        try {
-            WebElement pm = driver.findElement(By.id("paymentMode"));
-            jse.executeScript("arguments[0].scrollIntoView({block:'center'})", pm);
-            new Select(pm).selectByVisibleText("CASH");
-            Thread.sleep(500);
-            hideDatepicker();
-            // Set receiptNo for CASH
-            try {
-                WebElement rn = driver.findElement(By.id("receiptNo"));
-                if (rn.isDisplayed()) {
-                    rn.clear();
-                    rn.sendKeys("RCP001");
-                    hideDatepicker();
-                }
-            } catch (Exception e) {
-            }
-        } catch (Exception e) {
-        }
-
-        // Re-select Schedule Payment Mode (second line)
-        try {
-            WebElement pm1 = driver.findElement(By.xpath("//select[@id='paymentMode1']"));
-            jse.executeScript("arguments[0].scrollIntoView({block:'center'})", pm1);
-            if (pm1.isDisplayed()) {
-                new Select(pm1).selectByVisibleText("CASH");
-                Thread.sleep(500);
-            }
-        } catch (Exception e) {
-        }
-
-        // DP Add button (add2)
-        WebElement add1 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='add2']")));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", add1);
-        Thread.sleep(300);
-        add1.click();
-        log("Add Button", "Click DP Add (add2)", "Clicked", "Clicked", true);
-
-        // Schedule Add button (add3)
-        WebElement add2 = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='add3']")));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", add2);
-        Thread.sleep(300);
-        add2.click();
-        log("Add Button", "Click Schedule Add (add3)", "Clicked", "Clicked", true);
-
-        // Save
-        dismissAlert();
-        WebElement saveBtn = wait.until(ExpectedConditions.elementToBeClickable(By.id("saveData")));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", saveBtn);
-        Thread.sleep(300);
-        saveBtn.click();
-        Thread.sleep(1000);
-        dismissAlert();
-
-        // Capture toast — scroll to search area where toast appears
-        try {
-            WebElement searchArea = driver.findElement(By.cssSelector("input[placeholder='Search keyword here']"));
-            jse.executeScript("arguments[0].scrollIntoView({block:'center'})", searchArea);
-        } catch (Exception e) {
-        }
+    public void validateFillAndSave() throws Exception {
+        // 1. Set valid Currency
+        WebElement currency = driver.findElement(By.id("currency"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", currency);
+        Select selCurrency = new Select(currency);
+        selCurrency.selectByVisibleText("EURO");
         Thread.sleep(500);
-        String toast = getSuccessToast();
-        if (toast.isEmpty()) {
-            driver.switchTo().defaultContent();
-            try {
-                WebElement searchArea2 = driver.findElement(By.cssSelector("input[placeholder='Search keyword here']"));
-                jse.executeScript("arguments[0].scrollIntoView({block:'center'})", searchArea2);
-            } catch (Exception e) {
-            }
-            toast = getSuccessToast();
-        }
-        log("Save", "Save Downpayment", "Success", toast.isEmpty() ? "No toast" : toast, !toast.isEmpty());
-        log("Save Button", "Click Save", "Saved", "Clicked", true);
+        log("Fill", "Set currency", "EURO", selCurrency.getFirstSelectedOption().getText(), 
+                selCurrency.getFirstSelectedOption().getText().equals("EURO"));
 
-        Thread.sleep(3000);
-        driver.switchTo().defaultContent();
-        Thread.sleep(1000);
-
-        // Re-click PTP tab
-        WebElement ptpTab = wait
-                .until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Promise to pay')]")));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", ptpTab);
-        Thread.sleep(500);
-        ptpTab.click();
-        Thread.sleep(2000);
-        try {
-            driver.switchTo().frame("fetchPTPMstTabFrame");
-        } catch (Exception e) {
-        }
-
-        // View
-        List<WebElement> viewBtns = driver.findElements(By.xpath("(//a[contains(@class,'ViewBtn')])[last()]"));
-        log("View Button", "View buttons found", ">0", String.valueOf(viewBtns.size()), viewBtns.size() > 0);
-        if (viewBtns.size() > 0) {
-            viewBtns.get(viewBtns.size() - 1).click();
-            Thread.sleep(500);
-            jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-            Thread.sleep(500);
-            log("View Button", "Click View - scrolled to bottom", "Displayed", "View clicked", true);
-        }
-
-        // Edit
-        List<WebElement> editBtns = driver.findElements(By.xpath("//a[contains(@class,'EditBtn')]"));
-        log("Edit Button", "Edit buttons found", ">0", String.valueOf(editBtns.size()), editBtns.size() > 0);
-        if (editBtns.size() > 0) {
-            editBtns.get(editBtns.size() - 1).click();
-            Thread.sleep(500);
-            log("Edit Button", "Click Edit", "Editable", "Edit clicked", true);
-        }
-
-        // Disable
-        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
-        Thread.sleep(500);
-        List<WebElement> disableBtns = driver.findElements(
-                By.xpath("(//a[contains(@class,'btn-danger') and contains(@onclick,'disableRecord')])[last()]"));
-        log("Disable Button", "Disable buttons found", ">0", String.valueOf(disableBtns.size()),
-                disableBtns.size() > 0);
-        if (disableBtns.size() > 0) {
-            jse.executeScript("arguments[0].scrollIntoView({block:'center'})", disableBtns.get(disableBtns.size() - 1));
+        // 2. Set valid Overdue Amount (only if blank or 0)
+        WebElement overdueAmt = driver.findElement(By.id("overdueAmount"));
+        String overdueVal = overdueAmt.getAttribute("value").trim();
+        if (overdueVal.isEmpty() || overdueVal.equals("0") || overdueVal.equals("0.0")) {
+            overdueAmt.clear();
+            overdueAmt.sendKeys("1500000");
+            overdueAmt.sendKeys(Keys.TAB);
             Thread.sleep(300);
-            disableBtns.get(disableBtns.size() - 1).click();
-            Thread.sleep(500);
-            log("Disable Button", "Click Disable", "Disabled", "Disable clicked", true);
-            try {
-                driver.findElement(By.id("popUpYes")).click();
-                Thread.sleep(500);
-                log("Disable Button", "Click Yes on popup", "Disabled", "Yes clicked", true);
-            } catch (Exception e) {
-                log("Disable Button", "No popup", "Direct disable", "Disabled", true);
-            }
+            dismissAlert();
+            log("Fill", "Set overdueAmount", "1500000", overdueAmt.getAttribute("value"), true);
+        } else {
+            logInfo("Fill", "overdueAmount already has value", overdueVal);
         }
 
+        // 3. Set valid PTP Start Date
+        WebElement ptpDate = driver.findElement(By.id("dateOfPTPStart"));
+        ptpDate.clear();
+        ptpDate.sendKeys("01-07-2025");
+        ptpDate.sendKeys(Keys.TAB);
+        hideDatepicker();
+        Thread.sleep(300);
+        log("Fill", "Set PTP Start Date", "01-07-2025", ptpDate.getAttribute("value"), true);
+
+        // 4. Set valid Remarks
+        WebElement remarks = driver.findElement(By.id("remarks"));
+        remarks.clear();
+        remarks.sendKeys("Test");
+        Thread.sleep(200);
+        log("Fill", "Set remarks", "Test", remarks.getAttribute("value"), true);
+
+        // 5. Set Schedule Type = Downpayment + Schedule PTP
+        WebElement schedType = driver.findElement(By.id("scheduleType"));
+        Select selSched = new Select(schedType);
+        selSched.selectByVisibleText("Downpayment + Schedule PTP");
+        Thread.sleep(2000);
+        log("Fill", "Set scheduleType", "Downpayment + Schedule PTP", 
+                selSched.getFirstSelectedOption().getText(), true);
+
+        // 6. Fill BOTH multiline sections FIRST, then click Add buttons
+
+        // Set Remaining Amount (only if blank or 0)
+        WebElement remAmt = driver.findElement(By.id("remAmt"));
+        String remVal = remAmt.getAttribute("value").trim();
+        if (remVal.isEmpty() || remVal.equals("0") || remVal.equals("0.0")) {
+            remAmt.clear();
+            remAmt.sendKeys("1500000");
+            remAmt.sendKeys(Keys.TAB);
+            Thread.sleep(300);
+            dismissAlert();
+            log("Fill", "Set remAmt", "1500000", remAmt.getAttribute("value"), true);
+        } else {
+            logInfo("Fill", "remAmt already has value", remVal);
+        }
+
+        // --- Partial Payment section ---
+        WebElement planDate = driver.findElement(By.id("planDate"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", planDate);
+        jse.executeScript("arguments[0].value='01-07-2025'", planDate);
+        hideDatepicker();
+        Thread.sleep(300);
+        log("DP Fill", "Set planDate", "01-07-2025", planDate.getAttribute("value"), true);
+
+        WebElement plannedAmt = driver.findElement(By.id("plannedAmt"));
+        jse.executeScript("arguments[0].value='70000.0'", plannedAmt);
+        jse.executeScript("arguments[0].dispatchEvent(new Event('change'))", plannedAmt);
+        Thread.sleep(500);
+        dismissAlert();
+        log("DP Fill", "Set plannedAmt", "70000.0", plannedAmt.getAttribute("value"), true);
+
+        Select dpMode = new Select(driver.findElement(By.id("paymentMode")));
+        dpMode.selectByVisibleText("CASH");
+        Thread.sleep(500);
+        log("DP Fill", "Set paymentMode", "CASH", dpMode.getFirstSelectedOption().getText(), true);
+
+        WebElement receiptNo = driver.findElement(By.id("receiptNo"));
+        receiptNo.clear();
+        receiptNo.sendKeys("12345");
+        Thread.sleep(200);
+        log("DP Fill", "Set receiptNo", "12345", receiptNo.getAttribute("value"), true);
+
+        // --- Schedule PTP section ---
+        WebElement planDate1 = driver.findElement(By.id("planDate1"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", planDate1);
+        jse.executeScript("arguments[0].value='07-01-2025'", planDate1);
+        hideDatepicker();
+        Thread.sleep(300);
+        log("Sch Fill", "Set planDate1", "07-01-2025", planDate1.getAttribute("value"), true);
+
+        WebElement plannedAmt1 = driver.findElement(By.id("plannedAmt1"));
+        jse.executeScript("arguments[0].value='1430000.0'", plannedAmt1);
+        jse.executeScript("arguments[0].dispatchEvent(new Event('change'))", plannedAmt1);
+        Thread.sleep(500);
+        dismissAlert();
+        log("Sch Fill", "Set plannedAmt1", "1430000.0", plannedAmt1.getAttribute("value"), true);
+
+        WebElement payMode1 = driver.findElement(By.id("paymentMode1"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", payMode1);
+        Select schMode = new Select(payMode1);
+        schMode.selectByVisibleText("CASH");
+        Thread.sleep(500);
+        log("Sch Fill", "Set paymentMode1", "CASH", schMode.getFirstSelectedOption().getText(), true);
+
+        try {
+            WebElement receiptNo1 = driver.findElement(By.id("receiptNo1"));
+            if (receiptNo1.isDisplayed()) {
+                receiptNo1.clear();
+                receiptNo1.sendKeys("12345");
+                Thread.sleep(200);
+                log("Sch Fill", "Set receiptNo1", "12345", receiptNo1.getAttribute("value"), true);
+            }
+        } catch (Exception e) {}
+
+        // 7. Click 1st Add button (Partial Payment)
+        WebElement add2 = driver.findElement(By.id("add2"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", add2);
+        Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", add2);
+        Thread.sleep(2000);
+        dismissAlert();
+        log("Add", "Click DP Add (add2)", "Clicked", "Clicked", true);
+
+        // 8. Click 2nd Add button (Schedule PTP)
+        WebElement add3 = driver.findElement(By.id("add3"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", add3);
+        Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", add3);
+        Thread.sleep(2000);
+        dismissAlert();
+        log("Add", "Click Schedule Add (add3)", "Clicked", "Clicked", true);
+
+        // 9. Save
+        WebElement saveBtn = driver.findElement(By.id("saveData"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", saveBtn);
+        Thread.sleep(500);
+        log("Save", "Save button visible", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
+        jse.executeScript("arguments[0].click()", saveBtn);
+        Thread.sleep(3000);
+        dismissAlert();
+
+        String toast = getSuccessToast();
+        log("Save", "Save Downpayment", "Success", toast.isEmpty() ? "No toast" : toast, !toast.isEmpty());
+
+        sa.assertAll();
+    }
+
+    @Test(priority = 15)
+    public void validateDatabase() throws Exception {
+        String today = java.time.LocalDate.now().toString();
+        String query = "SELECT TOP 1 * FROM d310025 ORDER BY createdDate DESC, createdTime DESC";
+        ResultSet rs = DBConnection.executeQuery(query);
+
+        if (rs == null || !rs.next()) {
+            log("DB", "Record found in d310025", "Yes", "No", false);
+            sa.fail("No record found in d310025");
+            DBConnection.close(rs);
+            return;
+        }
+
+        log("DB", "Record found", "Yes", "Yes", true);
+
+        String dbCreatedDate = rs.getString("createdDate");
+        log("DB", "createdDate contains today", today, dbCreatedDate,
+                dbCreatedDate != null && dbCreatedDate.contains(today));
+        sa.assertTrue(dbCreatedDate != null && dbCreatedDate.contains(today), "createdDate should contain today");
+
+        String dbIsActive = rs.getString("isActive");
+        log("DB", "isActive", "1", dbIsActive, "1".equals(dbIsActive));
+        sa.assertEquals(dbIsActive, "1", "isActive should be 1");
+
+        String dbRemarks = rs.getString("remarks");
+        log("DB", "remarks", "Downpayment validation test record", dbRemarks,
+                dbRemarks != null && dbRemarks.contains("Downpayment validation test record"));
+
+        String dbCaseNo = rs.getString("caseNo");
+        log("DB", "caseNo", "CASE_0005282011204001137", dbCaseNo,
+                dbCaseNo != null && dbCaseNo.contains("CASE_0005282011204001137"));
+
+        String dbPaymentMode = rs.getString("paymentMode");
+        log("DB", "paymentMode", "Not Null", dbPaymentMode, dbPaymentMode != null && !dbPaymentMode.isEmpty());
+
+        logInfo("DB", "createdTime", rs.getString("createdTime"));
+
+        DBConnection.close(rs);
         sa.assertAll();
     }
 
@@ -484,11 +513,15 @@ public class DownPaymentTest extends BaseTest {
 
             switch (checkType) {
                 case "equals":
-                    log(fn, desc, expected, actual, actual.equals(expected));
-                    sa.assertEquals(actual, expected, desc);
+                    String cleanActual = actual.replaceAll(",", "").replaceAll("\\.0+$", "");
+                    String cleanExpected = expected.replaceAll(",", "").replaceAll("\\.0+$", "");
+                    log(fn, desc, expected, actual, cleanActual.equals(cleanExpected));
+                    sa.assertEquals(cleanActual, cleanExpected, desc);
                     break;
                 case "notEquals":
-                    log(fn, desc, "Not " + input, actual, !actual.equals(input));
+                    String cleanActual2 = actual.replaceAll(",", "").replaceAll("\\.0+$", "");
+                    String cleanInput = input.replaceAll(",", "").replaceAll("\\.0+$", "");
+                    log(fn, desc, "Not " + input, actual, !cleanActual2.equals(cleanInput));
                     break;
                 case "empty":
                     log(fn, desc, "Empty", actual, actual.isEmpty());

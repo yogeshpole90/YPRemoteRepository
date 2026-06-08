@@ -1,5 +1,7 @@
 package com.ebid.lcs.pages;
 
+import java.time.Duration;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -137,7 +139,7 @@ public class EmployeeMasterPage {
     // ========== Constructor ==========
     public EmployeeMasterPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 15);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         PageFactory.initElements(driver, this);
     }
 

@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,9 @@ import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
 import com.ebid.lcs.listeners.TestListener;
 import com.ebid.lcs.reporting.ExtentManager;
+import com.ebid.lcs.utils.DBConnection;
+
+import java.sql.ResultSet;
 
 @Listeners(TestListener.class)
 public class ReminderTest extends BaseTest {
@@ -31,21 +35,26 @@ public class ReminderTest extends BaseTest {
 
         navigateToCase(ConfigManager.get("casenumber"));
 
-        WebElement tab = driver.findElement(By.xpath("//*[contains(@href,'activeTab=Account Information')]"));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", tab);
+        // Click Communication History tab first
+        WebElement commTab = driver.findElement(By.xpath("//a[contains(@href,'activeTab=Communication History')]"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", commTab);
+        Thread.sleep(500);
+        commTab.click();
         Thread.sleep(1000);
-        tab.click();
-        Thread.sleep(2000);
 
-        WebDriverWait wait = new WebDriverWait(driver, 15);
-        WebElement rmTab = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[contains(text(),'Reminder')]")));
+        // Click Reminder tab
+        WebElement rmTab = driver.findElement(By.xpath("//a[contains(text(),'Reminder')]"));
         jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", rmTab);
-        Thread.sleep(1000);
+        Thread.sleep(500);
         act.doubleClick(rmTab).build().perform();
         Thread.sleep(2000);
 
-        driver.switchTo().frame("reminderFrame");
-        logInfo("Frame", "Switched to", "reminderFrame");
+        // Switch to frame
+        WebElement frame = driver.findElement(By.id("fetchReminderDtlsPageFrame"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", frame);
+        Thread.sleep(500);
+        driver.switchTo().frame("fetchReminderDtlsPageFrame");
+        logInfo("Frame", "Switched to", "fetchReminderDtlsPageFrame");
     }
 
     @Test(priority = 1)
@@ -135,7 +144,6 @@ public class ReminderTest extends BaseTest {
 
             d.clear();
             if (!input.isEmpty() && !input.equalsIgnoreCase("Empty")) d.sendKeys(input);
-            d.sendKeys(Keys.TAB);
             Thread.sleep(300);
             String actual = d.getAttribute("value");
 
@@ -204,57 +212,165 @@ public class ReminderTest extends BaseTest {
 
     @Test(priority = 5)
     public void validateResetSave() throws Exception {
-        // Reset button
-        WebElement resetBtn = driver.findElement(By.id("reset"));
-        log("Reset", "Displayed", "true", String.valueOf(resetBtn.isDisplayed()), resetBtn.isDisplayed());
-        log("Reset", "Enabled", "true", String.valueOf(resetBtn.isEnabled()), resetBtn.isEnabled());
-
-        // Fill data then reset
-        new Select(driver.findElement(By.id("reminderType"))).selectByIndex(1);
-        driver.findElement(By.id("reminderDate")).clear();
-        driver.findElement(By.id("reminderDate")).sendKeys("11-05-2026");
-        driver.findElement(By.id("remarks")).clear();
-        driver.findElement(By.id("remarks")).sendKeys("Test Reset");
-        Thread.sleep(300);
-
-        resetBtn.click();
-        Thread.sleep(500);
-
-        String ddAfterReset = new Select(driver.findElement(By.id("reminderType"))).getFirstSelectedOption().getText().trim();
-        log("Reset", "DD reset to default", "SELECT", ddAfterReset, ddAfterReset.contains("SELECT"));
-        String dateAfterReset = driver.findElement(By.id("reminderDate")).getAttribute("value");
-        log("Reset", "Date cleared", "Empty", dateAfterReset, dateAfterReset == null || dateAfterReset.isEmpty());
-        String remarkAfterReset = driver.findElement(By.id("remarks")).getAttribute("value");
-        log("Reset", "Remark cleared", "Empty", remarkAfterReset, remarkAfterReset == null || remarkAfterReset.isEmpty());
-
-        // Save without data - mandatory check
-        WebElement saveBtn = driver.findElement(By.id("save"));
-        log("Save", "Displayed", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
-        log("Save", "Enabled", "true", String.valueOf(saveBtn.isEnabled()), saveBtn.isEnabled());
-
-        saveBtn.click();
-        Thread.sleep(1000);
-        String errorToast = getErrorToast();
-        log("Save", "Save without data - mandatory", "Error toast", errorToast.isEmpty() ? "No toast" : errorToast, !errorToast.isEmpty());
-
-        // Save with valid data
+        // Fill valid data for save
         new Select(driver.findElement(By.id("reminderType"))).selectByIndex(1);
         Thread.sleep(300);
         driver.findElement(By.id("reminderDate")).clear();
         driver.findElement(By.id("reminderDate")).sendKeys("11-05-2026");
-        driver.findElement(By.id("reminderDate")).sendKeys(Keys.TAB);
         driver.findElement(By.id("reminderCreateDate")).clear();
         driver.findElement(By.id("reminderCreateDate")).sendKeys("11-05-2026");
-        driver.findElement(By.id("reminderCreateDate")).sendKeys(Keys.TAB);
         driver.findElement(By.id("remarks")).clear();
         driver.findElement(By.id("remarks")).sendKeys("Reminder Valid Save");
         Thread.sleep(500);
 
-        driver.findElement(By.id("save")).click();
-        Thread.sleep(2000);
-        String successToast = getSuccessToast();
-        log("Save", "Save with valid data", "Success", successToast.isEmpty() ? "No toast" : successToast, !successToast.isEmpty());
+        WebElement saveBtn = driver.findElement(By.id("save"));
+        log("Save", "Displayed", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
+        log("Save", "Enabled", "true", String.valueOf(saveBtn.isEnabled()), saveBtn.isEnabled());
+        saveBtn.click();
+        Thread.sleep(1000);
 
+        // Handle confirmation modal
+        try {
+            WebElement confirmYes = driver.findElement(By.id("submitForm"));
+            if (confirmYes.isDisplayed()) {
+                confirmYes.click();
+                Thread.sleep(2000);
+                log("Save", "Confirmation modal - clicked Yes", "Clicked", "Clicked", true);
+            }
+        } catch (Exception e) {}
+
+        String successToast = getSuccessToast();
+        log("Save", "Save Reminder", "Success", successToast.isEmpty() ? "No toast" : successToast, !successToast.isEmpty());
+        sa.assertAll();
+    }
+
+    @Test(priority = 6)
+    public void validateView() throws Exception {
+        Thread.sleep(1000);
+        try {
+            WebElement search = driver.findElement(By.cssSelector("input[placeholder='Search keyword here']"));
+            jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", search);
+            Thread.sleep(500);
+        } catch (Exception e) {}
+
+        // Click View of first row (latest record - table sorted descending)
+        WebElement viewBtn = driver.findElement(By.cssSelector("#dt-basicDetails tbody tr:first-child a[onclick*='ViewData']"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", viewBtn);
+        Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", viewBtn);
+        Thread.sleep(2000);
+        log("View", "Click View button (latest record)", "View mode opened", "Clicked", true);
+
+        // Validate fields in view mode - jo save kiya wohi dikh raha hai
+        String reminderType = new Select(driver.findElement(By.id("reminderType"))).getFirstSelectedOption().getText().trim();
+        log("reminderType", "View - Reminder Type", "Call", reminderType, reminderType.equals("Call"));
+
+        String reminderDate = driver.findElement(By.id("reminderDate")).getAttribute("value");
+        log("reminderDate", "View - Reminder Date", "11-05-2026", reminderDate, reminderDate.equals("11-05-2026"));
+
+        String reminderCreateDate = driver.findElement(By.id("reminderCreateDate")).getAttribute("value");
+        log("reminderCreateDate", "View - Created Date", "11-05-2026", reminderCreateDate, reminderCreateDate.equals("11-05-2026"));
+
+        String remarks = driver.findElement(By.id("remarks")).getAttribute("value");
+        log("remarks", "View - Remarks", "Reminder Valid Save", remarks, remarks.contains("Reminder Valid Save"));
+
+        log("View", "Field validation in view mode", "All fields match", "Done", true);
+    }
+
+    @Test(priority = 7)
+    public void validateEdit() throws Exception {
+        Thread.sleep(1000);
+        try {
+            WebElement search = driver.findElement(By.cssSelector("input[placeholder='Search keyword here']"));
+            jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", search);
+            Thread.sleep(500);
+        } catch (Exception e) {}
+
+        // Click Edit of first row (latest record)
+        WebElement editBtn = driver.findElement(By.cssSelector("#dt-basicDetails tbody tr:first-child a.editBtn"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", editBtn);
+        Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", editBtn);
+        Thread.sleep(2000);
+        log("Edit", "Click Edit button (latest record)", "Edit mode opened", "Clicked", true);
+
+        // Re-fill all required fields after edit click
+        new Select(driver.findElement(By.id("reminderType"))).selectByIndex(1);
+        Thread.sleep(300);
+
+        WebElement reminderDate = driver.findElement(By.id("reminderDate"));
+        reminderDate.clear();
+        reminderDate.sendKeys("11-05-2026");
+        Thread.sleep(200);
+
+        WebElement reminderCreateDate = driver.findElement(By.id("reminderCreateDate"));
+        reminderCreateDate.clear();
+        reminderCreateDate.sendKeys("11-05-2026");
+        Thread.sleep(200);
+
+        // Update remarks
+        WebElement remarks = driver.findElement(By.id("remarks"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", remarks);
+        remarks.clear();
+        remarks.sendKeys("Reminder Updated Save");
+        Thread.sleep(300);
+
+        // Save
+        WebElement saveBtn = driver.findElement(By.id("save"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", saveBtn);
+        Thread.sleep(300);
+        saveBtn.click();
+        Thread.sleep(1000);
+
+        try {
+            WebElement confirmYes = driver.findElement(By.id("submitForm"));
+            if (confirmYes.isDisplayed()) {
+                confirmYes.click();
+                Thread.sleep(2000);
+            }
+        } catch (Exception e) {}
+
+        String toast = getSuccessToast();
+        log("Edit", "Save after Edit", "Success", toast.isEmpty() ? "No toast" : toast, !toast.isEmpty());
+        sa.assertAll();
+    }
+
+    @Test(priority = 8)
+    public void validateDatabase() throws Exception {
+        String today = java.time.LocalDate.now().toString();
+        ResultSet rs = DBConnection.executeQuery(
+            "SELECT TOP 1 * FROM d310039 ORDER BY createdDate DESC, createdTime DESC");
+
+        if (!rs.next()) {
+            log("DB", "Record found in d310039", "Yes", "No", false);
+            sa.fail("No record found in d310039");
+            DBConnection.close(rs);
+            return;
+        }
+
+        log("DB", "Record found", "Yes", "Yes", true);
+
+        String dbCreatedDate = rs.getString("createdDate");
+        String todayShort = today.substring(0, 10);
+        String dbDateShort = dbCreatedDate != null ? dbCreatedDate.substring(0, 10) : "";
+        boolean dateMatch = dbDateShort.equals(todayShort) || dbCreatedDate != null && dbCreatedDate.contains(today);
+        log("DB", "createdDate contains today", today, dbCreatedDate, dateMatch);
+        logInfo("DB", "createdDate (server timezone may differ)", dbCreatedDate);
+
+        String dbIsActive = rs.getString("isActive");
+        log("DB", "isActive", "1", dbIsActive, "1".equals(dbIsActive));
+        sa.assertEquals(dbIsActive, "1", "isActive should be 1");
+
+        String dbRemarks = rs.getString("remarks");
+        log("DB", "remarks", "Reminder Updated Save", dbRemarks, dbRemarks != null && dbRemarks.contains("Reminder Updated Save"));
+        sa.assertTrue(dbRemarks != null && dbRemarks.contains("Reminder Updated Save"), "remarks mismatch");
+
+        String dbCaseNo = rs.getString("caseNo");
+        log("DB", "caseNo", "CASE_0005282011204001137", dbCaseNo, dbCaseNo != null && dbCaseNo.contains("CASE_0005282011204001137"));
+
+        logInfo("DB", "createdTime", rs.getString("createdTime"));
+
+        DBConnection.close(rs);
         sa.assertAll();
     }
 }

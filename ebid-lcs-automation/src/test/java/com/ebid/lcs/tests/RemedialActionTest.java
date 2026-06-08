@@ -15,6 +15,9 @@ import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
 import com.ebid.lcs.listeners.TestListener;
 import com.ebid.lcs.reporting.ExtentManager;
+import com.ebid.lcs.utils.DBConnection;
+
+import java.sql.ResultSet;
 
 @Listeners(TestListener.class)
 public class RemedialActionTest extends BaseTest {
@@ -138,6 +141,41 @@ public class RemedialActionTest extends BaseTest {
             log("View Data", "Comments populated", "Not empty", cmtVal.isEmpty() ? "EMPTY" : cmtVal, !cmtVal.isEmpty());
         }
 
+        sa.assertAll();
+    }
+
+    @Test(priority = 3)
+    public void validateDatabase() throws Exception {
+        String today = java.time.LocalDate.now().toString();
+        ResultSet rs = DBConnection.executeQuery(
+            "SELECT TOP 1 * FROM d310047 ORDER BY createdDate DESC, createdTime DESC");
+
+        if (!rs.next()) {
+            log("DB", "Record found in d310047", "Yes", "No", false);
+            sa.fail("No record found in d310047");
+            DBConnection.close(rs);
+            return;
+        }
+
+        log("DB", "Record found", "Yes", "Yes", true);
+
+        String dbCreatedDate = rs.getString("createdDate");
+        log("DB", "createdDate contains today", today, dbCreatedDate, dbCreatedDate != null && dbCreatedDate.contains(today));
+        sa.assertTrue(dbCreatedDate != null && dbCreatedDate.contains(today), "createdDate should contain today");
+
+        String dbIsActive = rs.getString("isActive");
+        log("DB", "isActive", "1", dbIsActive, "1".equals(dbIsActive));
+        sa.assertEquals(dbIsActive, "1", "isActive should be 1");
+
+        String dbCaseNo = rs.getString("caseNo");
+        log("DB", "caseNo", "CASE_0005282011204001137", dbCaseNo, dbCaseNo != null && dbCaseNo.contains("CASE_0005282011204001137"));
+
+        String dbActionId = rs.getString("actionId");
+        log("DB", "actionId", "Not Null", dbActionId, dbActionId != null && !dbActionId.isEmpty());
+
+        logInfo("DB", "createdTime", rs.getString("createdTime"));
+
+        DBConnection.close(rs);
         sa.assertAll();
     }
 }

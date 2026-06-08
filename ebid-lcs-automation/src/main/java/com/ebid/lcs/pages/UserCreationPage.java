@@ -1,5 +1,6 @@
 package com.ebid.lcs.pages;
 
+import java.time.Duration;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -86,7 +87,7 @@ public class UserCreationPage {
     // ========== Constructor ==========
     public UserCreationPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, 15);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
         PageFactory.initElements(driver, this);
     }
 

@@ -16,6 +16,9 @@ import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
 import com.ebid.lcs.listeners.TestListener;
 import com.ebid.lcs.reporting.ExtentManager;
+import com.ebid.lcs.utils.DBConnection;
+
+import java.sql.ResultSet;
 
 @Listeners(TestListener.class)
 public class FullPTPTest extends BaseTest {
@@ -259,6 +262,14 @@ public class FullPTPTest extends BaseTest {
 
     @Test(priority = 9)
     public void validateViewEdit() throws Exception {
+        // Select currency before save
+        WebElement currency = driver.findElement(By.id("currency"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", currency);
+        Select selCurrency = new Select(currency);
+        selCurrency.selectByIndex(2);
+        Thread.sleep(500);
+        log("currency", "Select currency", "Non-empty", selCurrency.getFirstSelectedOption().getText().trim(), true);
+
         // Add & Save
         WebElement addBtn = driver.findElement(By.id("add"));
         jse.executeScript("arguments[0].scrollIntoView({block:'center'})", addBtn);
@@ -274,8 +285,7 @@ public class FullPTPTest extends BaseTest {
 
         Thread.sleep(2000);
         driver.switchTo().parentFrame();
-        WebElement ptpTab = driver.findElement(By.xpath("//ul[@id='myTab']/li[3]/a"));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", ptpTab);
+        Thread.sleep(1000);
         driver.switchTo().frame("fetchPTPMstTabFrame");
 
         // View
@@ -314,7 +324,43 @@ public class FullPTPTest extends BaseTest {
         sa.assertAll();
     }
 
-    // ========== HELPER METHODS ==========
+    @Test(priority = 10)
+    public void validateDatabase() throws Exception {
+        String today = java.time.LocalDate.now().toString();
+        ResultSet rs = DBConnection.executeQuery(
+            "SELECT TOP 1 * FROM d310025 ORDER BY createdDate DESC, createdTime DESC");
+
+        if (!rs.next()) {
+            log("DB", "Record found in d310025", "Yes", "No", false);
+            sa.fail("No record found in d310025");
+            DBConnection.close(rs);
+            return;
+        }
+
+        log("DB", "Record found", "Yes", "Yes", true);
+
+        String dbCreatedDate = rs.getString("createdDate");
+        log("DB", "createdDate contains today", today, dbCreatedDate, dbCreatedDate != null && dbCreatedDate.contains(today));
+        sa.assertTrue(dbCreatedDate != null && dbCreatedDate.contains(today), "createdDate should contain today");
+
+        String dbIsActive = rs.getString("isActive");
+        log("DB", "isActive", "1", dbIsActive, "1".equals(dbIsActive));
+        sa.assertEquals(dbIsActive, "1", "isActive should be 1");
+
+        String dbRemarks = rs.getString("remarks");
+        log("DB", "remarks", "Not Null", dbRemarks, dbRemarks != null && !dbRemarks.isEmpty());
+
+        String dbPaymentMode = rs.getString("paymentMode");
+        log("DB", "paymentMode", "Not Null", dbPaymentMode, dbPaymentMode != null && !dbPaymentMode.isEmpty());
+
+        String dbCaseNo = rs.getString("caseNo");
+        log("DB", "caseNo", "CASE_0005282011204001137", dbCaseNo, dbCaseNo != null && dbCaseNo.contains("CASE_0005282011204001137"));
+
+        logInfo("DB", "createdTime", rs.getString("createdTime"));
+
+        DBConnection.close(rs);
+        sa.assertAll();
+    }
 
     private boolean isFieldVisible(String id) {
         try {

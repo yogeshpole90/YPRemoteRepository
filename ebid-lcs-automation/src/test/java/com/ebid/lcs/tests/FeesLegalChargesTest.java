@@ -14,6 +14,9 @@ import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
 import com.ebid.lcs.listeners.TestListener;
 import com.ebid.lcs.reporting.ExtentManager;
+import com.ebid.lcs.utils.DBConnection;
+
+import java.sql.ResultSet;
 
 @Listeners(TestListener.class)
 public class FeesLegalChargesTest extends BaseTest {
@@ -232,6 +235,59 @@ public class FeesLegalChargesTest extends BaseTest {
             log("Delete", "Delete button", "Found", "Not found", false);
         }
 
+        sa.assertAll();
+    }
+
+    @Test(priority = 3)
+    public void validateDatabase() throws Exception {
+        String today = java.time.LocalDate.now().toString();
+        String query = "SELECT TOP 1 * FROM D3300025 ORDER BY createdDate DESC, createdTime DESC";
+        ResultSet rs = DBConnection.executeQuery(query);
+
+        if (rs == null || !rs.next()) {
+            log("DB", "Record found in D3300025", "Yes", "No", false);
+            sa.fail("No record found in D3300025");
+            DBConnection.close(rs);
+            return;
+        }
+
+        log("DB", "Record found", "Yes", "Yes", true);
+
+        String dbCreatedDate = rs.getString("createdDate");
+        log("DB", "createdDate contains today", today, dbCreatedDate, dbCreatedDate != null && dbCreatedDate.contains(today));
+        sa.assertTrue(dbCreatedDate != null && dbCreatedDate.contains(today), "createdDate should contain today");
+
+        String dbIsActive = rs.getString("isActive");
+        log("DB", "isActive", "1", dbIsActive, "1".equals(dbIsActive));
+        sa.assertEquals(dbIsActive, "1", "isActive should be 1");
+
+        String dbCaseNo = rs.getString("caseNo");
+        log("DB", "caseNo", "CASE_0005282011204001137", dbCaseNo, dbCaseNo != null && dbCaseNo.contains("CASE_0005282011204001137"));
+
+        String dbChargeName = rs.getString("chargeName");
+        log("DB", "chargeName", "1", dbChargeName, dbChargeName != null && dbChargeName.contains("1"));
+
+        String dbInvoiceNumber = rs.getString("invoiceNumber");
+        log("DB", "invoiceNumber", "INV-2025-LEGAL", dbInvoiceNumber, dbInvoiceNumber != null && dbInvoiceNumber.contains("INV-2025-LEGAL"));
+
+        String dbInvoiceAmount = rs.getString("invoiceAmount");
+        log("DB", "invoiceAmount", "10000", dbInvoiceAmount, dbInvoiceAmount != null && dbInvoiceAmount.contains("10000"));
+
+        String dbCurrency = rs.getString("currency");
+        log("DB", "currency", "USD", dbCurrency, dbCurrency != null && dbCurrency.contains("USD"));
+
+        String dbPayableAmount = rs.getString("payableAmount");
+        log("DB", "payableAmount", "5000", dbPayableAmount, dbPayableAmount != null && dbPayableAmount.contains("5000"));
+
+        String dbOutstandingAmount = rs.getString("outstandingAmount");
+        log("DB", "outstandingAmount", "5000", dbOutstandingAmount, dbOutstandingAmount != null && dbOutstandingAmount.contains("5000"));
+
+        String dbRemarks = rs.getString("remarks");
+        log("DB", "remarks", "Fees payment remark final", dbRemarks, dbRemarks != null && dbRemarks.contains("Fees payment remark final"));
+
+        logInfo("DB", "createdTime", rs.getString("createdTime"));
+
+        DBConnection.close(rs);
         sa.assertAll();
     }
 }

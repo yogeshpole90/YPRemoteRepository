@@ -19,6 +19,9 @@ import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
 import com.ebid.lcs.listeners.TestListener;
 import com.ebid.lcs.reporting.ExtentManager;
+import com.ebid.lcs.utils.DBConnection;
+
+import java.sql.ResultSet;
 
 @Listeners(TestListener.class)
 public class CourtCaseTest extends BaseTest {
@@ -119,8 +122,10 @@ public class CourtCaseTest extends BaseTest {
                 // Check if field is date type or amount (use JS for suitAmount_txt)
                 String fieldId = fieldName.toLowerCase();
                 if (fieldId.contains("suitamount")) {
-                    // JS set for read-only amount field
-                    jse.executeScript("arguments[0].value='" + input + "'", f);
+                    // Amount field — clear and sendKeys (JS causes format mismatch)
+                    f.clear();
+                    Thread.sleep(200);
+                    if (!input.isEmpty() && !input.equalsIgnoreCase("Empty")) f.sendKeys(input);
                     f.sendKeys(Keys.TAB);
                     try { Thread.sleep(300); } catch (Exception e) {}
                     dismissAlert();
@@ -244,6 +249,44 @@ public class CourtCaseTest extends BaseTest {
             }
         }
 
+        sa.assertAll();
+    }
+
+    @Test(priority = 3, groups = {"sanity"})
+    public void validateDatabase() throws Exception {
+        String today = java.time.LocalDate.now().toString();
+        ResultSet rs = DBConnection.executeQuery(
+            "SELECT TOP 1 * FROM d310050 ORDER BY createdDate DESC, createdTime DESC");
+
+        if (!rs.next()) {
+            log("DB", "Record found in d310050", "Yes", "No", false);
+            sa.fail("No record found in d310050");
+            DBConnection.close(rs);
+            return;
+        }
+
+        log("DB", "Record found", "Yes", "Yes", true);
+
+        String dbCreatedDate = rs.getString("createdDate");
+        log("DB", "createdDate contains today", today, dbCreatedDate, dbCreatedDate != null && dbCreatedDate.contains(today));
+        sa.assertTrue(dbCreatedDate != null && dbCreatedDate.contains(today), "createdDate should contain today");
+
+        String dbIsActive = rs.getString("isActive");
+        log("DB", "isActive", "1", dbIsActive, "1".equals(dbIsActive));
+        sa.assertEquals(dbIsActive, "1", "isActive should be 1");
+
+        String dbCaseNo = rs.getString("caseNo");
+        log("DB", "caseNo", "CASE_0005282011204001137", dbCaseNo, dbCaseNo != null && dbCaseNo.contains("CASE_0005282011204001137"));
+
+        String dbCourtName = rs.getString("courtName");
+        log("DB", "courtName", "Not Null", dbCourtName, dbCourtName != null && !dbCourtName.isEmpty());
+
+        String dbSuitAmt = rs.getString("suitAmount");
+        log("DB", "suitAmount", "Not Null", dbSuitAmt, dbSuitAmt != null && !dbSuitAmt.isEmpty());
+
+        logInfo("DB", "createdTime", rs.getString("createdTime"));
+
+        DBConnection.close(rs);
         sa.assertAll();
     }
 }

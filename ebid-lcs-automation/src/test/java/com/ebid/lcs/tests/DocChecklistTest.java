@@ -15,6 +15,9 @@ import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
 import com.ebid.lcs.listeners.TestListener;
 import com.ebid.lcs.reporting.ExtentManager;
+import com.ebid.lcs.utils.DBConnection;
+
+import java.sql.ResultSet;
 
 @Listeners(TestListener.class)
 public class DocChecklistTest extends BaseTest {
@@ -166,6 +169,38 @@ public class DocChecklistTest extends BaseTest {
             }
         }
 
+        sa.assertAll();
+    }
+
+    @Test(priority = 3)
+    public void validateDatabase() throws Exception {
+        String today = java.time.LocalDate.now().toString();
+        String query = "SELECT TOP 1 * FROM D320108 ORDER BY createdDate DESC, createdTime DESC";
+        ResultSet rs = DBConnection.executeQuery(query);
+
+        if (rs == null || !rs.next()) {
+            log("DB", "Record found in D320108", "Yes", "No", false);
+            sa.fail("No record found in D320108");
+            DBConnection.close(rs);
+            return;
+        }
+
+        log("DB", "Record found", "Yes", "Yes", true);
+
+        String dbCreatedDate = rs.getString("createdDate");
+        log("DB", "createdDate contains today", today, dbCreatedDate, dbCreatedDate != null && dbCreatedDate.contains(today));
+        sa.assertTrue(dbCreatedDate != null && dbCreatedDate.contains(today), "createdDate should contain today");
+
+        String dbIsActive = rs.getString("isActive");
+        log("DB", "isActive", "1", dbIsActive, "1".equals(dbIsActive));
+        sa.assertEquals(dbIsActive, "1", "isActive should be 1");
+
+        String dbCaseNo = rs.getString("caseNo");
+        log("DB", "caseNo", "CASE_0005282011204001137", dbCaseNo, dbCaseNo != null && dbCaseNo.contains("CASE_0005282011204001137"));
+
+        logInfo("DB", "createdTime", rs.getString("createdTime"));
+
+        DBConnection.close(rs);
         sa.assertAll();
     }
 }

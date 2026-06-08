@@ -1,25 +1,27 @@
 package com.ebid.lcs.config;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigManager {
 
     private static Properties props;
+    private static final String CONFIG_PATH = "src/test/resources/config.properties";
 
     static {
         try {
             props = new Properties();
-            try {
-                props.load(new FileInputStream("src/test/resources/config.properties"));
+            try (FileInputStream fis = new FileInputStream(CONFIG_PATH)) {
+                props.load(fis);
             } catch (Exception e) {
-                InputStream is = ConfigManager.class.getClassLoader().getResourceAsStream("config.properties");
-                if (is == null) {
-                    throw new RuntimeException("Failed to load config.properties from filesystem or classpath", e);
+                try (InputStream is = ConfigManager.class.getClassLoader().getResourceAsStream("config.properties")) {
+                    if (is == null) {
+                        throw new RuntimeException("Failed to load config.properties from filesystem or classpath", e);
+                    }
+                    props.load(is);
                 }
-                props.load(is);
-                is.close();
             }
         } catch (Exception e) {
             throw new RuntimeException("Failed to load config.properties", e);
@@ -28,5 +30,14 @@ public class ConfigManager {
 
     public static String get(String key) {
         return props.getProperty(key);
+    }
+
+    public static void set(String key, String value) {
+        props.setProperty(key, value);
+        try (FileOutputStream fos = new FileOutputStream(CONFIG_PATH)) {
+            props.store(fos, null);
+        } catch (Exception e) {
+            System.err.println("Failed to save config: " + e.getMessage());
+        }
     }
 }

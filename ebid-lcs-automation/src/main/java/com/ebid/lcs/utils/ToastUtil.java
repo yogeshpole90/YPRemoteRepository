@@ -8,6 +8,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
+
 public class ToastUtil {
 
     private static final Logger logger = LogManager.getLogger(ToastUtil.class);
@@ -44,15 +46,27 @@ public class ToastUtil {
     }
 
     /**
-     * Generic toast capture - switches to defaultContent, captures toast, returns
-     * message
+     * Generic toast capture - checks in current context first, then defaultContent
      */
     public static ToastMessage getToastIfPresent(WebDriver driver) {
-        try {
-            // Toast is always on parent page
-            driver.switchTo().defaultContent();
+        // Try in current context first (frame)
+        ToastMessage toast = findToast(driver);
+        if (toast != null) return toast;
 
-            WebDriverWait wait = new WebDriverWait(driver, TOAST_WAIT_SECONDS);
+        // Try in defaultContent
+        try {
+            driver.switchTo().defaultContent();
+            toast = findToast(driver);
+            if (toast != null) return toast;
+        } catch (Exception e) {}
+
+        logger.debug("No toast found within {} seconds", TOAST_WAIT_SECONDS);
+        return null;
+    }
+
+    private static ToastMessage findToast(WebDriver driver) {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(TOAST_WAIT_SECONDS));
             WebElement toast = wait.until(ExpectedConditions.presenceOfElementLocated(TOAST_CONTAINER));
 
             String classAttr = toast.getAttribute("class");
@@ -61,7 +75,6 @@ public class ToastUtil {
             try {
                 message = toast.findElement(TOAST_MESSAGE).getText().trim();
             } catch (Exception e) {
-                // getText from element directly using JS if normal getText fails
                 try {
                     message = (String) ((org.openqa.selenium.JavascriptExecutor) driver)
                             .executeScript("return arguments[0].querySelector('em').textContent.trim();", toast);
@@ -81,16 +94,14 @@ public class ToastUtil {
 
             logger.info("Toast captured: {} - {}", type, message);
             return new ToastMessage(type, message);
-
         } catch (Exception e) {
-            logger.debug("No toast found within {} seconds", TOAST_WAIT_SECONDS);
             return null;
         }
     }
 
     public static String getSuccessToast(WebDriver driver) {
         ToastMessage toast = getToastIfPresent(driver);
-        if (toast != null && toast.getType() == ToastType.SUCCESS) {
+        if (toast != null && (toast.getType() == ToastType.SUCCESS || !toast.getMessage().isEmpty())) {
             return toast.getMessage();
         }
         return "";

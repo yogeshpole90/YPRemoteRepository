@@ -37,7 +37,9 @@ public class BaseTest {
         String className = this.getClass().getSimpleName();
         boolean isAdminTest = className.equals("ActionDocMapTest") 
                            || className.equals("LawFirmTest") 
-                           || className.equals("LawyerDetailsTest");
+                           || className.equals("LawyerDetailsTest")
+                           || className.equals("UserCreationTest")
+                           || className.equals("EmployeeMasterTest");
 
         driver.get(ServerConfig.getActiveServer());
         Thread.sleep(1000);
@@ -48,14 +50,14 @@ public class BaseTest {
             Thread.sleep(1000);
             driver.findElement(By.id("userLogin")).click();
             Thread.sleep(2000);
-            logger.info("Login as infraadmin successful");
+            logger.info("Login as " + ConfigManager.get("admin.username") + " successful");
         } else {
             driver.findElement(By.id("loginId")).sendKeys(ConfigManager.get("username"), Keys.TAB);
             driver.findElement(By.id("uiPwd")).sendKeys(ConfigManager.get("password"), Keys.TAB);
             Thread.sleep(2000);
             driver.findElement(By.id("userLogin")).click();
             Thread.sleep(2000);
-            logger.info("Login as Shelly successful");
+            logger.info("Login as " + ConfigManager.get("username") + " successful");
         }
     }
 
@@ -81,6 +83,8 @@ public class BaseTest {
 
     // Log helper
     protected void log(String field, String desc, String expected, String actual, boolean pass) {
+        String status = pass ? "PASS" : "FAIL";
+        String logMsg = "[" + field + "] " + desc + " | Expected: " + expected + " | Actual: " + actual + " | Status: " + status;
         System.out.println("----------------------------------------------");
         System.out.println("TC_" + (tcCounter++) + " | Field: " + field);
         System.out.println("  Test     : " + desc);
@@ -88,18 +92,22 @@ public class BaseTest {
         System.out.println("  Actual   : " + actual);
         System.out.println("  Status   : " + (pass ? "\u2705 PASS" : "\u274c FAIL"));
         if (pass) {
+            logger.info(logMsg);
             ExtentManager.pass(field, desc, expected, actual);
         } else {
+            logger.error(logMsg);
             ExtentManager.fail(field, desc, expected, actual, driver);
         }
     }
 
     protected void logInfo(String field, String desc, String value) {
+        String logMsg = "[" + field + "] " + desc + " | Value: " + value;
         System.out.println("----------------------------------------------");
         System.out.println("TC_" + (tcCounter++) + " | Field: " + field);
         System.out.println("  Test     : " + desc);
         System.out.println("  Value    : " + value);
         System.out.println("  Status   : \u2139\ufe0f INFO");
+        logger.info(logMsg);
         ExtentManager.info(field, desc, value);
     }
 
@@ -124,6 +132,6 @@ public class BaseTest {
         Thread.sleep(1000);
         driver.findElement(By.id("userLogin")).click();
         Thread.sleep(2000);
-        logger.info("Login as infraadmin successful");
+        logger.info("Login as " + ConfigManager.get("admin.username") + " successful");
     }
 }

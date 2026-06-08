@@ -10,6 +10,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
+
 import com.ebid.lcs.base.BaseTest;
 import com.ebid.lcs.config.ConfigManager;
 import com.ebid.lcs.listeners.TestListener;
@@ -36,14 +38,29 @@ public class CalendarTest extends BaseTest {
 
     @Test(priority = 1)
     public void validateCheckboxes() throws Exception {
-        String[] values = {"99", "100", "101", "102", "CALL", "MAIL", "SITE VISIT"};
-        String[] labels = {"PTP", "Site Visited", "Next Court Case", "Next Hearing", "Call", "Mail", "Site Visit"};
+        // Scroll to 'View all' text first to bring checkbox area into view
+        try {
+            WebElement viewAll = driver.findElement(By.xpath("//strong[text()='View all']"));
+            jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", viewAll);
+            Thread.sleep(1000);
+        } catch (Exception e) {}
+
+        // Scroll to first checkbox explicitly before loop starts
+        try {
+            WebElement firstCb = driver.findElement(By.xpath("//input[@value='99']"));
+            jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", firstCb);
+            Thread.sleep(1000);
+        } catch (Exception e) {}
+
+        String[] values = { "99", "100", "101", "102", "CALL", "MAIL", "SITE VISIT" };
+        String[] labels = { "PTP", "Site Visited", "Next Court Case", "Next Hearing", "Call", "Mail", "Site Visit" };
 
         for (int i = 0; i < values.length; i++) {
             try {
                 WebElement cb = driver.findElement(By.xpath("//input[@value='" + values[i] + "']"));
-                jse.executeScript("arguments[0].scrollIntoView({block:'center',behavior:'smooth'})", cb);
-                Thread.sleep(500);
+
+                jse.executeScript("arguments[0].scrollIntoView({block:'start',behavior:'smooth'})", cb);
+                Thread.sleep(800);
 
                 boolean selected = cb.isSelected();
                 log(labels[i] + " Checkbox", "Default selected", "true", String.valueOf(selected), selected);
@@ -73,64 +90,87 @@ public class CalendarTest extends BaseTest {
         WebElement forwardBtn = driver.findElement(By.className("ic-arrow-line-right"));
         WebElement backwardBtn = driver.findElement(By.className("ic-arrow-line-left"));
 
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dropdownBtn); Thread.sleep(500);
-        log("Dropdown Button", "Displayed", "true", String.valueOf(dropdownBtn.isDisplayed()), dropdownBtn.isDisplayed());
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dropdownBtn);
+        Thread.sleep(500);
+        log("Dropdown Button", "Displayed", "true", String.valueOf(dropdownBtn.isDisplayed()),
+                dropdownBtn.isDisplayed());
         log("Date Range Text", "Displayed", "true", String.valueOf(rangeText.isDisplayed()), rangeText.isDisplayed());
 
         // Daily
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dropdownBtn); Thread.sleep(500);
-        dropdownBtn.click(); Thread.sleep(500);
-        driver.findElement(By.xpath("//a[@data-action='toggle-daily']")).click(); Thread.sleep(1000);
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dropdownBtn);
+        Thread.sleep(500);
+        dropdownBtn.click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath("//a[@data-action='toggle-daily']")).click();
+        Thread.sleep(1000);
         String dailyRange = rangeText.getText().trim();
         log("Daily View", "Date range displayed", "Non-empty", dailyRange, !dailyRange.isEmpty());
 
         String beforeFwd = rangeText.getText().trim();
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", forwardBtn); Thread.sleep(500);
-        forwardBtn.click(); Thread.sleep(1000);
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", forwardBtn);
+        Thread.sleep(500);
+        forwardBtn.click();
+        Thread.sleep(1000);
         String afterFwd = rangeText.getText().trim();
         log("Daily Forward", "Date changed", beforeFwd, afterFwd, !afterFwd.equals(beforeFwd));
 
         String beforeBwd = rangeText.getText().trim();
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", backwardBtn); Thread.sleep(500);
-        backwardBtn.click(); Thread.sleep(1000);
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", backwardBtn);
+        Thread.sleep(500);
+        backwardBtn.click();
+        Thread.sleep(1000);
         String afterBwd = rangeText.getText().trim();
         log("Daily Backward", "Date changed", beforeBwd, afterBwd, !afterBwd.equals(beforeBwd));
 
         // Weekly
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dropdownBtn); Thread.sleep(500);
-        dropdownBtn.click(); Thread.sleep(500);
-        driver.findElement(By.xpath("//a[@data-action='toggle-weekly']")).click(); Thread.sleep(1000);
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dropdownBtn);
+        Thread.sleep(500);
+        dropdownBtn.click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath("//a[@data-action='toggle-weekly']")).click();
+        Thread.sleep(1000);
         String weeklyRange = rangeText.getText().trim();
         log("Weekly View", "Week range displayed", "Non-empty", weeklyRange, !weeklyRange.isEmpty());
 
         beforeFwd = rangeText.getText().trim();
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", forwardBtn); Thread.sleep(500);
-        forwardBtn.click(); Thread.sleep(1000);
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", forwardBtn);
+        Thread.sleep(500);
+        forwardBtn.click();
+        Thread.sleep(1000);
         afterFwd = rangeText.getText().trim();
         log("Weekly Forward", "Week changed", beforeFwd, afterFwd, !afterFwd.equals(beforeFwd));
 
         beforeBwd = rangeText.getText().trim();
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", backwardBtn); Thread.sleep(500);
-        backwardBtn.click(); Thread.sleep(1000);
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", backwardBtn);
+        Thread.sleep(500);
+        backwardBtn.click();
+        Thread.sleep(1000);
         afterBwd = rangeText.getText().trim();
         log("Weekly Backward", "Week changed", beforeBwd, afterBwd, !afterBwd.equals(beforeBwd));
 
         // Monthly
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dropdownBtn); Thread.sleep(500);
-        dropdownBtn.click(); Thread.sleep(500);
-        driver.findElement(By.xpath("//a[@data-action='toggle-monthly']")).click(); Thread.sleep(1000);
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dropdownBtn);
+        Thread.sleep(500);
+        dropdownBtn.click();
+        Thread.sleep(500);
+        driver.findElement(By.xpath("//a[@data-action='toggle-monthly']")).click();
+        Thread.sleep(1000);
         String monthlyRange = rangeText.getText().trim();
         log("Monthly View", "Month range displayed", "Non-empty", monthlyRange, !monthlyRange.isEmpty());
 
         beforeFwd = rangeText.getText().trim();
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", forwardBtn); Thread.sleep(500);
-        forwardBtn.click(); Thread.sleep(1000);
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", forwardBtn);
+        Thread.sleep(500);
+        forwardBtn.click();
+        Thread.sleep(1000);
         afterFwd = rangeText.getText().trim();
         log("Monthly Forward", "Month changed", beforeFwd, afterFwd, !afterFwd.equals(beforeFwd));
 
         beforeBwd = rangeText.getText().trim();
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", backwardBtn); Thread.sleep(500);
-        backwardBtn.click(); Thread.sleep(1000);
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", backwardBtn);
+        Thread.sleep(500);
+        backwardBtn.click();
+        Thread.sleep(1000);
         afterBwd = rangeText.getText().trim();
         log("Monthly Backward", "Month changed", beforeBwd, afterBwd, !afterBwd.equals(beforeBwd));
 
@@ -140,34 +180,44 @@ public class CalendarTest extends BaseTest {
     @Test(priority = 3)
     public void createRecord() throws Exception {
         WebElement dropdownBtn = driver.findElement(By.xpath("//*[@id='dropdownMenu-calendarType']"));
-        WebDriverWait wait = new WebDriverWait(driver, 15);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 
         // Daily Record
-        jse.executeScript("arguments[0].click()", dropdownBtn); Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", dropdownBtn);
+        Thread.sleep(500);
         jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//a[@data-action='toggle-daily']")));
         Thread.sleep(2000);
-        jse.executeScript("window.scrollBy(0,3000)"); Thread.sleep(2000);
+        jse.executeScript("window.scrollBy(0,3000)");
+        Thread.sleep(2000);
 
-        WebElement dailySlot = driver.findElement(By.xpath("(//div[contains(@class,'tui-full-calendar-time-date-s')])[1]"));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dailySlot); Thread.sleep(500);
+        WebElement dailySlot = driver
+                .findElement(By.xpath("(//div[contains(@class,'tui-full-calendar-time-date-s')])[1]"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", dailySlot);
+        Thread.sleep(500);
         wait.until(ExpectedConditions.elementToBeClickable(dailySlot));
-        dailySlot.click(); Thread.sleep(2000);
+        dailySlot.click();
+        Thread.sleep(2000);
 
         fillPopup("Daily PTP", "Pune", "Daily Test", "PTP");
-        jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//button[contains(@class,'tui-full-calendar-popup-save')]")));
+        jse.executeScript("arguments[0].click()",
+                driver.findElement(By.xpath("//button[contains(@class,'tui-full-calendar-popup-save')]")));
         Thread.sleep(2000);
         log("Daily Record", "Create PTP record", "Saved", "Saved", true);
 
-        jse.executeScript("window.scrollTo(0,0)"); Thread.sleep(1000);
+        jse.executeScript("window.scrollTo(0,0)");
+        Thread.sleep(1000);
         sa.assertAll();
     }
 
     private void fillPopup(String subject, String location, String desc, String calType) throws Exception {
-        WebElement popupBtn = driver.findElement(By.xpath("//button[contains(@class,'tui-full-calendar-dropdown-button tui-full-calendar-popup-section-item')]"));
-        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", popupBtn); Thread.sleep(500);
+        WebElement popupBtn = driver.findElement(By.xpath(
+                "//button[contains(@class,'tui-full-calendar-dropdown-button tui-full-calendar-popup-section-item')]"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", popupBtn);
+        Thread.sleep(500);
         jse.executeScript("arguments[0].click()", popupBtn);
         Thread.sleep(500);
-        jse.executeScript("arguments[0].click()", driver.findElement(By.xpath("//li[contains(@class,'tui-full-calendar-dropdown-menu-item')]//span[text()='" + calType + "']")));
+        jse.executeScript("arguments[0].click()", driver.findElement(By.xpath(
+                "//li[contains(@class,'tui-full-calendar-dropdown-menu-item')]//span[text()='" + calType + "']")));
         Thread.sleep(500);
 
         WebElement subjectField = driver.findElement(By.xpath("//input[@placeholder='Subject']"));

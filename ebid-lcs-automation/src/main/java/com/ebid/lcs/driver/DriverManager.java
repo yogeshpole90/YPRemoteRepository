@@ -1,49 +1,62 @@
 package com.ebid.lcs.driver;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 
 import com.ebid.lcs.config.ConfigManager;
 
 public class DriverManager {
 
-    private static WebDriver driver;
+    private static ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
 
     public static WebDriver getDriver() {
-        if (driver == null) {
+        if (driverThread.get() == null) {
             String browser = ConfigManager.get("browser");
             if (browser == null || browser.trim().isEmpty()) {
                 browser = "chrome";
             }
+            WebDriver driver;
             switch (browser.trim().toLowerCase()) {
                 case "edge":
                     String edgePath = ConfigManager.get("edgdriverpath");
                     if (edgePath != null && !edgePath.trim().isEmpty()) {
                         System.setProperty("webdriver.edge.driver", edgePath);
                     }
-                    driver = new EdgeDriver();
+                    EdgeOptions edgeOptions = new EdgeOptions();
+                    if ("true".equalsIgnoreCase(ConfigManager.get("headless"))) {
+                        edgeOptions.addArguments("--headless");
+                    }
+                    driver = new EdgeDriver(edgeOptions);
                     break;
                 default:
                     String chromePath = ConfigManager.get("chrdriverpath");
                     if (chromePath != null && !chromePath.trim().isEmpty()) {
                         System.setProperty("webdriver.chrome.driver", chromePath);
                     }
-                    driver = new ChromeDriver();
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    if ("true".equalsIgnoreCase(ConfigManager.get("headless"))) {
+                        chromeOptions.addArguments("--headless");
+                    }
+                    driver = new ChromeDriver(chromeOptions);
                     break;
             }
             driver.manage().window().maximize();
             driver.manage().deleteAllCookies();
-            driver.manage().timeouts().implicitlyWait(15, TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
+            driverThread.set(driver);
         }
-        return driver;
+        return driverThread.get();
     }
 
     public static void quit() {
+        WebDriver driver = driverThread.get();
         if (driver != null) {
             driver.quit();
-            driver = null;
+            driverThread.remove();
         }
     }
 }

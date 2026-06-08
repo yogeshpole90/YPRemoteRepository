@@ -9,6 +9,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 
+import java.time.Duration;
+
 import com.ebid.lcs.base.BaseTest;
 import com.ebid.lcs.excel.ExcelReader;
 import com.ebid.lcs.excel.SheetConstants;
@@ -17,6 +19,8 @@ import com.ebid.lcs.reporting.ExtentManager;
 
 @Listeners(TestListener.class)
 public class LawFirmTest extends BaseTest {
+
+    private String uniqueRegNo = "REG" + System.currentTimeMillis() % 1000000;
 
     private void dismissAlert() {
         try { driver.switchTo().alert().accept(); } catch (Exception e) {}
@@ -36,7 +40,7 @@ public class LawFirmTest extends BaseTest {
         ExtentManager.initReport("LawFirm");
         ExtentManager.startTest("Law Firm Master - Full Validation");
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.findElement(By.xpath("//*[@class='item-nav']/div")).click();
         Thread.sleep(500);
         WebElement lf = driver.findElement(By.xpath("//*[@id='LAWFIRMMST']/a"));
@@ -49,6 +53,7 @@ public class LawFirmTest extends BaseTest {
         Thread.sleep(1000);
 
         logInfo("Navigation", "Navigated to", "Law Firm Master (infraadmin)");
+        logInfo("Setup", "Unique Registration No", uniqueRegNo);
     }
 
     @Test(priority = 1)
@@ -61,6 +66,12 @@ public class LawFirmTest extends BaseTest {
             String expected = row[SheetConstants.Cols.EXPECTED].toString().trim();
             String desc = row[SheetConstants.Cols.DESCRIPTION].toString();
             String checkType = row[SheetConstants.Cols.CHECK_TYPE].toString().trim();
+
+            // Replace registration number with unique value for final save row
+            if (fieldName.equals("registrationNumber") && desc.toLowerCase().contains("final")) {
+                input = uniqueRegNo;
+                expected = uniqueRegNo;
+            }
 
             dismissAlert();
 
@@ -81,7 +92,6 @@ public class LawFirmTest extends BaseTest {
                 Select s = new Select(f);
                 try {
                     s.selectByVisibleText(input);
-                    // Wait for cascading dropdowns to load
                     if (fieldName.equals("countryCode") || fieldName.equals("stateCode")) {
                         Thread.sleep(1000);
                     } else {
@@ -125,20 +135,84 @@ public class LawFirmTest extends BaseTest {
     @Test(priority = 2)
     public void validateSave() throws Exception {
         dismissAlert();
-        jse.executeScript("window.scrollBy(0,500)"); Thread.sleep(300);
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(500);
         WebElement saveBtn = driver.findElement(By.id("saveFirm"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", saveBtn);
+        Thread.sleep(300);
         log("Save Button", "Displayed", "true", String.valueOf(saveBtn.isDisplayed()), saveBtn.isDisplayed());
-        saveBtn.click(); Thread.sleep(1500);
+        saveBtn.click();
+        Thread.sleep(1500);
         String toast = getSuccessToast();
         log("Save", "Save Law Firm", "Success", toast.isEmpty() ? "No toast" : toast, !toast.isEmpty());
+    }
 
-        // Back button
-        jse.executeScript("window.scrollBy(0,300)"); Thread.sleep(300);
-        try {
-            WebElement backBtn = driver.findElement(By.id("backButton"));
-            backBtn.click(); Thread.sleep(1000);
-            log("Back Button", "Click Back", "List page", "Back clicked", true);
-        } catch (Exception e) {}
+    @Test(priority = 3)
+    public void validateBackToList() throws Exception {
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(300);
+        WebElement backBtn = driver.findElement(By.id("backButton"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", backBtn);
+        Thread.sleep(300);
+        log("Back Button", "Displayed", "true", String.valueOf(backBtn.isDisplayed()), backBtn.isDisplayed());
+        backBtn.click();
+        Thread.sleep(1500);
+        log("Back Button", "Navigate to list", "List page", "Navigated", true);
+    }
+
+    @Test(priority = 4)
+    public void validateView() throws Exception {
+        WebElement searchBox = driver.findElement(By.cssSelector("#dt-authdata_filter input[type='search']"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", searchBox);
+        searchBox.clear();
+        searchBox.sendKeys(uniqueRegNo);
+        Thread.sleep(1000);
+        log("Search", "Search by Reg No", uniqueRegNo, uniqueRegNo, true);
+
+        WebElement viewBtn = driver.findElement(By.cssSelector("#dt-authdata tbody tr:first-child a.button.view"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", viewBtn);
+        Thread.sleep(300);
+        viewBtn.click();
+        Thread.sleep(1500);
+        log("View", "Click View", "View mode opened", "Clicked", true);
+
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(300);
+        driver.findElement(By.id("backButton")).click();
+        Thread.sleep(1000);
+        log("View", "Back to list from View", "List page", "Navigated", true);
+    }
+
+    @Test(priority = 5)
+    public void validateEdit() throws Exception {
+        WebElement searchBox = driver.findElement(By.cssSelector("#dt-authdata_filter input[type='search']"));
+        searchBox.clear();
+        searchBox.sendKeys(uniqueRegNo);
+        Thread.sleep(1000);
+        log("Search", "Search by Reg No", uniqueRegNo, uniqueRegNo, true);
+
+        WebElement editBtn = driver.findElement(By.cssSelector("#dt-authdata tbody tr:first-child a.button.edit"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", editBtn);
+        Thread.sleep(300);
+        editBtn.click();
+        Thread.sleep(1500);
+        log("Edit", "Click Edit", "Edit mode opened", "Clicked", true);
+
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(300);
+        WebElement saveBtn = driver.findElement(By.id("saveFirm"));
+        jse.executeScript("arguments[0].scrollIntoView({block:'center'})", saveBtn);
+        Thread.sleep(300);
+        saveBtn.click();
+        Thread.sleep(1500);
+        String toast = getSuccessToast();
+        log("Edit", "Save after Edit", "Success", toast.isEmpty() ? "No toast" : toast, !toast.isEmpty());
+
+        jse.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+        Thread.sleep(300);
+        driver.findElement(By.id("backButton")).click();
+        Thread.sleep(1000);
+        log("Edit", "Back to list from Edit", "List page", "Navigated", true);
 
         sa.assertAll();
     }
