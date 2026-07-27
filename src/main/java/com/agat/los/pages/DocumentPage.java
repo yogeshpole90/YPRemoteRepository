@@ -26,6 +26,14 @@ public class DocumentPage {
     @FindBy(id = "documentDataModal") private WebElement fileInput;
     @FindBy(id = "saveDocModal") private WebElement saveDocBtn;
 
+    // ========== Add New Document ==========
+    private By addNewDocBtn      = By.id("newDocument");
+    private By osvFlagCheckbox   = By.id("osvFlag");
+    private By docGrpDropdown    = By.id("select2-docGrp-container");
+    private By docTypeDropdown   = By.id("select2-docType-container");
+    private By chooseDocInput    = By.id("documentData");
+    private By saveDocNewBtn     = By.id("saveDoc");
+
     // ========== View All Documents ==========
     private By viewAllDocsBtn = By.xpath("//button[contains(@onclick,'viewAllDocs')]");
 
@@ -210,6 +218,64 @@ public class DocumentPage {
         Thread.sleep(1000);
 
         return hasContent ? url : "";
+    }
+
+    // ========== Add New Document ==========
+    public void addNewDocument(String filePath) throws InterruptedException {
+        // Click Add New Document button
+        WebElement addBtn = driver.findElement(addNewDocBtn);
+        jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", addBtn);
+        Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", addBtn);
+        Thread.sleep(2000);
+
+        // Tick OSV checkbox
+        WebElement checkbox = driver.findElement(osvFlagCheckbox);
+        jse.executeScript("arguments[0].scrollIntoView(true); arguments[0].parentElement.scrollIntoView(true);", checkbox);
+        Thread.sleep(500);
+        if (!checkbox.isSelected())
+            jse.executeScript("arguments[0].click()", checkbox);
+        Thread.sleep(500);
+
+        // Select Document Group = LOANKIT
+        WebElement grpEl = driver.findElement(docGrpDropdown);
+        jse.executeScript("arguments[0].scrollIntoView(true);", grpEl);
+        Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", grpEl);
+        Thread.sleep(1500);
+        WebElement loankitOption = driver.findElement(
+            By.xpath("//ul[@id='select2-docGrp-results']//li[contains(translate(normalize-space(text()),'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ'),'LOANKIT')]"));
+        jse.executeScript("arguments[0].scrollIntoView(true);", loankitOption);
+        jse.executeScript("arguments[0].click()", loankitOption);
+        Thread.sleep(1500);
+
+        // Select Document Type = first available option (index 1, skip placeholder)
+        WebElement typeEl = driver.findElement(docTypeDropdown);
+        jse.executeScript("arguments[0].scrollIntoView(true);", typeEl);
+        Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", typeEl);
+        Thread.sleep(1000);
+        java.util.List<WebElement> docTypeOptions = driver.findElements(
+            By.cssSelector("#select2-docType-results li.select2-results__option"));
+        if (docTypeOptions.size() > 1)
+            jse.executeScript("arguments[0].scrollIntoView(true); arguments[0].click();", docTypeOptions.get(1));
+        Thread.sleep(1000);
+
+        // Choose document file
+        WebElement fileEl = driver.findElement(chooseDocInput);
+        jse.executeScript("arguments[0].scrollIntoView(true);", fileEl);
+        Thread.sleep(500);
+        fileEl.sendKeys(filePath);
+        Thread.sleep(2000);
+
+        // Save
+        WebElement saveBtn = driver.findElement(saveDocNewBtn);
+        jse.executeScript("arguments[0].scrollIntoView(true);", saveBtn);
+        Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", saveBtn);
+        Thread.sleep(3000);
+
+        try { driver.switchTo().alert().accept(); Thread.sleep(1000); } catch (Exception e) {}
     }
 
     // ========== Utility ==========

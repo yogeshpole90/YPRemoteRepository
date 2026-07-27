@@ -77,29 +77,27 @@ public class ReferenceDetailsPage {
     }
 
     public void verifyMobile(String otp) throws InterruptedException {
-        // Click Verify Mobile button
         jse.executeScript("arguments[0].click()", verifyMobileBtn);
-        Thread.sleep(1000);
-
-        // Accept alert
+        // Wait for and accept OTP sent alert
         try {
+            new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(5))
+                .until(org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent());
             driver.switchTo().alert().accept();
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (Exception e) {}
 
-        // Enter OTP
         mobileOtp.clear();
         mobileOtp.sendKeys(otp);
         Thread.sleep(500);
 
-        // Click Verify
         jse.executeScript("arguments[0].click()", verifyBtn);
         Thread.sleep(1000);
 
-        // Accept alert
         try {
+            new org.openqa.selenium.support.ui.WebDriverWait(driver, java.time.Duration.ofSeconds(5))
+                .until(org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent());
             driver.switchTo().alert().accept();
-            Thread.sleep(2000);
+            Thread.sleep(1000);
         } catch (Exception e) {}
     }
 

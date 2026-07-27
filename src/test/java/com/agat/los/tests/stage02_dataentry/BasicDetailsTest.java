@@ -49,7 +49,7 @@ public class BasicDetailsTest extends BaseTest {
         log("Overview", "Product", "Micro Loan", product, product.contains("Micro Loan"));
 
         String loanAmt = bdPage.getOverviewLoanAmount();
-        log("Overview", "Loan Amount", "90,000,000", loanAmt, loanAmt.contains("90,000,000"));
+        log("Overview", "Loan Amount", "75,000,000", loanAmt, loanAmt.contains("75,000,000"));
 
         String tenure = bdPage.getOverviewLoanTenure();
         log("Overview", "Loan Tenure", "30", tenure, tenure.contains("30"));
@@ -97,13 +97,13 @@ public class BasicDetailsTest extends BaseTest {
         log("AppSummary", "Tenure Months", "30", tenure, tenure.contains("30"));
 
         String finAmt = bdPage.getSummaryFinancingAmount();
-        log("AppSummary", "Financing Amount", "90,000,000", finAmt, finAmt.contains("90,000,000"));
+        log("AppSummary", "Financing Amount", "75,000,000", finAmt, finAmt.contains("75,000,000"));
 
         String installments = bdPage.getSummaryInstallments();
         log("AppSummary", "Number of Installment", "30", installments, installments.contains("30"));
 
         String totalExp = bdPage.getSummaryTotalExposure();
-        log("AppSummary", "Total Exposure", "90,000,000", totalExp, totalExp.contains("90,000,000"));
+        log("AppSummary", "Total Exposure", "75,000,000", totalExp, totalExp.contains("75,000,000"));
 
         sa.assertAll();
     }

@@ -477,12 +477,11 @@ public class LeadCreationPage {
 
     public void clickConvert() throws InterruptedException {
         jse.executeScript("arguments[0].click()", convertBtn);
-        // Click Yes on warning popup if appears
         try {
             wait.until(ExpectedConditions.elementToBeClickable(convertWarningYes));
             convertWarningYes.click();
         } catch (Exception e) {}
-        acceptAlertIfPresent();
+        Thread.sleep(2000);
     }
 
     public boolean clickPopUpYesIfPresent() throws InterruptedException {
@@ -504,14 +503,13 @@ public class LeadCreationPage {
                 By.cssSelector("#dt-authdata_filter input[type='search']")));
         searchBox.clear();
         searchBox.sendKeys(appId);
-        // Wait for table to filter
         Thread.sleep(3000);
     }
 
     public void doubleClickInboxRow(String appId) throws InterruptedException {
-        WebElement appRow = wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//table[@id='dt-authdata']//tbody//tr[td[contains(text(),'" + appId + "')]]/td[2]")));
-        act.doubleClick(appRow).build().perform();
+        WebElement row = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("#dt-authdata tbody tr:first-child td:first-child")));
+        act.doubleClick(row).build().perform();
         Thread.sleep(4000);
     }
 

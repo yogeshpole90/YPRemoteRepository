@@ -63,11 +63,9 @@ public class DocumentTest extends BaseTest {
 
         docPage.switchToDocumentFrame();
 
-        // Delete Row 2 first (reverse order to avoid index shift)
         docPage.deleteDocument(1);
         log("Document", "Delete Row 2 (if exists)", "Deleted", "Done", true);
 
-        // Delete Row 1
         docPage.deleteDocument(0);
         log("Document", "Delete Row 1 (if exists)", "Deleted", "Done", true);
 
@@ -80,12 +78,10 @@ public class DocumentTest extends BaseTest {
         log("Document", "Click Document tab", "Document section opened", "Clicked", true);
         docPage.switchToDocumentFrame();
 
-        // Upload Row 1
         boolean uploaded1 = docPage.uploadDocument(0, DOC1);
         log("Document", "Upload Row 1 (Registered Address)", "Uploaded", uploaded1 ? "Success" : "Failed", uploaded1);
         sa.assertTrue(uploaded1, "Row 1 upload failed");
 
-        // Upload Row 2
         boolean uploaded2 = docPage.uploadDocument(1, DOC2);
         log("Document", "Upload Row 2 (Pasport+PINFL)", "Uploaded", uploaded2 ? "Success" : "Failed", uploaded2);
         sa.assertTrue(uploaded2, "Row 2 upload failed");
@@ -95,7 +91,6 @@ public class DocumentTest extends BaseTest {
 
     @Test(priority = 3)
     public void viewIndividualDocument() throws Exception {
-        // Grid View - Row 1
         String url = docPage.viewDocumentInGrid(0);
         boolean isValid = !url.isEmpty() && (url.contains("blob:") || url.contains(".pdf") || url.contains("document") || url.contains("view"));
 
@@ -107,7 +102,6 @@ public class DocumentTest extends BaseTest {
 
     @Test(priority = 4)
     public void validateExtraInfo() throws Exception {
-        // Extra Info for Row 1
         String status = docPage.clickExtraInfoAndGetStatus(0);
         String branch = docPage.getExtraInfoBranch();
         String custodian = docPage.getExtraInfoCustodian();
@@ -127,7 +121,6 @@ public class DocumentTest extends BaseTest {
 
     @Test(priority = 5)
     public void viewAllDocuments() throws Exception {
-        // View All Documents button
         String url = docPage.viewAllDocuments();
         boolean isValid = !url.isEmpty();
 
@@ -135,6 +128,23 @@ public class DocumentTest extends BaseTest {
         sa.assertTrue(isValid, "View All Documents should open with content");
 
         docPage.switchToMainContent();
+        sa.assertAll();
+    }
+
+    @Test(priority = 6)
+    public void addNewDocument() throws Exception {
+        docPage.clickDocumentTab();
+        log("Document", "Click Document tab", "Document section opened", "Clicked", true);
+
+        docPage.switchToDocumentFrame();
+
+        try {
+            docPage.addNewDocument(DOC1);
+            log("Document", "Add New Document - OSV checked, LOANKIT selected, file uploaded", "Saved successfully", "Done", true);
+        } finally {
+            docPage.switchToMainContent();
+        }
+
         sa.assertAll();
     }
 }

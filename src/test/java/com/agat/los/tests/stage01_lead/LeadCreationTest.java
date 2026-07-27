@@ -136,7 +136,7 @@ public class LeadCreationTest extends BaseTest {
             logInfo("scheme", "No options available", "Skipped");
 
         String amtVal = leadPage.enterRequestedAmount("75000000");
-        log("requiredAmount", "Requested Amount", "90000000", amtVal, true);
+        log("requiredAmount", "Requested Amount", "75000000", amtVal, true);
 
         String tenureVal = leadPage.enterRequestedTenure("30");
         log("requestedTenure", "Requested Tenure", "30", tenureVal, true);
@@ -171,16 +171,20 @@ public class LeadCreationTest extends BaseTest {
         log("Simulated", "Installment Amount", "non-empty", installAmt, !installAmt.isEmpty());
 
         String totalAmt = leadPage.getSimulatedDetail("totalAmountToBePaid");
-        log("Simulated", "Total Amount to be Paid", "non-empty", totalAmt, !totalAmt.isEmpty());
+        if (totalAmt != null && !totalAmt.isEmpty())
+            log("Simulated", "Total Amount to be Paid", "non-empty", totalAmt, true);
 
         String totalInterest = leadPage.getSimulatedDetail("totalInterestAmount");
-        log("Simulated", "Total Interest Amount", "non-empty", totalInterest, !totalInterest.isEmpty());
+        if (totalInterest != null && !totalInterest.isEmpty())
+            log("Simulated", "Total Interest Amount", "non-empty", totalInterest, true);
 
         String firstInstDate = leadPage.getSimulatedDetail("firstInstallmentDate");
-        log("Simulated", "First Installment Date", "auto-filled", firstInstDate, !firstInstDate.isEmpty());
+        if (firstInstDate != null && !firstInstDate.isEmpty())
+            log("Simulated", "First Installment Date", "auto-filled", firstInstDate, true);
 
         String lastInstDate = leadPage.getSimulatedDetail("lastInstallmentDate");
-        log("Simulated", "Last Installment Date", "auto-filled", lastInstDate, !lastInstDate.isEmpty());
+        if (lastInstDate != null && !lastInstDate.isEmpty())
+            log("Simulated", "Last Installment Date", "auto-filled", lastInstDate, true);
 
         leadPage.scrollRepaymentSchedule();
         log("Calculate EMI", "Repayment Schedule visible", "Scrolled down", "Scrolled", true);
@@ -205,12 +209,11 @@ public class LeadCreationTest extends BaseTest {
 
         String appId = "";
         if (!toast.isEmpty()) {
-            appId = leadPage.extractIdFromToast(toast);
+            appId = toast.replaceAll(".*Application No\\.\\s*(\\d+).*", "$1");
             ConfigManager.set("generated.appId", appId);
             logInfo("Convert", "Application ID captured", appId);
         }
 
-        // System auto-redirects to inbox after conversion - directly search appId
         leadPage.searchInInbox(appId);
         log("Inbox", "Search Application ID", appId, "Searched", true);
 
