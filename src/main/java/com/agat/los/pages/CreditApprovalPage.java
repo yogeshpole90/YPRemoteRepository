@@ -78,12 +78,8 @@ public class CreditApprovalPage {
         WebElement searchBox = driver.findElement(inboxSearch);
         searchBox.clear();
         searchBox.sendKeys(appId);
-        Thread.sleep(2000);
-        wait.until(d -> {
-            try { return d.findElement(inboxFirstRow).getText().contains(appId); }
-            catch (Exception e) { return false; }
-        });
-        act.doubleClick(driver.findElement(inboxFirstRow)).build().perform();
+        Thread.sleep(3000);
+        act.doubleClick(driver.findElement(By.cssSelector("#dt-authdata tbody tr:first-child td:first-child"))).build().perform();
         Thread.sleep(3000);
     }
 
