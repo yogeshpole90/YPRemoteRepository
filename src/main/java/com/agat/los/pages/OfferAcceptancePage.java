@@ -177,7 +177,14 @@ public class OfferAcceptancePage {
     public void closeRepaymentSchedule() throws InterruptedException {
         WebElement btn = wait.until(ExpectedConditions.elementToBeClickable(closeRepaymentBtn));
         jse.executeScript("arguments[0].click()", btn);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(closeRepaymentBtn));
+        Thread.sleep(2000);
+        wait.until(d -> {
+            try {
+                WebElement el = d.findElement(closeRepaymentBtn);
+                String display = el.getCssValue("display");
+                return display.equals("none") || !el.isDisplayed();
+            } catch (Exception e) { return true; }
+        });
     }
 
     // ========== Calculated Fields ==========

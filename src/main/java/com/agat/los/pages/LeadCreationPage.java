@@ -139,9 +139,15 @@ public class LeadCreationPage {
     }
 
     // ========== Navigation Actions ==========
-    public boolean isNewLeadBtnDisplayed() { return newLeadBtn.isDisplayed(); }
+    public boolean isNewLeadBtnDisplayed() {
+        try {
+            wait.until(ExpectedConditions.visibilityOf(newLeadBtn));
+            return newLeadBtn.isDisplayed();
+        } catch (Exception e) { return false; }
+    }
 
     public void clickNewLead() throws InterruptedException {
+        wait.until(ExpectedConditions.elementToBeClickable(newLeadBtn));
         jse.executeScript("arguments[0].scrollIntoView({block:'center'})", newLeadBtn);
         Thread.sleep(500);
         newLeadBtn.click();

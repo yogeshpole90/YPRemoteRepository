@@ -137,6 +137,30 @@ public class BaseTest {
     protected String getSuccessToast() { return ToastUtil.getSuccessToast(driver); }
     protected String getErrorToast() { return ToastUtil.getErrorToast(driver); }
 
+    // ========== Common DDE Navigation ==========
+    protected void navigateToDDE() throws Exception {
+        // If DDE tabs already visible, skip navigation
+        try {
+            driver.findElement(By.xpath("//nav[contains(@class,'section-nav')]//a[contains(@href,'activeTab=KYC')]"));
+            return; // already on DDE page
+        } catch (Exception ignored) {}
+
+        String appId = ConfigManager.get("generated.appId");
+        driver.findElement(By.cssSelector("a.item-summary")).click();
+        Thread.sleep(2000);
+        WebElement searchBox = driver.findElement(By.cssSelector("#dt-authdata_filter input[type='search']"));
+        searchBox.clear();
+        searchBox.sendKeys(appId);
+        Thread.sleep(2000);
+        act.doubleClick(driver.findElement(By.cssSelector("#dt-authdata tbody tr:first-child td:nth-child(2)"))).build().perform();
+        Thread.sleep(3000);
+        WebElement ddeLink = driver.findElement(By.xpath("//td[@class='stage-child']//a[contains(@href,'stageName=DETAILED DATA ENTRY')]"));
+        jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", ddeLink);
+        Thread.sleep(500);
+        jse.executeScript("arguments[0].click()", ddeLink);
+        Thread.sleep(3000);
+    }
+
     protected void loginAs(String userId, String password) throws Exception {
         // Logout: click logout icon → Yes → Re-Login
         try {

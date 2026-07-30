@@ -42,6 +42,8 @@ public class BankDetailsPage {
     // ========== Navigation ==========
     public void clickBankDetailsTab() throws InterruptedException {
         WebElement tab = driver.findElement(bankTab);
+        jse.executeScript("arguments[0].scrollIntoView(true)", tab);
+        Thread.sleep(500);
         jse.executeScript("arguments[0].click()", tab);
         Thread.sleep(3000);
     }
@@ -60,9 +62,13 @@ public class BankDetailsPage {
     }
 
     public void clickEditBtn() throws InterruptedException {
-        WebElement editBtn = driver.findElement(By.cssSelector("a.editBtn"));
-        jse.executeScript("arguments[0].click()", editBtn);
-        Thread.sleep(3000);
+        Thread.sleep(1500);
+        if (hasExistingRecord()) {
+            WebElement editBtn = driver.findElement(By.cssSelector("a.editBtn"));
+            jse.executeScript("arguments[0].click()", editBtn);
+            Thread.sleep(2000);
+        }
+        // CREATE mode — form already visible, no button needed
     }
 
     // ========== Form Actions ==========

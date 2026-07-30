@@ -237,28 +237,32 @@ public class DocumentPage {
             jse.executeScript("arguments[0].click()", checkbox);
         Thread.sleep(500);
 
-        // Select Document Group = LOANKIT
-        WebElement grpEl = driver.findElement(docGrpDropdown);
-        jse.executeScript("arguments[0].scrollIntoView(true);", grpEl);
-        Thread.sleep(500);
-        jse.executeScript("arguments[0].click()", grpEl);
-        Thread.sleep(1500);
-        WebElement loankitOption = driver.findElement(
-            By.xpath("//ul[@id='select2-docGrp-results']//li[contains(translate(normalize-space(text()),'abcdefghijklmnopqrstuvwxyz','ABCDEFGHIJKLMNOPQRSTUVWXYZ'),'LOANKIT')]"));
-        jse.executeScript("arguments[0].scrollIntoView(true);", loankitOption);
-        jse.executeScript("arguments[0].click()", loankitOption);
-        Thread.sleep(1500);
+        // Select Document Group = LOANKIT via underlying <select> + jQuery trigger
+        // Find option whose text contains LOANKIT (case-insensitive), set value, trigger change
+        String grpVal = (String) jse.executeScript(
+            "var sel = document.getElementById('docGrp');" +
+            "for(var i=0;i<sel.options.length;i++){" +
+            "  if(sel.options[i].text.toUpperCase().indexOf('LOANKIT')>=0){" +
+            "    return sel.options[i].value;" +
+            "  }" +
+            "}" +
+            "return sel.options.length>1 ? sel.options[1].value : '';");
+        jse.executeScript("$('#docGrp').val('" + grpVal + "').trigger('change');");
+        Thread.sleep(2500); // wait for AJAX to load docType options
 
-        // Select Document Type = first available option (index 1, skip placeholder)
-        WebElement typeEl = driver.findElement(docTypeDropdown);
-        jse.executeScript("arguments[0].scrollIntoView(true);", typeEl);
-        Thread.sleep(500);
-        jse.executeScript("arguments[0].click()", typeEl);
-        Thread.sleep(1000);
-        java.util.List<WebElement> docTypeOptions = driver.findElements(
-            By.cssSelector("#select2-docType-results li.select2-results__option"));
-        if (docTypeOptions.size() > 1)
-            jse.executeScript("arguments[0].scrollIntoView(true); arguments[0].click();", docTypeOptions.get(1));
+        // Select Document Type = second non-placeholder option (index 2) via underlying <select>
+        String typeVal = (String) jse.executeScript(
+            "var sel = document.getElementById('docType');" +
+            "var count=0;" +
+            "for(var i=0;i<sel.options.length;i++){" +
+            "  if(sel.options[i].value && sel.options[i].value !== ''){" +
+            "    count++;" +
+            "    if(count===3) return sel.options[i].value;" +
+            "  }" +
+            "}" +
+            "return '';");
+        if (typeVal != null && !typeVal.isEmpty())
+            jse.executeScript("$('#docType').val('" + typeVal + "').trigger('change');");
         Thread.sleep(1000);
 
         // Choose document file

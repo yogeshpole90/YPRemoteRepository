@@ -18,6 +18,9 @@ public class LeadCreationTest extends BaseTest {
 
     @BeforeClass
     public void setup() throws Exception {
+        driver = com.agat.los.driver.DriverManager.getDriver();
+        jse = (org.openqa.selenium.JavascriptExecutor) driver;
+        act = new org.openqa.selenium.interactions.Actions(driver);
         ExtentManager.initReport("LeadCreation");
         ExtentManager.startTest("Stage 1 - Lead Creation & Conversion");
         logInfo("Stage", "Current Stage", "Lead Creation");

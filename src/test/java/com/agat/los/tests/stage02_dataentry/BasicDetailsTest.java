@@ -133,26 +133,26 @@ public class BasicDetailsTest extends BaseTest {
 
     @Test(priority = 7)
     public void fillAddressDetails() throws Exception {
-        addrPage.clickAddressTab();
-        log("Address", "Click Address Details tab", "Address form loaded", "Clicked", true);
+        try {
+            addrPage.clickAddressTab();
+            log("Address", "Click Address Details tab", "Address form loaded", "Clicked", true);
 
-        addrPage.switchToAddressFrame();
-        if (addrPage.hasExistingRecord()) {
-            addrPage.clickEditBtn();
-            log("Address", "Click Edit", "Form loaded", "Editing existing record", true);
-        } else {
-            log("Address", "Click Edit", "Form loaded", "No record - skipped", false);
+            addrPage.switchToAddressFrame();
+            if (addrPage.hasExistingRecord()) {
+                addrPage.clickEditBtn();
+                log("Address", "Click Edit", "Form loaded", "Editing existing record", true);
+            } else {
+                log("Address", "Click Edit", "Form loaded", "No record - skipped", false);
+                return;
+            }
+            addrPage.fillAddressForm("1", "11-06-2022", "10", "abd", "test", "11-06-2023", "test");
+            log("Address", "All address fields filled", "Done", "Done", true);
+
+            addrPage.clickAddressSave();
+            log("Address", "Save", "Address saved successfully", "Done", true);
+        } finally {
             addrPage.switchToMainContent();
-            sa.assertAll();
-            return;
         }
-        addrPage.fillAddressForm("1", "11-06-2022", "10", "abd", "test", "11-06-2023", "test");
-        log("Address", "All address fields filled", "Done", "Done", true);
-
-        addrPage.clickAddressSave();
-        log("Address", "Save", "Address saved successfully", "Done", true);
-
-        addrPage.switchToMainContent();
         sa.assertAll();
     }
 }

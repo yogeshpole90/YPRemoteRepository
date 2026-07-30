@@ -1,6 +1,7 @@
 package com.agat.los.tests.stage02_dataentry;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -30,31 +31,12 @@ public class ProductDetailsTest extends BaseTest {
 
     @Test(priority = 0)
     public void navigateToApplication() throws Exception {
-        String appId = ConfigManager.get("generated.appId");
-
-        // Navigate to inbox first
-        new com.agat.los.pages.LeadCreationPage(driver).navigateToInbox();
-
-        var searchBox = driver.findElement(By.cssSelector("#dt-authdata_filter input[type='search']"));
-        searchBox.clear();
-        searchBox.sendKeys(appId);
-        Thread.sleep(2000);
-
-        act.doubleClick(driver.findElement(
-                By.xpath("//table[@id='dt-authdata']//tbody//tr[td[contains(text(),'" + appId + "')]]/td[2]"))).build().perform();
-        Thread.sleep(2000);
-
-        var ddeLink = driver.findElement(By.xpath("//td[@class='stage-child']//a[contains(@href,'stageName=DETAILED DATA ENTRY')]"));
-        jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", ddeLink);
-        Thread.sleep(500);
-        jse.executeScript("arguments[0].click()", ddeLink);
-        Thread.sleep(2000);
-
+        navigateToDDE();
         log("Navigation", "Navigate to DDE", "DDE page opened", "Done", true);
         sa.assertAll();
     }
 
-    @Test(priority = 1)
+    @Test(priority = 1, alwaysRun = true)
     public void fillLoanItemDetails() throws Exception {
         prodPage.clickProductDetailsTab();
         log("LoanItem", "Click Product Details tab", "Product section opened", "Clicked", true);
@@ -83,7 +65,7 @@ public class ProductDetailsTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2, alwaysRun = true)
     public void saveLoanDetails() throws Exception {
         prodPage.clickLoanDetailsTab();
         log("LoanDetails", "Click Loan Details tab", "Form loaded", "Clicked", true);
@@ -102,7 +84,7 @@ public class ProductDetailsTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, alwaysRun = true)
     public void validateRepaymentSchedule() throws Exception {
         prodPage.clickEditBtnLoanDetails();
         log("LoanDetails", "Click Edit again", "Form loaded", "Clicked", true);

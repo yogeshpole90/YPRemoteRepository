@@ -52,7 +52,7 @@ public class StageTransitionTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(priority = 1)
+    @Test(priority = 1, alwaysRun = true)
     public void moveToNextStage() throws Exception {
         // Click Next button
         transitionPage.clickNext();

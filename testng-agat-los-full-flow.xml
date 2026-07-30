@@ -35,6 +35,9 @@
             <class name="com.agat.los.tests.stage02_dataentry.CreditBureauTest">
                 <methods><exclude name="navigateToApplication"/></methods>
             </class>
+            <class name="com.agat.los.tests.stage02_dataentry.RepaymentRatiosTest">
+                <methods><exclude name="navigateToApplication"/></methods>
+            </class>
             <class name="com.agat.los.tests.stage02_dataentry.DocumentTest">
                 <methods><exclude name="navigateToApplication"/></methods>
             </class>

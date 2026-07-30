@@ -32,29 +32,12 @@ public class PolicyReviewTest extends BaseTest {
 
     @Test(priority = 0)
     public void navigateToApplication() throws Exception {
-        driver.findElement(By.cssSelector("a.item-summary")).click();
-        Thread.sleep(3000);
-
-        String appId = ConfigManager.get("generated.appId");
-        var searchBox = driver.findElement(By.cssSelector("#dt-authdata_filter input[type='search']"));
-        searchBox.clear();
-        searchBox.sendKeys(appId);
-        Thread.sleep(2000);
-
-        act.doubleClick(driver.findElement(By.cssSelector("#dt-authdata tbody tr:first-child td:nth-child(2)"))).build().perform();
-        Thread.sleep(3000);
-
-        var ddeLink = driver.findElement(By.xpath("//td[@class='stage-child']//a[contains(@href,'stageName=DETAILED DATA ENTRY')]"));
-        jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", ddeLink);
-        Thread.sleep(1500);
-        jse.executeScript("arguments[0].click()", ddeLink);
-        Thread.sleep(3000);
-
+        navigateToDDE();
         log("Navigation", "Navigate to DDE", "DDE page opened", "Done", true);
         sa.assertAll();
     }
 
-    @Test(priority = 1)
+    @Test(priority = 1, alwaysRun = true)
     public void runPolicyCheck() throws Exception {
         policyPage.clickPolicyReviewTab();
         log("PolicyReview", "Click Policy Review tab", "Section opened", "Clicked", true);
@@ -89,7 +72,7 @@ public class PolicyReviewTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2, alwaysRun = true)
     public void runCreditScoreCard() throws Exception {
         policyPage.clickCreditScoreTab();
         log("CreditScore", "Click Credit Score Card tab", "Section opened", "Clicked", true);

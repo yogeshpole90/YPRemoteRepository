@@ -1,6 +1,7 @@
 package com.agat.los.tests.stage02_dataentry;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Listeners;
@@ -30,36 +31,17 @@ public class CollateralTest extends BaseTest {
 
     @Test(priority = 0)
     public void navigateToApplication() throws Exception {
-        driver.findElement(By.cssSelector("a.item-summary")).click();
-        Thread.sleep(3000);
-
-        String appId = ConfigManager.get("generated.appId");
-        var searchBox = driver.findElement(By.cssSelector("#dt-authdata_filter input[type='search']"));
-        searchBox.clear();
-        searchBox.sendKeys(appId);
-        Thread.sleep(2000);
-
-        act.doubleClick(driver.findElement(By.cssSelector("#dt-authdata tbody tr:first-child td:nth-child(2)"))).build().perform();
-        Thread.sleep(3000);
-
-        var ddeLink = driver.findElement(By.xpath("//td[@class='stage-child']//a[contains(@href,'stageName=DETAILED DATA ENTRY')]"));
-        jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", ddeLink);
-        Thread.sleep(1500);
-        jse.executeScript("arguments[0].click()", ddeLink);
-        Thread.sleep(3000);
-
-        // Click Product Details section (Collateral is under it)
-        var productTab = driver.findElement(By.xpath("//a[contains(@href,'activeTab=PRODUCT DETAILS')]"));
+        navigateToDDE();
+        WebElement productTab = driver.findElement(By.xpath("//a[contains(@href,'activeTab=PRODUCT DETAILS')]"));
         jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", productTab);
-        Thread.sleep(1000);
+        Thread.sleep(500);
         jse.executeScript("arguments[0].click()", productTab);
-        Thread.sleep(3000);
-
+        Thread.sleep(2000);
         log("Navigation", "Navigate to Product Details", "Done", "Done", true);
         sa.assertAll();
     }
 
-    @Test(priority = 1)
+    @Test(priority = 1, alwaysRun = true)
     public void fillCollateralDetails() throws Exception {
         collPage.clickCollateralTab();
         log("Collateral", "Click Collateral Details tab", "Form loaded", "Clicked", true);

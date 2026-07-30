@@ -11,14 +11,13 @@ import com.agat.los.config.ConfigManager;
 
 public class DriverManager {
 
-    private static ThreadLocal<WebDriver> driverThread = new ThreadLocal<>();
+    private static WebDriver driver;
 
     public static WebDriver getDriver() {
-        if (driverThread.get() == null) {
+        if (driver == null) {
             String browser = ConfigManager.get("browser");
             if (browser == null || browser.trim().isEmpty()) browser = "chrome";
 
-            WebDriver driver;
             switch (browser.trim().toLowerCase()) {
                 case "edge":
                     String edgePath = ConfigManager.get("edgdriverpath");
@@ -44,16 +43,14 @@ public class DriverManager {
             driver.manage().window().maximize();
             driver.manage().deleteAllCookies();
             driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(15));
-            driverThread.set(driver);
         }
-        return driverThread.get();
+        return driver;
     }
 
     public static void quit() {
-        WebDriver driver = driverThread.get();
         if (driver != null) {
             driver.quit();
-            driverThread.remove();
+            driver = null;
         }
     }
 }

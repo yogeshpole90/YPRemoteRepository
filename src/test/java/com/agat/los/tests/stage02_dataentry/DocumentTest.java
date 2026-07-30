@@ -34,24 +34,7 @@ public class DocumentTest extends BaseTest {
 
     @Test(priority = 0)
     public void navigateToApplication() throws Exception {
-        driver.findElement(By.cssSelector("a.item-summary")).click();
-        Thread.sleep(3000);
-
-        String appId = ConfigManager.get("generated.appId");
-        var searchBox = driver.findElement(By.cssSelector("#dt-authdata_filter input[type='search']"));
-        searchBox.clear();
-        searchBox.sendKeys(appId);
-        Thread.sleep(2000);
-
-        act.doubleClick(driver.findElement(By.cssSelector("#dt-authdata tbody tr:first-child td:nth-child(2)"))).build().perform();
-        Thread.sleep(3000);
-
-        var ddeLink = driver.findElement(By.xpath("//td[@class='stage-child']//a[contains(@href,'stageName=DETAILED DATA ENTRY')]"));
-        jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", ddeLink);
-        Thread.sleep(1500);
-        jse.executeScript("arguments[0].click()", ddeLink);
-        Thread.sleep(3000);
-
+        navigateToDDE();
         log("Navigation", "Navigate to DDE", "DDE page opened", "Done", true);
         sa.assertAll();
     }
@@ -72,7 +55,7 @@ public class DocumentTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2, alwaysRun = true)
     public void uploadDocuments() throws Exception {
         docPage.clickDocumentTab();
         log("Document", "Click Document tab", "Document section opened", "Clicked", true);
@@ -89,7 +72,7 @@ public class DocumentTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(priority = 3)
+    @Test(priority = 3, alwaysRun = true)
     public void viewIndividualDocument() throws Exception {
         String url = docPage.viewDocumentInGrid(0);
         boolean isValid = !url.isEmpty() && (url.contains("blob:") || url.contains(".pdf") || url.contains("document") || url.contains("view"));
@@ -100,7 +83,7 @@ public class DocumentTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(priority = 4)
+    @Test(priority = 4, alwaysRun = true)
     public void validateExtraInfo() throws Exception {
         String status = docPage.clickExtraInfoAndGetStatus(0);
         String branch = docPage.getExtraInfoBranch();
@@ -119,7 +102,7 @@ public class DocumentTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(priority = 5)
+    @Test(priority = 5, alwaysRun = true)
     public void viewAllDocuments() throws Exception {
         String url = docPage.viewAllDocuments();
         boolean isValid = !url.isEmpty();
@@ -131,7 +114,7 @@ public class DocumentTest extends BaseTest {
         sa.assertAll();
     }
 
-    @Test(priority = 6)
+    @Test(priority = 6, alwaysRun = true)
     public void addNewDocument() throws Exception {
         docPage.clickDocumentTab();
         log("Document", "Click Document tab", "Document section opened", "Clicked", true);

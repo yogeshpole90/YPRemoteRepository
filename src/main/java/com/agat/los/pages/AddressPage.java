@@ -81,13 +81,13 @@ public class AddressPage {
         jse.executeScript("$('#area').find('option').eq(1).prop('selected',true); $('#area').trigger('change')");
         Thread.sleep(2000);
 
-        // Mohalla search
+        // Mohalla search — re-fetch after open to avoid stale element
         jse.executeScript("$('#village').select2('open')");
-        Thread.sleep(500);
+        Thread.sleep(1000);
         WebElement mohSearch = driver.findElement(By.cssSelector(".select2-search__field"));
         mohSearch.sendKeys(mohallaSearch);
         Thread.sleep(2000);
-        mohSearch.sendKeys(Keys.ENTER);
+        driver.findElement(By.cssSelector(".select2-search__field")).sendKeys(Keys.ENTER);
         Thread.sleep(1000);
 
         // Address Line

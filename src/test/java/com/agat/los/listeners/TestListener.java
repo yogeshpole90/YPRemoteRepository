@@ -24,5 +24,7 @@ public class TestListener implements ITestListener {
     @Override
     public void onTestSkipped(ITestResult result) {
         System.out.println("Test SKIPPED: " + result.getMethod().getMethodName());
+        Throwable reason = result.getThrowable();
+        if (reason != null) System.out.println("Skip reason: " + reason.getMessage());
     }
 }

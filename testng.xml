@@ -15,6 +15,7 @@
             <class name="com.agat.los.tests.stage02_dataentry.IdentificationTest"/>
             <class name="com.agat.los.tests.stage02_dataentry.CollateralTest"/>
             <class name="com.agat.los.tests.stage02_dataentry.DocChecklistTest"/>
+            <class name="com.agat.los.tests.stage02_dataentry.RepaymentRatiosTest"/>
         </classes>
     </test>
 

@@ -163,15 +163,23 @@ public class CreditApprovalPage {
     public void closeRepaymentSchedule() throws InterruptedException {
         WebElement closeBtn = wait.until(ExpectedConditions.elementToBeClickable(closeRepaymentModal));
         jse.executeScript("arguments[0].click()", closeBtn);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(closeRepaymentModal));
+        Thread.sleep(2000);
+        wait.until(d -> {
+            try {
+                WebElement el = d.findElement(closeRepaymentModal);
+                String display = el.getCssValue("display");
+                return display.equals("none") || !el.isDisplayed();
+            } catch (Exception e) { return true; }
+        });
     }
 
     // ========== Recommendation - Comments ==========
     public void enterComments(String text) throws InterruptedException {
-        WebElement field = driver.findElement(commentsField);
+        try { wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(recommendationFrame)); } catch (Exception e) {}
+        WebElement field = wait.until(ExpectedConditions.elementToBeClickable(commentsField));
         jse.executeScript("arguments[0].scrollIntoView({block:'center'})", field);
         Thread.sleep(300);
-        field.clear();
+        jse.executeScript("arguments[0].value=''", field);
         field.sendKeys(text);
         Thread.sleep(300);
     }
