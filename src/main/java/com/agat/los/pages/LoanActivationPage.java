@@ -371,11 +371,24 @@ public class LoanActivationPage {
     public void clickDocArchiveEditBtn(int rowIndex) throws InterruptedException {
         jse.executeScript("window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'})");
         Thread.sleep(1000);
-        List<WebElement> editBtns = driver.findElements(docArchiveEditBtns);
-        WebElement btn = editBtns.get(rowIndex);
-        jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", btn);
-        Thread.sleep(500);
-        act.moveToElement(btn).click().build().perform();
+        List<WebElement> rows = driver.findElements(By.cssSelector("#dt-docDownloadArc tbody tr"));
+        rows.removeIf(r -> r.getText().trim().isEmpty() ||
+                      (r.getAttribute("class") != null && r.getAttribute("class").contains("dataTables_empty")));
+        WebElement row = rows.get(rowIndex);
+        // Try edit button first, fallback to double-click on row
+        List<WebElement> btns = row.findElements(By.cssSelector("a.editBtn, a.EditBtn, a[title='Edit'], a.edit"));
+        if (!btns.isEmpty()) {
+            WebElement btn = btns.get(0);
+            jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", btn);
+            Thread.sleep(500);
+            jse.executeScript("arguments[0].click()", btn);
+        } else {
+            // No edit button — double click the row to open form
+            WebElement firstCell = row.findElement(By.tagName("td"));
+            jse.executeScript("arguments[0].scrollIntoView({behavior:'smooth', block:'center'})", firstCell);
+            Thread.sleep(500);
+            act.doubleClick(firstCell).build().perform();
+        }
         Thread.sleep(3000);
     }
 
