@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+
+<suite name="EBID LCS Complete Flow Suite" verbose="1">
+
+    <!-- ==================== LCS SCREENS (Sequential) ==================== -->
+
+    <test name="01_CaseStatus">
+        <classes>
+            <class name="com.ebid.lcs.tests.CaseStatusTest"/>
+        </classes>
+    </test>
+
+    <test name="02_Reminder">
+        <classes>
+            <class name="com.ebid.lcs.tests.ReminderTest"/>
+        </classes>
+    </test>
+
+    <test name="03_FollowUp">
+        <classes>
+            <class name="com.ebid.lcs.tests.FollowUpTest"/>
+        </classes>
+    </test>
+
+    <test name="04_FullPTP">
+        <classes>
+            <class name="com.ebid.lcs.tests.FullPTPTest"/>
+        </classes>
+    </test>
+
+    <test name="05_DownPayment">
+        <classes>
+            <class name="com.ebid.lcs.tests.DownPaymentTest"/>
+        </classes>
+    </test>
+
+    <test name="06_FeesLegalCharges">
+        <classes>
+            <class name="com.ebid.lcs.tests.FeesLegalChargesTest"/>
+        </classes>
+    </test>
+
+    <test name="07_DocChecklist">
+        <classes>
+            <class name="com.ebid.lcs.tests.DocChecklistTest"/>
+        </classes>
+    </test>
+
+    <test name="08_RemedialAction">
+        <classes>
+            <class name="com.ebid.lcs.tests.RemedialActionTest"/>
+        </classes>
+    </test>
+
+    <test name="09_SiteVisit">
+        <classes>
+            <class name="com.ebid.lcs.tests.SiteVisitTest"/>
+        </classes>
+    </test>
+
+    <test name="10_PhoneBook">
+        <classes>
+            <class name="com.ebid.lcs.tests.PhoneBookTest"/>
+        </classes>
+    </test>
+
+    <test name="11_Calendar">
+        <classes>
+            <class name="com.ebid.lcs.tests.CalendarTest"/>
+        </classes>
+    </test>
+
+    <test name="12_DemandLetter">
+        <classes>
+            <class name="com.ebid.lcs.tests.DemandLetterTest"/>
+        </classes>
+    </test>
+
+    <test name="13_CourtCase">
+        <classes>
+            <class name="com.ebid.lcs.tests.CourtCaseTest"/>
+        </classes>
+    </test>
+
+    <test name="14_LegalOrder">
+        <classes>
+            <class name="com.ebid.lcs.tests.LegalOrderTest"/>
+        </classes>
+    </test>
+
+    <test name="15_LegalDiary">
+        <classes>
+            <class name="com.ebid.lcs.tests.LegalDiaryTest"/>
+        </classes>
+    </test>
+
+    <!-- ==================== ADMIN SCREENS (Separate - Run Later) ==================== -->
+    <!--
+    <test name="Admin_01_EmployeeMaster">
+        <classes>
+            <class name="com.ebid.lcs.tests.EmployeeMasterTest"/>
+        </classes>
+    </test>
+
+    <test name="Admin_02_UserCreation">
+        <classes>
+            <class name="com.ebid.lcs.tests.UserCreationTest"/>
+        </classes>
+    </test>
+
+    <test name="Admin_03_LawFirm">
+        <classes>
+            <class name="com.ebid.lcs.tests.LawFirmTest"/>
+        </classes>
+    </test>
+
+    <test name="Admin_04_LawyerDetails">
+        <classes>
+            <class name="com.ebid.lcs.tests.LawyerDetailsTest"/>
+        </classes>
+    </test>
+
+    <test name="Admin_05_ActionDocMap">
+        <classes>
+            <class name="com.ebid.lcs.tests.ActionDocMapTest"/>
+        </classes>
+    </test>
+    -->
+
+</suite>

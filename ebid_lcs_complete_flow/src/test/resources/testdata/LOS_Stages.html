@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LOS Stages & Sub-sections</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.5;
+        }
+        .toc {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border-left: 4px solid #2c7da0;
+        }
+        .toc h2 { margin-top: 0; color: #2c7da0; font-size: 18px; }
+        .toc ul { list-style: none; padding-left: 0; }
+        .toc li { margin: 8px 0; }
+        .toc a { text-decoration: none; color: #1a5d7a; font-size: 14px; }
+        .toc a:hover { text-decoration: underline; color: #0d3b4f; }
+        .main-heading {
+            font-size: 28px; font-weight: bold; color: #1e3a5f;
+            border-bottom: 3px solid #2c7da0; padding-bottom: 10px;
+            margin-top: 40px; margin-bottom: 25px;
+        }
+        .section { margin: 30px 0; }
+        .section-number {
+            font-size: 22px; font-weight: bold; color: #2c7da0;
+            border-left: 4px solid #2c7da0; padding-left: 12px;
+            margin-top: 30px; margin-bottom: 20px;
+        }
+        .subsection { margin-left: 20px; margin-bottom: 15px; }
+        .subsection-heading {
+            font-size: 18px; font-weight: bold; color: #2c3e50;
+            margin: 15px 0 8px 0; padding-left: 8px;
+            border-left: 2px solid #b0c4de;
+        }
+        .nested { margin-left: 35px; color: #4a627a; font-size: 15px; margin: 5px 0; }
+        hr { margin: 30px 0; border: none; border-top: 1px solid #ddd; }
+        [id] { scroll-margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<h1 class="main-heading" id="top">LOS Stages & Sub-sections</h1>
+
+<div class="toc">
+    <h2>📑 Navigation (Click to Jump)</h2>
+    <ul>
+        <li><a href="#dde">1. Detailed Data Entry (DDE)</a>
+            <ul style="margin-left: 20px;">
+                <li><a href="#kyc">KYC</a></li>
+                <li><a href="#product-details">Product Details</a></li>
+                <li><a href="#income-expenses">Income & Expenses</a></li>
+                <li><a href="#credit-bureau">Credit Bureau Exposure Check</a></li>
+                <li><a href="#documents">Documents</a></li>
+                <li><a href="#financials">Financials</a></li>
+                <li><a href="#qualitative">Qualitative Quantitative Scoring</a></li>
+                <li><a href="#policy-review">Policy Review</a></li>
+            </ul>
+        </li>
+        <li><a href="#aml">2. AML Approval</a></li>
+        <li><a href="#credit-approval">3. Credit Approval</a></li>
+        <li><a href="#offer-acceptance">4. Offer Acceptance</a></li>
+        <li><a href="#loan-activation">5. Loan Activation</a></li>
+    </ul>
+</div>
+
+<!-- 1. DDE -->
+<div class="section" id="dde">
+    <div class="section-number">1. Detailed Data Entry (DDE)</div>
+
+    <div class="subsection" id="kyc">
+        <div class="subsection-heading">KYC</div>
+        <div class="nested">Basic Details</div>
+        <div class="nested">Address Details</div>
+        <div class="nested">Bank Details</div>
+        <div class="nested">ID Details</div>
+        <div class="nested">Employment Details</div>
+        <div class="nested">Business Details</div>
+    </div>
+
+    <div class="subsection" id="product-details">
+        <div class="subsection-heading">Product Details</div>
+        <div class="nested">Loan Item Details</div>
+        <div class="nested">Loan Details</div>
+        <div class="nested">Insurance Details</div>
+        <div class="nested">Collateral Search</div>
+        <div class="nested">Collateral Details</div>
+    </div>
+
+    <div class="subsection" id="income-expenses">
+        <div class="subsection-heading">Income & Expenses</div>
+        <div class="nested">Income</div>
+        <div class="nested">Expenses</div>
+    </div>
+
+    <div class="subsection" id="credit-bureau">
+        <div class="subsection-heading">Credit Bureau Exposure Check</div>
+        <div class="nested">Repayment Ratios</div>
+    </div>
+
+    <div class="subsection" id="documents">
+        <div class="subsection-heading">Documents</div>
+        <div class="nested">Document Checklist</div>
+        <div class="nested">Loan Kit</div>
+        <div class="nested">Document Verification</div>
+    </div>
+
+    <div class="subsection" id="financials">
+        <div class="subsection-heading">Financials</div>
+        <div class="nested">Balance Sheet</div>
+        <div class="nested">Income Statement</div>
+        <div class="nested">Financial Ratios</div>
+    </div>
+
+    <div class="subsection" id="qualitative">
+        <div class="subsection-heading">Qualitative Quantitative Scoring</div>
+    </div>
+
+    <div class="subsection" id="policy-review">
+        <div class="subsection-heading">Policy Review</div>
+        <div class="nested">Policy Check</div>
+        <div class="nested">Credit Score Card</div>
+    </div>
+</div>
+
+<!-- 2. AML -->
+<div class="section" id="aml">
+    <div class="section-number">2. AML Approval</div>
+    <div class="subsection">
+        <div class="subsection-heading">AML Check</div>
+    </div>
+</div>
+
+<!-- 3. Credit Approval -->
+<div class="section" id="credit-approval">
+    <div class="section-number">3. Credit Approval</div>
+    <div class="subsection">
+        <div class="subsection-heading">Recommendation</div>
+        <div class="nested">Committee Approval</div>
+    </div>
+</div>
+
+<!-- 4. Offer Acceptance -->
+<div class="section" id="offer-acceptance">
+    <div class="section-number">4. Offer Acceptance</div>
+    <div class="subsection">
+        <div class="subsection-heading">Offer Details</div>
+    </div>
+</div>
+
+<!-- 5. Loan Activation -->
+<div class="section" id="loan-activation">
+    <div class="section-number">5. Loan Activation</div>
+    <div class="subsection">
+        <div class="subsection-heading">Disbursement</div>
+        <div class="nested">DrawDown Schedule</div>
+        <div class="nested">Disbursement Details</div>
+        <div class="nested">Document Archive</div>
+    </div>
+</div>
+
+<hr>
+<p style="text-align: center; color: gray; font-size: 12px;">LOS Document - Stages & Sub-sections</p>
+
+</body>
+</html>

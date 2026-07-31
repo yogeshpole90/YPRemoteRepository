@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LOS Test Evidence - Stage Wise</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; max-width: 1100px; margin: 0 auto; padding: 20px; background: #f0f4f8; }
+        h1 { font-size: 28px; font-weight: bold; color: #1e3a5f; border-bottom: 3px solid #2c7da0; padding-bottom: 10px; margin-bottom: 20px; }
+
+        /* TOC */
+        .toc { background: #fff; padding: 15px 20px; border-radius: 8px; margin-bottom: 30px; border-left: 4px solid #2c7da0; box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+        .toc h2 { margin-top: 0; color: #2c7da0; font-size: 17px; }
+        .toc ul { list-style: none; padding-left: 0; margin: 0; }
+        .toc li { margin: 6px 0; }
+        .toc a { text-decoration: none; color: #1a5d7a; font-size: 14px; }
+        .toc a:hover { text-decoration: underline; }
+        .toc ul ul { padding-left: 20px; }
+
+        /* Stage */
+        .stage { background: #fff; border-radius: 10px; margin: 30px 0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden; }
+        .stage-header { background: #1e3a5f; color: white; padding: 14px 20px; font-size: 20px; font-weight: bold; }
+
+        /* Subsection */
+        .subsection { border-top: 1px solid #e0e0e0; padding: 20px; }
+        .subsection-title { font-size: 17px; font-weight: bold; color: #2c7da0; border-left: 4px solid #2c7da0; padding-left: 10px; margin-bottom: 15px; }
+
+        /* Screenshot grid */
+        .btn-row { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+        .ss-upload-btn { background: #2c7da0; color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .ss-upload-btn:hover { background: #1a5d7a; }
+        .ss-add-btn { background: #28a745; color: white; border: none; padding: 8px 18px; border-radius: 6px; cursor: pointer; font-size: 14px; }
+        .ss-add-btn:hover { background: #1e7e34; }
+        .dl-btn { background: #e67e22; color: white; border: none; padding: 10px 22px; border-radius: 6px; cursor: pointer; font-size: 14px; float: right; margin-bottom: 10px; }
+        .dl-btn:hover { background: #ca6f1e; }
+        .ss-grid { display: flex; flex-direction: column; gap: 20px; margin-top: 15px; }
+        .ss-box {
+            border: 2px solid #2c7da0; border-radius: 8px;
+           background: #f9fbfd; width: 100%; }
+        .ss-box img { width: 100%; height: auto; display: block; border-radius: 6px; }
+        .ss-box p { color: #aaa; font-size: 16px; margin: 0; padding: 40px 0; text-align: center; }
+
+
+
+        hr { border: none; border-top: 1px solid #eee; margin: 0; }
+        [id] { scroll-margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<button class="dl-btn" onclick="downloadPage()">⬇️ Download HTML</button>
+<h1 id="top">📄 LOS Test Evidence — Stage Wise</h1>
+
+<!-- TOC -->
+<div class="toc">
+    <h2>📑 Navigation</h2>
+    <ul>
+        <li><a href="#lead">0. Lead Management</a>
+            <ul>
+                <li><a href="#lead-creation">Lead Creation</a></li>
+                <li><a href="#lead-conversion">Lead to Application Conversion</a></li>
+            </ul>
+        </li>
+        <li><a href="#dde">1. Detailed Data Entry (DDE)</a>
+            <ul>
+                <li><a href="#kyc">KYC</a></li>
+                <li><a href="#product-details">Product Details</a></li>
+                <li><a href="#income-expenses">Income & Expenses</a></li>
+                <li><a href="#credit-bureau">Credit Bureau Exposure Check</a></li>
+                <li><a href="#documents">Documents</a></li>
+                <li><a href="#financials">Financials</a></li>
+                <li><a href="#qualitative">Qualitative Quantitative Scoring</a></li>
+                <li><a href="#policy-review">Policy Review</a></li>
+            </ul>
+        </li>
+        <li><a href="#aml">2. AML Approval</a></li>
+        <li><a href="#credit-approval">3. Credit Approval</a></li>
+        <li><a href="#offer-acceptance">4. Offer Acceptance</a></li>
+        <li><a href="#loan-activation">5. Loan Activation</a></li>
+    </ul>
+</div>
+
+<!-- ==================== STAGE 0: LEAD MANAGEMENT ==================== -->
+<div class="stage" id="lead">
+    <div class="stage-header">0. Lead Management</div>
+
+    <div class="subsection" id="lead-creation">
+        <div class="subsection-title">Lead Creation</div>
+        <div class="btn-row">
+            <button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button>
+            <button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button>
+        </div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection" id="lead-conversion">
+        <div class="subsection-title">Lead to Application Conversion</div>
+        <div class="btn-row">
+            <button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button>
+            <button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button>
+        </div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div>
+</div>
+
+<!-- ==================== STAGE 1: DDE ==================== -->
+<div class="stage" id="dde">
+    <div class="stage-header">1. Detailed Data Entry (DDE)</div>
+
+    <!-- KYC -->
+    <div class="subsection" id="kyc">
+        <div class="subsection-title">KYC — Basic Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">KYC — Address Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">KYC — Bank Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">KYC — ID Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">KYC — Employment Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">KYC — Business Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+
+    <!-- Product Details -->
+    <div class="subsection" id="product-details">
+        <div class="subsection-title">Product Details — Loan Item Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Product Details — Loan Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Product Details — Insurance Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Product Details — Collateral Search</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Product Details — Collateral Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <!-- Income & Expenses -->
+    <div class="subsection" id="income-expenses">
+        <div class="subsection-title">Income & Expenses — Income</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Income & Expenses — Expenses</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection" id="credit-bureau">
+        <div class="subsection-title">Credit Bureau Exposure Check</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Repayment Ratios</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <!-- Documents -->
+    <div class="subsection" id="documents">
+        <div class="subsection-title">Documents — Document Checklist</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Documents — Loan Kit</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Documents — Document Verification</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <!-- Financials -->
+    <div class="subsection" id="financials">
+        <div class="subsection-title">Financials — Balance Sheet</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Financials — Income Statement</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Financials — Financial Ratios</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection" id="qualitative">
+        <div class="subsection-title">Qualitative Quantitative Scoring</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection" id="policy-review">
+        <div class="subsection-title">Policy Review — Policy Check</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Policy Review — Credit Score Card</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div>
+</div>
+
+<!-- ==================== STAGE 2: AML ==================== -->
+<div class="stage" id="aml">
+    <div class="stage-header">2. AML Approval</div>
+    <div class="subsection">
+        <div class="subsection-title">AML Check</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div>
+</div>
+
+<!-- ==================== STAGE 3: Credit Approval ==================== -->
+<div class="stage" id="credit-approval">
+    <div class="stage-header">3. Credit Approval</div>
+    <div class="subsection">
+        <div class="subsection-title">Recommendation</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Committee Approval</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div>
+</div>
+
+<!-- ==================== STAGE 4: Offer Acceptance ==================== -->
+<div class="stage" id="offer-acceptance">
+    <div class="stage-header">4. Offer Acceptance</div>
+    <div class="subsection">
+        <div class="subsection-title">Offer Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div>
+</div>
+
+<!-- ==================== STAGE 5: Loan Activation ==================== -->
+<div class="stage" id="loan-activation">
+    <div class="stage-header">5. Loan Activation</div>
+    <div class="subsection">
+        <div class="subsection-title">Disbursement — DrawDown Schedule</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Disbursement — Disbursement Details</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div><hr>
+    <div class="subsection">
+        <div class="subsection-title">Document Archive</div>
+        <div class="btn-row"><button class="ss-upload-btn" onclick="triggerUpload(this.closest('.subsection').querySelector('.ss-grid'))">📷 Add Screenshots</button><button class="ss-add-btn" onclick="addMoreSS(this.closest('.subsection').querySelector('.ss-grid'))">+ Add More Box</button></div>
+        <div class="ss-grid"><div class="ss-box"><p>📷 Click Add Screenshots</p></div><div class="ss-box"><p>📷 Click Add Screenshots</p></div></div>
+    </div>
+</div>
+
+<p style="text-align:center; color:gray; font-size:12px; margin-top:30px;">LOS Test Evidence — Stage Wise Document</p>
+
+<script>
+    function triggerUpload(grid) {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.multiple = true;
+        input.onchange = function(e) {
+            const files = Array.from(e.target.files);
+            let emptyBoxes = Array.from(grid.querySelectorAll('.ss-box')).filter(b => !b.querySelector('img'));
+            files.forEach(function(file) {
+                let box;
+                if (emptyBoxes.length > 0) {
+                    box = emptyBoxes.shift();
+                } else {
+                    box = document.createElement('div');
+                    box.className = 'ss-box';
+                    grid.appendChild(box);
+                }
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    box.innerHTML = '<img src="' + ev.target.result + '" style="max-width:100%;max-height:250px;border-radius:6px;">';
+                };
+                reader.readAsDataURL(file);
+            });
+        };
+        input.click();
+    }
+
+    function addMoreSS(grid) {
+        const box = document.createElement('div');
+        box.className = 'ss-box';
+        box.innerHTML = '<p>📷 Click Add Screenshots</p>';
+        grid.appendChild(box);
+    }
+
+    function downloadPage() {
+        const html = document.documentElement.outerHTML;
+        const blob = new Blob([html], {type: 'text/html'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'LOS_TestEvidence.html';
+        a.click();
+    }
+</script>
+
+</body>
+</html>

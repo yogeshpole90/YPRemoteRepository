@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run: Emp + User",
+            "type": "shell",
+            "command": "mvn test -DsuiteXmlFile=EmpUser_Suite.xml",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Run: All Tests",
+            "type": "shell",
+            "command": "mvn test -DsuiteXmlFile=testng.xml",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Run: EmployeeMaster Only",
+            "type": "shell",
+            "command": "mvn test -Dtest=EmployeeMasterTest",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        },
+        {
+            "label": "Run: UserCreation Only",
+            "type": "shell",
+            "command": "mvn test -Dtest=UserCreationTest",
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            }
+        }
+    ]
+}

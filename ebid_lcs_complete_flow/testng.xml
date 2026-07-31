@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="EbidLcsAutomationSuite" parallel="none">
+    
+    <parameter name="browser" value="chrome"/>
+    <parameter name="environment" value="qa"/>
+    
+    <test name="ReminderModuleTests" preserve-order="true">
+        <classes>
+            <class name="com.ebid.lcs.tests.ReminderTest">
+                <methods>
+                    <include name="validateReminderType"/>
+                    <include name="validateReminderDate"/>
+                    <include name="validateCreatedDate"/>
+                    <include name="validateRemarks"/>
+                    <include name="validateResetSave"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+    
+    <test name="SmokeTests" preserve-order="false">
+        <groups>
+            <run>
+                <include name="smoke"/>
+            </run>
+        </groups>
+        <classes>
+            <class name="com.ebid.lcs.tests.ReminderTest"/>
+        </classes>
+    </test>
+    
+</suite>

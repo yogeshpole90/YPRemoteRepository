@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Repayment Schedule Calculator</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+        .container { max-width: 1100px; margin: auto; }
+        .input-section { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .input-section h2 { margin-top: 0; color: #333; font-size: 16px; }
+        .input-row { display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 12px; }
+        .input-group { display: flex; flex-direction: column; }
+        .input-group label { font-weight: bold; margin-bottom: 4px; font-size: 12px; color: #555; }
+        .input-group input, .input-group select { padding: 7px 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; width: 170px; }
+        button { padding: 9px 20px; background: #2196F3; color: #fff; border: none; border-radius: 4px; cursor: pointer; font-size: 13px; margin-right: 8px; }
+        button:hover { background: #1976D2; }
+        button.export { background: #4CAF50; }
+        button.export:hover { background: #388E3C; }
+        .result-section { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .loan-info { font-size: 13px; margin-bottom: 15px; color: #333; }
+        .loan-info b { color: #1565C0; }
+        table { width: 100%; border-collapse: collapse; font-size: 12px; }
+        th { background: #1565C0; color: #fff; padding: 8px 6px; text-align: right; border: 1px solid #0d47a1; }
+        th:first-child { text-align: center; width: 40px; }
+        th:nth-child(2) { text-align: center; }
+        td { padding: 7px 6px; border: 1px solid #ddd; text-align: right; }
+        td:first-child { text-align: center; }
+        td:nth-child(2) { text-align: center; }
+        tr:hover { background: #f0f7ff; }
+        .total-row { font-weight: bold; background: #e8f5e9; }
+        .total-row td { border-top: 2px solid #1565C0; }
+        .tab-buttons { margin-bottom: 15px; }
+        .tab-buttons button { background: #eee; color: #333; }
+        .tab-buttons button.active { background: #1565C0; color: #fff; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .irr-box { background: #fff3e0; padding: 15px; border-radius: 6px; margin-bottom: 15px; font-size: 13px; }
+        .irr-box h3 { margin-top: 0; color: #e65100; font-size: 14px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1 style="font-size:20px;color:#333;">Loan Repayment Schedule Calculator</h1>
+
+    <div class="input-section">
+        <h2>Loan Parameters</h2>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Loan Amount</label>
+                <input type="number" id="loanAmount" value="90000000">
+            </div>
+            <div class="input-group">
+                <label>Annual Interest Rate (%)</label>
+                <input type="number" id="annualRate" value="57" step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Tenure (Months)</label>
+                <input type="number" id="tenure" value="30" min="1" max="360">
+            </div>
+            <div class="input-group">
+                <label>First EMI Date (dd/mm/yyyy)</label>
+                <input type="text" id="startDate" value="02/07/2026" placeholder="dd/mm/yyyy">
+            </div>
+        </div>
+        <div class="input-row">
+            <div class="input-group">
+                <label>Processing Fee</label>
+                <input type="number" id="procFee" value="0">
+            </div>
+            <div class="input-group">
+                <label>Insurance</label>
+                <input type="number" id="insurance" value="0">
+            </div>
+            <div class="input-group">
+                <label>Other Charges</label>
+                <input type="number" id="otherCharges" value="0">
+            </div>
+        </div>
+        <button onclick="calculate()">Calculate</button>
+        <button class="export" onclick="exportToExcel()">Export to Excel</button>
+    </div>
+
+    <div class="result-section" id="resultSection" style="display:none;">
+        <div class="tab-buttons">
+            <button class="active" onclick="showTab('schedule')">Repayment Schedule</button>
+            <button onclick="showTab('irr')">IRR Calculation</button>
+        </div>
+
+        <div id="schedule" class="tab-content active">
+            <div class="loan-info" id="loanInfo"></div>
+            <table id="scheduleTable"></table>
+        </div>
+
+        <div id="irr" class="tab-content">
+            <div class="irr-box" id="irrResult"></div>
+            <table id="irrTable"></table>
+        </div>
+    </div>
+</div>
+
+<script>
+function calculate() {
+    const P = parseFloat(document.getElementById('loanAmount').value);
+    const annualRate = parseFloat(document.getElementById('annualRate').value);
+    const n = parseInt(document.getElementById('tenure').value);
+    const dateParts = document.getElementById('startDate').value.split('/');
+    const startDate = new Date(parseInt(dateParts[2]), parseInt(dateParts[1]) - 1, parseInt(dateParts[0]));
+    const procFeeAmt = parseFloat(document.getElementById('procFee').value) || 0;
+    const insuranceAmt = parseFloat(document.getElementById('insurance').value) || 0;
+    const otherCharges = parseFloat(document.getElementById('otherCharges').value) || 0;
+
+    const dailyRate = annualRate / 100 / 365;
+    const monthlyRate = annualRate / 100 / 12;
+    const emi = P * monthlyRate * Math.pow(1 + monthlyRate, n) / (Math.pow(1 + monthlyRate, n) - 1);
+
+    let schedule = [];
+    let balance = P;
+    let prevDate = new Date(startDate);
+    prevDate.setMonth(prevDate.getMonth() - 1); // Disbursement date = 1 month before first EMI
+
+    let totalPrincipal = 0;
+    let totalInterest = 0;
+    let totalPayment = 0;
+    let totalBalance = 0;
+
+    for (let i = 1; i <= n; i++) {
+        let emiDate = new Date(startDate);
+        emiDate.setMonth(startDate.getMonth() + (i - 1));
+
+        const days = Math.round((emiDate - prevDate) / (1000 * 60 * 60 * 24));
+        const interest = balance * dailyRate * days;
+
+        let principal, payment;
+        if (i === n) {
+            principal = balance;
+            payment = principal + interest;
+        } else {
+            payment = emi;
+            principal = emi - interest;
+        }
+
+        balance -= principal;
+        if (balance < 0.01) balance = 0;
+
+        totalPrincipal += principal;
+        totalInterest += interest;
+        totalPayment += payment;
+        totalBalance += balance;
+
+        schedule.push({
+            no: i,
+            date: emiDate,
+            payment: payment,
+            balance: balance,
+            principal: principal,
+            interest: interest,
+            days: days
+        });
+
+        prevDate = emiDate;
+    }
+
+    // Display Loan Info
+    document.getElementById('loanInfo').innerHTML = `
+        <b>Loan Amount:</b> ${fmt(P)} | <b>Rate:</b> ${annualRate}% p.a. | <b>Tenure:</b> ${n} months | <b>EMI:</b> ${fmt(emi)} | <b>IRR:</b> ${(annualRate/12).toFixed(2)}%
+    `;
+
+    // Display Schedule - Exact System Format
+    let html = `<tr>
+        <th>№</th>
+        <th>Payment date</th>
+        <th>Payment amount</th>
+        <th>Remaining principal debt</th>
+        <th>Principal debt</th>
+        <th>Percentage</th>
+    </tr>`;
+
+    schedule.forEach(row => {
+        html += `<tr>
+            <td>${row.no}</td>
+            <td>${fmtDate(row.date)}</td>
+            <td>${fmt(row.payment)}</td>
+            <td>${fmt(row.balance)}</td>
+            <td>${fmt(row.principal)}</td>
+            <td>${fmt(row.interest)}</td>
+        </tr>`;
+    });
+
+    html += `<tr class="total-row">
+        <td></td>
+        <td>Total</td>
+        <td>${fmt(totalPayment)}</td>
+        <td>${fmt(totalBalance)}</td>
+        <td>${fmt(totalPrincipal)}</td>
+        <td>${fmt(totalInterest)}</td>
+    </tr>`;
+
+    document.getElementById('scheduleTable').innerHTML = html;
+
+    // IRR Calculation
+    const totalCharges = procFeeAmt + insuranceAmt + otherCharges;
+    const netDisbursed = P - totalCharges;
+    let irrMonthly = calcIRR(netDisbursed, schedule);
+    let irrAnnual = irrMonthly * 12;
+
+    document.getElementById('irrResult').innerHTML = `
+        <h3>IRR Calculation</h3>
+        <p><b>Loan Amount:</b> ${fmt(P)}</p>
+        <p><b>Processing Fee:</b> -${fmt(procFeeAmt)}</p>
+        <p><b>Insurance:</b> -${fmt(insuranceAmt)}</p>
+        <p><b>Other Charges:</b> -${fmt(otherCharges)}</p>
+        <p><b>Net Disbursed:</b> ${fmt(netDisbursed)}</p>
+        <hr>
+        <p><b>Monthly IRR:</b> ${irrMonthly.toFixed(4)}%</p>
+        <p><b>Annual IRR (Monthly × 12):</b> ${irrAnnual.toFixed(2)}%</p>
+        <p><b>System IRR (ROI/12):</b> ${(annualRate/12).toFixed(2)}%</p>
+    `;
+
+    // IRR PV Table
+    let irrHtml = `<tr><th>#</th><th>Date</th><th>Cash Flow</th><th>PV Factor</th><th>Present Value</th></tr>`;
+    const r = irrMonthly / 100;
+    let pvTotal = 0;
+    let disbDate = new Date(startDate);
+    disbDate.setMonth(disbDate.getMonth() - 1);
+    irrHtml += `<tr><td>0</td><td>${fmtDate(disbDate)}</td><td>${fmt(netDisbursed)}</td><td>1.000000</td><td>${fmt(netDisbursed)}</td></tr>`;
+
+    schedule.forEach((row, i) => {
+        const pvFactor = 1 / Math.pow(1 + r, i + 1);
+        const pv = row.payment * pvFactor;
+        pvTotal += pv;
+        irrHtml += `<tr><td>${i+1}</td><td>${fmtDate(row.date)}</td><td>-${fmt(row.payment)}</td><td>${pvFactor.toFixed(6)}</td><td>-${fmt(pv)}</td></tr>`;
+    });
+    irrHtml += `<tr class="total-row"><td></td><td>NPV</td><td></td><td></td><td>${fmt(netDisbursed - pvTotal)} (≈0)</td></tr>`;
+    document.getElementById('irrTable').innerHTML = irrHtml;
+
+    document.getElementById('resultSection').style.display = 'block';
+}
+
+function calcIRR(netDisbursed, schedule) {
+    let r = 0.01;
+    for (let iter = 0; iter < 1000; iter++) {
+        let npv = -netDisbursed, dnpv = 0;
+        for (let i = 0; i < schedule.length; i++) {
+            const t = i + 1;
+            npv += schedule[i].payment / Math.pow(1 + r, t);
+            dnpv -= t * schedule[i].payment / Math.pow(1 + r, t + 1);
+        }
+        const newR = r - npv / dnpv;
+        if (Math.abs(newR - r) < 0.0000001) return newR * 100;
+        r = newR;
+    }
+    return r * 100;
+}
+
+function showTab(tab) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-buttons button').forEach(el => el.classList.remove('active'));
+    document.getElementById(tab).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function fmt(num) {
+    return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function fmtDate(date) {
+    const d = date.getDate().toString().padStart(2, '0');
+    const m = (date.getMonth() + 1).toString().padStart(2, '0');
+    const y = date.getFullYear();
+    return `${d}/${m}/${y}`;
+}
+
+function exportToExcel() {
+    let html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel"><head><meta charset="UTF-8"></head><body>';
+    html += '<h2>Repayment Schedule</h2>';
+    html += '<p>' + document.getElementById('loanInfo').innerHTML + '</p>';
+    html += '<table border="1">' + document.getElementById('scheduleTable').innerHTML + '</table>';
+    html += '</body></html>';
+    const blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'Repayment_Schedule.xls';
+    a.click();
+}
+
+// Auto calculate on load
+window.onload = calculate;
+</script>
+</body>
+</html>

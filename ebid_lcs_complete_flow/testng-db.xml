@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="DB Validation Suite">
+    <test name="PhoneBook DB">
+        <classes>
+            <class name="com.ebid.lcs.tests.db.DBPhoneBookTest"/>
+        </classes>
+    </test>
+</suite>
