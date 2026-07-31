@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Collateral Details Only" verbose="1">
+    <test name="Collateral Details">
+        <classes>
+            <class name="com.agat.los.tests.stage02_dataentry.CollateralTest">
+                <methods>
+                    <include name="navigateToApplication"/>
+                    <include name="fillCollateralDetails"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

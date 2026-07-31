@@ -16,8 +16,7 @@ public class DriverManager {
     public static WebDriver getDriver() {
         if (driver == null) {
             String browser = ConfigManager.get("browser");
-            if (browser == null || browser.trim().isEmpty())
-                browser = "chrome";
+            if (browser == null || browser.trim().isEmpty()) browser = "chrome";
 
             switch (browser.trim().toLowerCase()) {
                 case "edge":
@@ -40,7 +39,6 @@ public class DriverManager {
                     chromeOptions.addArguments("--incognito");
                     driver = new ChromeDriver(chromeOptions);
                     break;
-
             }
             driver.manage().window().maximize();
             driver.manage().deleteAllCookies();
