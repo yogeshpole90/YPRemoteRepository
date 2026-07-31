@@ -31,7 +31,8 @@ public class BankDetailsTest extends BaseTest {
     @Test(priority = 0)
     public void navigateToApplication() throws Exception {
         navigateToDDE();
-        WebElement kycTab = driver.findElement(By.xpath("//nav[contains(@class,'section-nav')]//a[contains(@href,'activeTab=KYC')]"));
+        WebElement kycTab = driver
+                .findElement(By.xpath("//nav[contains(@class,'section-nav')]//a[contains(@href,'activeTab=KYC')]"));
         jse.executeScript("arguments[0].click()", kycTab);
         Thread.sleep(2000);
         log("Navigation", "Navigate to DDE KYC", "DDE page opened", "Done", true);
@@ -42,10 +43,12 @@ public class BankDetailsTest extends BaseTest {
     public void fillBankDetails() throws Exception {
         // Ensure we are on KYC tab before clicking Bank Details
         try {
-            var kycTab = driver.findElement(By.xpath("//nav[contains(@class,'section-nav')]//a[contains(@href,'activeTab=KYC')]"));
+            var kycTab = driver
+                    .findElement(By.xpath("//nav[contains(@class,'section-nav')]//a[contains(@href,'activeTab=KYC')]"));
             jse.executeScript("arguments[0].click()", kycTab);
             Thread.sleep(2000);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         bankPage.clickBankDetailsTab();
         log("BankDetails", "Click Bank Details tab", "Form loaded", "Clicked", true);
@@ -62,6 +65,7 @@ public class BankDetailsTest extends BaseTest {
         log("BankDetails", "Save", "Saved successfully", toast.isEmpty() ? "Done" : toast, !toast.isEmpty());
 
         bankPage.switchToMainContent();
-        sa.assertAll();
+        sa.assertAll(); // sa.assertAll();
+
     }
 }
