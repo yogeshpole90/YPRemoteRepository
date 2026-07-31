@@ -1,8 +1,0 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="AGAT LOS - Stage Transition (DDE to Next)" verbose="1">
-    <test name="Stage Transition Test">
-        <classes>
-            <class name="com.agat.los.tests.stage02_dataentry.StageTransitionTest"/>
-        </classes>
-    </test>
-</suite>
