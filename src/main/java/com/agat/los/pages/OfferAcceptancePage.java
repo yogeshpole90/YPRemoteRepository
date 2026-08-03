@@ -56,17 +56,28 @@ public class OfferAcceptancePage {
     }
 
     // ========== Inbox Navigation ==========
-    public void navigateToAppFromInbox(String appId) throws InterruptedException {
+    public void navigateToAppFromInbox(String rawAppId) throws InterruptedException {
+        String appId = cleanAppId(rawAppId);
         driver.findElement(inboxBtn).click();
-        Thread.sleep(2000);
+        Thread.sleep(3000);
         WebElement searchBox = wait.until(ExpectedConditions.elementToBeClickable(
             By.cssSelector("#dt-authdata_filter input[type='search']")));
         searchBox.clear();
         searchBox.sendKeys(appId);
+        Thread.sleep(3000);
         WebElement row = wait.until(ExpectedConditions.elementToBeClickable(
-            By.xpath("//table[@id='dt-authdata']//tbody//tr[td[contains(text(),'" + appId + "')]]/td[1]")));
+            By.cssSelector("#dt-authdata tbody tr:first-child td:first-child")));
         act.doubleClick(row).build().perform();
         Thread.sleep(2000);
+    }
+
+    private String cleanAppId(String raw) {
+        if (raw == null) return "";
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("[A-Z]+-\\d+").matcher(raw);
+        if (m.find()) return m.group();
+        m = java.util.regex.Pattern.compile("\\d+").matcher(raw);
+        if (m.find()) return m.group();
+        return raw.trim();
     }
 
     public void navigateToAppFromInbox() throws InterruptedException {

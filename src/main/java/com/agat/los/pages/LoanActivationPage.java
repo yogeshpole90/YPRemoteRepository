@@ -102,7 +102,8 @@ public class LoanActivationPage {
     }
 
     // ========== App Summary Navigation ==========
-    public void navigateToAppFromInbox(String appId) throws InterruptedException {
+    public void navigateToAppFromInbox(String rawAppId) throws InterruptedException {
+        String appId = cleanAppId(rawAppId);
         driver.findElement(appSummaryBtn).click();
         Thread.sleep(3000);
         WebElement search = driver.findElement(searchBox);
@@ -123,6 +124,15 @@ public class LoanActivationPage {
         Thread.sleep(1000);
         jse.executeScript("arguments[0].click()", loanActLink);
         Thread.sleep(3000);
+    }
+
+    private String cleanAppId(String raw) {
+        if (raw == null) return "";
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("[A-Z]+-\\d+").matcher(raw);
+        if (m.find()) return m.group();
+        m = java.util.regex.Pattern.compile("\\d+").matcher(raw);
+        if (m.find()) return m.group();
+        return raw.trim();
     }
 
     // ========== Overview ==========

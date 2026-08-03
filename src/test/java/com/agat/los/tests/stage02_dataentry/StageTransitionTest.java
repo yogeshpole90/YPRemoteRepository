@@ -54,6 +54,7 @@ public class StageTransitionTest extends BaseTest {
 
     @Test(priority = 1, alwaysRun = true)
     public void moveToNextStage() throws Exception {
+        navigateToDDE();
         // Click Next button
         transitionPage.clickNext();
         log("Transition", "Click Next", "Remarks modal opened", "Clicked", true);
@@ -71,6 +72,14 @@ public class StageTransitionTest extends BaseTest {
         boolean isSuccess = !msg.isEmpty();
         log("Transition", "Success Message", "Successfully moved", msg.isEmpty() ? "No message found" : msg, isSuccess);
         sa.assertTrue(isSuccess, "Stage transition should show success message: " + msg);
+
+        // Logout after DDE stage transition
+        try {
+            driver.findElement(By.cssSelector("a.item-logout")).click();
+            Thread.sleep(2000);
+            driver.findElement(By.id("logoutYes")).click();
+            Thread.sleep(2000);
+        } catch (Exception e) {}
 
         sa.assertAll();
     }

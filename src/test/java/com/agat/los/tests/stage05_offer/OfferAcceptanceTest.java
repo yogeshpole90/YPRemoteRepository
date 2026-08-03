@@ -29,8 +29,8 @@ public class OfferAcceptanceTest extends BaseTest {
 
     @Test(priority = 0)
     public void loginAsOfferUser() throws Exception {
-        String user = ConfigManager.get("username");
-        String pass = ConfigManager.get("password");
+        String user = ConfigManager.get("dde.username");
+        String pass = ConfigManager.get("dde.password");
         loginAs(user, pass);
         logInfo("Login", "Offer Acceptance User", user);
     }

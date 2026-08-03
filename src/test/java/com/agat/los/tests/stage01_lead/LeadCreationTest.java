@@ -212,7 +212,8 @@ public class LeadCreationTest extends BaseTest {
 
         String appId = "";
         if (!toast.isEmpty()) {
-            appId = toast.replaceAll(".*Application No\\.\\s*(\\d+).*", "$1");
+            java.util.regex.Matcher m = java.util.regex.Pattern.compile("K-\\d+").matcher(toast);
+            appId = m.find() ? m.group() : toast.replaceAll(".*?(\\d+).*", "$1");
             ConfigManager.set("generated.appId", appId);
             logInfo("Convert", "Application ID captured", appId);
         }

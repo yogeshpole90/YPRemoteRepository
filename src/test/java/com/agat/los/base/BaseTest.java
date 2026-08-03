@@ -45,12 +45,12 @@ public class BaseTest {
         Thread.sleep(1000);
 
         // Login
-        driver.findElement(By.id("loginId")).sendKeys(ConfigManager.get("username"), Keys.TAB);
-        driver.findElement(By.id("uiPwd")).sendKeys(ConfigManager.get("password"), Keys.TAB);
+        driver.findElement(By.id("loginId")).sendKeys(ConfigManager.get("dde.username"), Keys.TAB);
+        driver.findElement(By.id("uiPwd")).sendKeys(ConfigManager.get("dde.password"), Keys.TAB);
         Thread.sleep(1000);
         driver.findElement(By.id("userLogin")).click();
         Thread.sleep(2000);
-        logger.info("Login as " + ConfigManager.get("username") + " successful");
+        logger.info("Login as " + ConfigManager.get("dde.username") + " successful");
 
         injectAutomationTag();
     }
@@ -145,7 +145,7 @@ public class BaseTest {
             return; // already on DDE page
         } catch (Exception ignored) {}
 
-        String appId = ConfigManager.get("generated.appId");
+        String appId = extractCleanAppId(ConfigManager.get("generated.appId"));
         driver.findElement(By.cssSelector("a.item-summary")).click();
         Thread.sleep(2000);
         WebElement searchBox = driver.findElement(By.cssSelector("#dt-authdata_filter input[type='search']"));
@@ -159,6 +159,15 @@ public class BaseTest {
         Thread.sleep(500);
         jse.executeScript("arguments[0].click()", ddeLink);
         Thread.sleep(3000);
+    }
+
+    protected String extractCleanAppId(String raw) {
+        if (raw == null) return "";
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("[A-Z]+-\\d+").matcher(raw);
+        if (m.find()) return m.group();
+        m = java.util.regex.Pattern.compile("\\d+").matcher(raw);
+        if (m.find()) return m.group();
+        return raw.trim();
     }
 
     protected void loginAs(String userId, String password) throws Exception {

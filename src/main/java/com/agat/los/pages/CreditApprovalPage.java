@@ -72,15 +72,25 @@ public class CreditApprovalPage {
     }
 
     // ========== App Summary Actions ==========
-    public void navigateToAppFromInbox(String appId) throws InterruptedException {
+    public void navigateToAppFromInbox(String rawAppId) throws InterruptedException {
+        String appId = cleanAppId(rawAppId);
         driver.findElement(inboxBtn).click();
-        Thread.sleep(3000);
+        Thread.sleep(5000);
         WebElement searchBox = driver.findElement(inboxSearch);
         searchBox.clear();
         searchBox.sendKeys(appId);
         Thread.sleep(3000);
         act.doubleClick(driver.findElement(By.cssSelector("#dt-authdata tbody tr:first-child td:first-child"))).build().perform();
         Thread.sleep(3000);
+    }
+
+    private String cleanAppId(String raw) {
+        if (raw == null) return "";
+        java.util.regex.Matcher m = java.util.regex.Pattern.compile("[A-Z]+-\\d+").matcher(raw);
+        if (m.find()) return m.group();
+        m = java.util.regex.Pattern.compile("\\d+").matcher(raw);
+        if (m.find()) return m.group();
+        return raw.trim();
     }
 
     // ========== Overview Getters ==========
