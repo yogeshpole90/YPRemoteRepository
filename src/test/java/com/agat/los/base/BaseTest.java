@@ -49,7 +49,16 @@ public class BaseTest {
         driver.findElement(By.id("uiPwd")).sendKeys(ConfigManager.get("dde.password"), Keys.TAB);
         Thread.sleep(1000);
         driver.findElement(By.id("userLogin")).click();
-        Thread.sleep(2000);
+        Thread.sleep(3000);
+        // Accept any alert after login
+        try { driver.switchTo().alert().accept(); Thread.sleep(1000); } catch (Exception e) {}
+        // Verify login success — check if error message present
+        try {
+            WebElement errMsg = driver.findElement(By.cssSelector(".error-msg, .alert-danger, #errorMsg"));
+            if (errMsg.isDisplayed()) {
+                throw new RuntimeException("Login failed for user: " + ConfigManager.get("dde.username") + " — " + errMsg.getText().trim());
+            }
+        } catch (org.openqa.selenium.NoSuchElementException ignored) {}
         logger.info("Login as " + ConfigManager.get("dde.username") + " successful");
 
         injectAutomationTag();

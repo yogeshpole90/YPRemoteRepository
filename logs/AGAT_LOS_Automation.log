@@ -22608,3 +22608,151 @@ Session ID: 10a07e839501e5e4469e2fc7877cbd5a
 2026-08-03 18:32:32.667 [] INFO  LoanActivationTest.log - [Navigation] Click DOCUMENT ARCHIVE Tab | Expected: Tab opened | Actual: Clicked | Status: PASS
 2026-08-03 18:32:50.755 [] ERROR LoanActivationTest.log - [DocArchive] Total Rows | Expected: >= 2 | Actual: 0 | Status: FAIL
 2026-08-03 18:33:06.487 [] INFO  LeadCreationTest.suiteTeardown - ========== APPLICATION ID: K-01000728 ==========
+2026-08-04 12:31:47.070 [] INFO  LeadCreationTest.suiteSetup - Login as n.namozov successful
+2026-08-04 12:31:47.705 [] INFO  LeadCreationTest.logInfo - [Stage] Current Stage | Value: Lead Creation
+2026-08-04 12:32:48.079 [] ERROR LeadCreationTest.log - [New Lead] Button displayed | Expected: true | Actual: false | Status: FAIL
+2026-08-04 12:33:03.893 [] INFO  LeadCreationTest.logInfo - [loanOfficer] Loan Officer | Value: Auto-selected (logged-in user)
+2026-08-04 12:35:36.576 [] INFO  LeadCreationTest.suiteSetup - Login as n.namozov successful
+2026-08-04 12:35:37.101 [] INFO  LeadCreationTest.logInfo - [Stage] Current Stage | Value: Lead Creation
+2026-08-04 12:35:37.405 [] INFO  LeadCreationTest.log - [New Lead] Button displayed | Expected: true | Actual: true | Status: PASS
+2026-08-04 12:35:47.145 [] INFO  LeadCreationTest.log - [New Lead] Clicked New Lead | Expected: Lead form opened | Actual: Clicked | Status: PASS
+2026-08-04 12:35:47.665 [] INFO  LeadCreationTest.log - [fName] Customer First Name | Expected: FARRUX | Actual: FARRUX | Status: PASS
+2026-08-04 12:35:48.148 [] INFO  LeadCreationTest.log - [mName] Customer Middle Name | Expected: RABIYEVICH | Actual: RABIYEVICH | Status: PASS
+2026-08-04 12:35:48.619 [] INFO  LeadCreationTest.log - [famName] Customer Last Name | Expected: RABIYEV | Actual: RABIYEV | Status: PASS
+2026-08-04 12:35:50.928 [] INFO  LeadCreationTest.log - [countryCode] Mobile Code +998 | Expected: +998 | Actual: +998 | Status: PASS
+2026-08-04 12:35:51.449 [] INFO  LeadCreationTest.log - [mobileNo] Mobile Number | Expected: 927150928 | Actual: 927150928 | Status: PASS
+2026-08-04 12:35:51.821 [] INFO  LeadCreationTest.log - [dob] Date of Birth | Expected: 21-03-1989 | Actual: 21-03-1989 | Status: PASS
+2026-08-04 12:35:51.843 [] INFO  LeadCreationTest.logInfo - [loanOfficer] Loan Officer | Value: Auto-selected (logged-in user)
+2026-08-04 12:35:52.002 [] INFO  LeadCreationTest.log - [Save] Displayed | Expected: true | Actual: true | Status: PASS
+2026-08-04 12:35:57.593 [] INFO  ToastUtil.findToastMessage - Toast captured: PreLead has been Saved Successfully.Kindly Refer PreLeadId No. 876
+2026-08-04 12:35:57.607 [] INFO  LeadCreationTest.log - [Save] Save Lead | Expected: Success | Actual: PreLead has been Saved Successfully.Kindly Refer PreLeadId No. 876 | Status: PASS
+2026-08-04 12:35:57.635 [] INFO  LeadCreationTest.logInfo - [Save] Lead ID captured | Value: 876
+2026-08-04 12:36:04.071 [] INFO  LeadCreationTest.log - [Lead List] Navigate to Lead List | Expected: Lead List page opened | Actual: Clicked | Status: PASS
+2026-08-04 12:36:06.197 [] INFO  LeadCreationTest.log - [Search] Search Lead ID | Expected: 876 | Actual: Searched | Status: PASS
+2026-08-04 12:36:13.425 [] INFO  LeadCreationTest.log - [Lead List] Double-click Lead | Expected: Conversion form opened | Actual: Clicked | Status: PASS
+2026-08-04 12:36:14.574 [] INFO  LeadCreationTest.log - [idType] ID Type | Expected: PINFL Number | Actual: PINFL Number | Status: PASS
+2026-08-04 12:36:15.250 [] INFO  LeadCreationTest.log - [idNumber] ID Number (PINFL) | Expected: 32103895350018 | Actual: 32103895350018 | Status: PASS
+2026-08-04 12:36:15.619 [] INFO  LeadCreationTest.log - [dob] Date of Birth | Expected: 21-03-1989 | Actual: 21-03-1989 | Status: PASS
+2026-08-04 12:36:32.954 [] INFO  LeadCreationTest.log - [Search] Click Search | Expected: Existing customer - clicked Yes | Actual: Clicked | Status: PASS
+2026-08-04 12:36:33.939 [] INFO  LeadCreationTest.log - [OTP] Click Verify Mobile | Expected: OTP sent | Actual: Clicked | Status: PASS
+2026-08-04 12:36:34.481 [] INFO  LeadCreationTest.log - [OTP] Enter OTP | Expected: 123456 | Actual: 123456 | Status: PASS
+2026-08-04 12:36:38.604 [] INFO  LeadCreationTest.log - [OTP] Click Verify OTP | Expected: Verified | Actual: Clicked | Status: PASS
+2026-08-04 12:36:40.198 [] INFO  LeadCreationTest.log - [product] Product | Expected: 01-Микрозайм | Actual: 01-Micro Loan | Status: PASS
+2026-08-04 12:36:43.039 [] INFO  LeadCreationTest.log - [subProduct] Sub Product | Expected: Selected | Actual: 0101-Unseured Micro Loan | Status: PASS
+2026-08-04 12:36:45.771 [] INFO  LeadCreationTest.log - [scheme] Scheme | Expected: Selected | Actual: 2010-Micro Loan | Status: PASS
+2026-08-04 12:36:46.733 [] INFO  LeadCreationTest.log - [requiredAmount] Requested Amount | Expected: 75000000 | Actual: 75,000,000.00 | Status: PASS
+2026-08-04 12:36:47.281 [] INFO  LeadCreationTest.log - [requestedTenure] Requested Tenure | Expected: 30 | Actual: 30 | Status: PASS
+2026-08-04 12:36:48.443 [] INFO  LeadCreationTest.log - [primarySource] Primary Source | Expected: Self Employed | Actual: Self Employed | Status: PASS
+2026-08-04 12:36:51.223 [] INFO  LeadCreationTest.log - [Calculate EMI] Click Calculate EMI button | Expected: Loan Simulator opened | Actual: Clicked | Status: PASS
+2026-08-04 12:36:52.195 [] INFO  LeadCreationTest.log - [loanOfficer] Loan Officer | Expected: n.namozov | Actual: N.NAMOZOV | Status: PASS
+2026-08-04 12:36:53.422 [] INFO  LeadCreationTest.log - [loanStartDate] Loan Start Date | Expected: 04-08-2026 | Actual: 04-08-2026 | Status: PASS
+2026-08-04 12:36:55.581 [] INFO  LeadCreationTest.log - [firstEmiDate] First Installment Date | Expected: 04-09-2026 | Actual: 04-09-2026 | Status: PASS
+2026-08-04 12:37:00.288 [] INFO  LeadCreationTest.log - [Calculate EMI] Click Calculate EMI (modal) | Expected: Repayment calculated | Actual: Clicked | Status: PASS
+2026-08-04 12:37:00.322 [] INFO  LeadCreationTest.log - [Simulated] Finance Amount | Expected: non-empty | Actual: 75,000,000.00 | Status: PASS
+2026-08-04 12:37:00.363 [] INFO  LeadCreationTest.log - [Simulated] Installment Amount | Expected: non-empty | Actual: 4,740,709.05 | Status: PASS
+2026-08-04 12:37:00.394 [] INFO  LeadCreationTest.log - [Simulated] Total Amount to be Paid | Expected: non-empty | Actual: 142,221,271.28 | Status: PASS
+2026-08-04 12:37:00.432 [] INFO  LeadCreationTest.log - [Simulated] Total Interest Amount | Expected: non-empty | Actual: 67,221,271.28 | Status: PASS
+2026-08-04 12:37:00.478 [] INFO  LeadCreationTest.log - [Simulated] First Installment Date | Expected: auto-filled | Actual: 04-09-2026 | Status: PASS
+2026-08-04 12:37:00.512 [] INFO  LeadCreationTest.log - [Simulated] Last Installment Date | Expected: auto-filled | Actual: 04-02-2029 | Status: PASS
+2026-08-04 12:37:02.544 [] INFO  LeadCreationTest.log - [Calculate EMI] Repayment Schedule visible | Expected: Scrolled down | Actual: Scrolled | Status: PASS
+2026-08-04 12:37:05.154 [] INFO  LeadCreationTest.log - [Calculate EMI] Close Repayment Schedule modal | Expected: Closed | Actual: Clicked | Status: PASS
+2026-08-04 12:37:06.765 [] INFO  LeadCreationTest.log - [Existing Customer] Select CBS customer radio | Expected: Selected | Actual: Clicked | Status: PASS
+2026-08-04 12:37:06.924 [] INFO  LeadCreationTest.log - [Convert] Convert button displayed | Expected: true | Actual: true | Status: PASS
+2026-08-04 12:37:24.788 [] INFO  ToastUtil.findToastMessage - Toast captured: Application has been Created Successfully.Kindly Refer Application No. K-01000733 and Contragent Id.
+2026-08-04 12:37:24.796 [] INFO  LeadCreationTest.log - [Convert] Convert to Application | Expected: Success | Actual: Application has been Created Successfully.Kindly Refer Application No. K-01000733 and Contragent Id. | Status: PASS
+2026-08-04 12:37:24.814 [] INFO  LeadCreationTest.logInfo - [Convert] Application ID captured | Value: K-01000733
+2026-08-04 12:37:28.006 [] INFO  LeadCreationTest.log - [Inbox] Search Application ID | Expected: K-01000733 | Actual: Searched | Status: PASS
+2026-08-04 12:37:34.092 [] INFO  LeadCreationTest.log - [Inbox] Double-click Application | Expected: DDE Stage opened | Actual: Clicked | Status: PASS
+2026-08-04 12:37:34.104 [] INFO  BasicDetailsTest.logInfo - [Stage] Current Stage | Value: DETAILED DATA ENTRY
+2026-08-04 12:37:51.217 [] INFO  BasicDetailsTest.log - [Overview] Customer Name | Expected: RABIYEV FARRUX | Actual: RABIYEV FARRUX RABIYEVICH | Status: PASS
+2026-08-04 12:37:51.251 [] INFO  BasicDetailsTest.log - [Overview] ID Number | Expected: 32103895350018 | Actual: 32103895350018 | Status: PASS
+2026-08-04 12:37:51.291 [] INFO  BasicDetailsTest.log - [Overview] Application Type | Expected: Новый | Actual: Новый | Status: PASS
+2026-08-04 12:37:51.319 [] INFO  BasicDetailsTest.log - [Overview] Processing Stage | Expected: DETAILED DATA ENTRY | Actual: DETAILED DATA ENTRY | Status: PASS
+2026-08-04 12:37:51.347 [] INFO  BasicDetailsTest.log - [Overview] Product | Expected: Micro Loan | Actual: Micro Loan | Status: PASS
+2026-08-04 12:37:51.381 [] INFO  BasicDetailsTest.log - [Overview] Loan Amount | Expected: 75,000,000 | Actual: 75,000,000.00 | Status: PASS
+2026-08-04 12:37:51.419 [] INFO  BasicDetailsTest.log - [Overview] Loan Tenure | Expected: 30 | Actual: 30 | Status: PASS
+2026-08-04 12:37:51.509 [] INFO  BasicDetailsTest.logInfo - [Stage] DDE Allocated To | Value: N.NAMOZOV
+2026-08-04 12:37:51.516 [] INFO  BasicDetailsTest.logInfo - [Stage] Logged In As | Value: N.NAMOZOV
+2026-08-04 12:37:54.627 [] INFO  BasicDetailsTest.log - [DDE] Click DDE Stage Link | Expected: DDE tabs opened | Actual: Clicked | Status: PASS
+2026-08-04 12:37:56.677 [] INFO  BasicDetailsTest.log - [AppSummary] Customer Name | Expected: RABIYEV FARRUX | Actual: RABIYEV FARRUX RABIYEVICH | Status: PASS
+2026-08-04 12:37:56.719 [] INFO  BasicDetailsTest.log - [AppSummary] ID Type | Expected: PINFL Number | Actual: PINFL Number | Status: PASS
+2026-08-04 12:37:56.756 [] INFO  BasicDetailsTest.log - [AppSummary] ID Number | Expected: 32103895350018 | Actual: 32103895350018 | Status: PASS
+2026-08-04 12:37:56.792 [] INFO  BasicDetailsTest.log - [AppSummary] Date Of Birth | Expected: 21-03-1989 | Actual: 21-03-1989 | Status: PASS
+2026-08-04 12:37:57.356 [] INFO  BasicDetailsTest.log - [AppSummary] Tenure Months | Expected: 30 | Actual: 30 | Status: PASS
+2026-08-04 12:37:57.385 [] INFO  BasicDetailsTest.log - [AppSummary] Financing Amount | Expected: 75,000,000 | Actual: 75,000,000.00 | Status: PASS
+2026-08-04 12:37:57.419 [] INFO  BasicDetailsTest.log - [AppSummary] Number of Installment | Expected: 30 | Actual: 30 | Status: PASS
+2026-08-04 12:37:57.979 [] INFO  BasicDetailsTest.log - [AppSummary] Total Exposure | Expected: 75,000,000 | Actual: 75,000,000.00 | Status: PASS
+2026-08-04 12:38:01.620 [] INFO  BasicDetailsTest.log - [DDE] Click KYC Tab | Expected: KYC page opened | Actual: Clicked | Status: PASS
+2026-08-04 12:38:07.358 [] INFO  BasicDetailsTest.log - [BasicDetails] Click Edit | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:38:11.583 [] INFO  BasicDetailsTest.log - [BasicDetails] All fields filled | Expected: Done | Actual: Done | Status: PASS
+2026-08-04 12:38:28.961 [] INFO  BasicDetailsTest.log - [BasicDetails] Save | Expected: Saved successfully | Actual: Done | Status: PASS
+2026-08-04 12:38:32.081 [] INFO  BasicDetailsTest.log - [Address] Click Address Details tab | Expected: Address form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:38:38.124 [] INFO  BasicDetailsTest.log - [Address] Click Edit | Expected: Form loaded | Actual: Editing existing record | Status: PASS
+2026-08-04 12:38:52.036 [] INFO  BasicDetailsTest.log - [Address] All address fields filled | Expected: Done | Actual: Done | Status: PASS
+2026-08-04 12:39:01.509 [] INFO  BasicDetailsTest.log - [Address] Save | Expected: Address saved successfully | Actual: Done | Status: PASS
+2026-08-04 12:39:01.519 [] INFO  AddressTest.logInfo - [Stage] Current Stage | Value: Detail Data Entry - Address
+2026-08-04 12:39:01.519 [] INFO  AddressTest.logInfo - [Address] Status | Value: Waiting for HTML structure
+2026-08-04 12:39:01.538 [] INFO  IdentificationTest.logInfo - [Stage] Current Stage | Value: Identification Details
+2026-08-04 12:39:04.729 [] INFO  IdentificationTest.log - [Identification] Click Identification tab | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:39:10.195 [] INFO  IdentificationTest.log - [Identification] Click Edit | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:39:10.752 [] INFO  IdentificationTest.log - [Identification] Issue Date (autofilled) | Expected: Not empty | Actual: 23-04-2024 | Status: PASS
+2026-08-04 12:39:10.784 [] INFO  IdentificationTest.log - [Identification] Expiry Date (autofilled) | Expected: Not empty | Actual: 22-04-2034 | Status: PASS
+2026-08-04 12:39:11.266 [] INFO  IdentificationTest.log - [Identification] Place of Issuance | Expected: uzbekistan | Actual: uzbekistan | Status: PASS
+2026-08-04 12:39:11.809 [] INFO  IdentificationTest.log - [Identification] Passport Type | Expected: Selected | Actual: Index 1 selected | Status: PASS
+2026-08-04 12:39:20.630 [] INFO  IdentificationTest.log - [Identification] Save | Expected: Saved successfully | Actual: callUpdateInd failed: [25170] ORA-20001: B2EX-025170: /Контрагенты/../Включенные обработчики/ Правило | Status: PASS
+2026-08-04 12:39:20.652 [] INFO  EmploymentTest.logInfo - [Stage] Current Stage | Value: Employment Details
+2026-08-04 12:39:22.069 [] INFO  EmploymentTest.log - [Employment] Click Employment tab | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:39:23.788 [] INFO  EmploymentTest.log - [Employment] Click Edit | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:39:30.639 [] INFO  EmploymentTest.log - [Employment] All fields filled | Expected: Done | Actual: Done | Status: PASS
+2026-08-04 12:39:50.535 [] INFO  EmploymentTest.log - [Employment] Save | Expected: Saved successfully | Actual: Done | Status: PASS
+2026-08-04 12:39:50.551 [] INFO  BankDetailsTest.logInfo - [Stage] Current Stage | Value: Bank Details
+2026-08-04 12:39:59.181 [] INFO  BankDetailsTest.log - [BankDetails] Click Bank Details tab | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:40:04.849 [] INFO  BankDetailsTest.log - [BankDetails] Click Edit | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:40:08.110 [] INFO  BankDetailsTest.log - [BankDetails] All fields filled | Expected: Done | Actual: Done | Status: PASS
+2026-08-04 12:40:13.688 [] INFO  ToastUtil.findToastMessage - Toast captured: Bank Details Updated Successfully
+2026-08-04 12:40:13.697 [] INFO  BankDetailsTest.log - [BankDetails] Save | Expected: Saved successfully | Actual: Bank Details Updated Successfully | Status: PASS
+2026-08-04 12:40:13.715 [] INFO  ReferenceDetailsTest.logInfo - [Stage] Current Stage | Value: Reference Details
+2026-08-04 12:40:17.867 [] INFO  ReferenceDetailsTest.log - [Reference] Click Reference Details tab | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:40:22.978 [] INFO  ReferenceDetailsTest.log - [Reference] All fields filled (Phone: 534498546) | Expected: Done | Actual: Done | Status: PASS
+2026-08-04 12:40:27.366 [] INFO  ReferenceDetailsTest.log - [Reference] OTP Verification | Expected: Verified | Actual: Done | Status: PASS
+2026-08-04 12:40:33.764 [] INFO  ToastUtil.findToastMessage - Toast captured: Reference Details Saved Successfully
+2026-08-04 12:40:33.780 [] INFO  ReferenceDetailsTest.log - [Reference] Save | Expected: Saved successfully | Actual: Reference Details Saved Successfully | Status: PASS
+2026-08-04 12:40:33.799 [] INFO  ProductDetailsTest.logInfo - [Stage] Current Stage | Value: Product Details
+2026-08-04 12:40:38.142 [] INFO  ProductDetailsTest.log - [LoanItem] Click Product Details tab | Expected: Product section opened | Actual: Clicked | Status: PASS
+2026-08-04 12:40:40.530 [] INFO  ProductDetailsTest.log - [LoanItem] Click Loan Item Details tab | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:40:55.763 [] INFO  ProductDetailsTest.log - [LoanItem] Click Edit | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:40:55.801 [] INFO  ProductDetailsTest.log - [LoanItem] Current Loan Amount | Expected: Read value | Actual: 75000000.00 | Status: PASS
+2026-08-04 12:40:56.149 [] INFO  ProductDetailsTest.log - [LoanItem] Updated Loan Amount (+5mn) | Expected: 70000000 | Actual: 70000000 | Status: PASS
+2026-08-04 12:40:56.350 [] INFO  ProductDetailsTest.log - [LoanItem] Remarks | Expected: Entered | Actual: Done | Status: PASS
+2026-08-04 12:41:29.524 [] INFO  ProductDetailsTest.log - [LoanItem] Save | Expected: Saved successfully | Actual: Done | Status: PASS
+2026-08-04 12:41:31.858 [] INFO  ProductDetailsTest.log - [LoanDetails] Click Loan Details tab | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:41:33.181 [] INFO  ProductDetailsTest.log - [LoanDetails] Click Edit | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:41:33.279 [] INFO  ProductDetailsTest.log - [LoanDetails] Select Purpose | Expected: Urgent Needs selected | Actual: Done | Status: PASS
+2026-08-04 12:41:42.544 [] INFO  ToastUtil.findToastMessage - Toast captured: Loan Details 01 Updated Successfully
+2026-08-04 12:41:42.552 [] INFO  ProductDetailsTest.log - [LoanDetails] Save | Expected: Saved successfully | Actual: Loan Details 01 Updated Successfully | Status: PASS
+2026-08-04 12:41:43.753 [] INFO  ProductDetailsTest.log - [LoanDetails] Click Edit again | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:41:43.846 [] INFO  ProductDetailsTest.log - [LoanDetails] Select Purpose | Expected: Urgent Needs selected | Actual: Done | Status: PASS
+2026-08-04 12:42:03.721 [] INFO  ProductDetailsTest.log - [LoanDetails] Click Repayment Schedule | Expected: Schedule opened | Actual: Clicked | Status: PASS
+2026-08-04 12:42:03.746 [] INFO  ProductDetailsTest.log - [Repayment] Number of Installments | Expected: Greater than 0 | Actual: 30 | Status: PASS
+2026-08-04 12:42:03.780 [] INFO  ProductDetailsTest.log - [Repayment] EMI Amount (1st installment) | Expected: Not empty | Actual: 4,440,875.94 | Status: PASS
+2026-08-04 12:42:03.810 [] INFO  ProductDetailsTest.log - [Repayment] Total Payment | Expected: Not empty | Actual: 133,226,277.83 | Status: PASS
+2026-08-04 12:42:03.848 [] INFO  ProductDetailsTest.log - [Repayment] Total Principal | Expected: Not empty | Actual: 70,000,000.00 | Status: PASS
+2026-08-04 12:42:03.887 [] INFO  ProductDetailsTest.log - [Repayment] Total Interest | Expected: Not empty | Actual: 63,226,277.83 | Status: PASS
+2026-08-04 12:42:03.944 [] INFO  ProductDetailsTest.log - [Repayment] Last Installment Date | Expected: Not empty | Actual: 01/12/2028 | Status: PASS
+2026-08-04 12:42:03.958 [] INFO  CollateralTest.logInfo - [Stage] Current Stage | Value: Collateral Details
+2026-08-04 12:42:08.517 [] INFO  CollateralTest.log - [Collateral] Click Collateral Details tab | Expected: Form loaded | Actual: Clicked | Status: PASS
+2026-08-04 12:42:11.606 [] INFO  CollateralTest.log - [Collateral] Switch to frame | Expected: Done | Actual: Done | Status: PASS
+2026-08-04 12:42:21.963 [] INFO  IncomeTest.logInfo - [Stage] Current Stage | Value: Income
+2026-08-04 12:42:51.857 [] INFO  ExpenseTest.logInfo - [Stage] Current Stage | Value: Expense
+2026-08-04 12:43:06.899 [] INFO  CreditBureauTest.logInfo - [Stage] Current Stage | Value: Credit Bureau Exposure
+2026-08-04 12:43:18.156 [] INFO  RepaymentRatiosTest.logInfo - [Stage] Current Stage | Value: Repayment Ratios
+2026-08-04 12:43:18.199 [] INFO  DocumentTest.logInfo - [Stage] Current Stage | Value: Document
+2026-08-04 12:43:18.314 [] INFO  PolicyReviewTest.logInfo - [Stage] Current Stage | Value: Policy Review
+2026-08-04 12:43:18.486 [] INFO  StageTransitionTest.logInfo - [Stage] Current Stage | Value: DDE → Next
+2026-08-04 12:43:20.787 [] ERROR OfferAcceptanceTest.log - [OfferDetails] Loan Amount Requested | Expected: Not empty | Actual:  | Status: FAIL
+2026-08-04 12:43:20.802 [] ERROR OfferAcceptanceTest.log - [OfferDetails] Requested Tenure | Expected: 30 | Actual:  | Status: FAIL
+2026-08-04 12:43:20.814 [] ERROR OfferAcceptanceTest.log - [OfferDetails] Effective Interest Rate | Expected: Not empty | Actual:  | Status: FAIL
+2026-08-04 12:43:20.824 [] ERROR OfferAcceptanceTest.log - [OfferDetails] Offer Amount | Expected: Not empty | Actual:  | Status: FAIL
+2026-08-04 12:43:20.834 [] ERROR OfferAcceptanceTest.log - [OfferDetails] Offer Tenure | Expected: 30 | Actual:  | Status: FAIL
+2026-08-04 12:43:20.900 [] INFO  LoanActivationTest.logInfo - [Login] Loan Activation User (from progress bar) | Value: R.KALDIBAYEVA
+2026-08-04 12:43:21.380 [] INFO  LeadCreationTest.suiteTeardown - ========== APPLICATION ID: K-01000733 ==========
